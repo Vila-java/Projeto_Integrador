@@ -32,6 +32,8 @@ public class Batch {
     @Column(nullable = false, length = 7)
     private Integer currentQuantity;
 
+
+    //TODO: Verificar a utilizacao do manufacturingDate e manufacturingTime;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(columnDefinition = "date", nullable = false)
     private LocalDate manufacturingDate;

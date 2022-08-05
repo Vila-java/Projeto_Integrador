@@ -2,6 +2,7 @@ package meli.freshfood.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.springframework.boot.autoconfigure.session.StoreType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -19,6 +20,10 @@ public class Product {
 
     @Column(nullable = false, length = 500)
     private String description;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private StoreType storageType;
 
     @Column(precision = 11, scale = 2)
     private BigDecimal price;
