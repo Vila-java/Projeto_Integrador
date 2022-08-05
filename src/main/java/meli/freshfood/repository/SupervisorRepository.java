@@ -1,9 +1,9 @@
 package meli.freshfood.repository;
 
-import meli.freshfood.model.Representative;
+import meli.freshfood.model.Supervisor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RepresentativeRepository extends JpaRepository<Representative, Long> {
+public interface SupervisorRepository extends JpaRepository<Supervisor, Long> {
 }

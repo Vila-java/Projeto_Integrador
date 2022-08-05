@@ -1,6 +1,9 @@
 package meli.freshfood.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -9,6 +12,8 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Batch {
 
     @Id
@@ -38,4 +43,18 @@ public class Batch {
     @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Column(columnDefinition = "date", nullable = false)
     private LocalDate dueDate;
+
+    @OneToOne(mappedBy = "batch", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("batch")
+    private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "section_id")
+    @JsonIgnoreProperties("batches")
+    private Section section;
+
+    @ManyToOne
+    @JoinColumn(name = "inbound_order_id")
+    @JsonIgnoreProperties("batch")
+    private InboundOrder inboundOrder;
 }

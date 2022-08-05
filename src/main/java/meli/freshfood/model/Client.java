@@ -2,16 +2,19 @@ package meli.freshfood.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
-public class Client extends User{
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long clientId;
+
+    @Column(nullable = false, length = 10)
+    private String firstName;
+
+    @Column(nullable = false, length = 60)
+    private String lastName;
 }

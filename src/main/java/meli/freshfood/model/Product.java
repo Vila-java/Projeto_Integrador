@@ -1,7 +1,7 @@
 package meli.freshfood.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import lombok.Getter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -23,5 +23,15 @@ public class Product {
     @Column(precision = 11, scale = 2)
     private BigDecimal price;
 
+    @Column(nullable = false, precision = 11, scale = 2)
     private Double weight;
+
+    @OneToOne
+    @JoinColumn(name = "batch_id")
+    private Batch batch;
+
+    @ManyToOne
+    @JoinColumn(name = "seller_id")
+    @JsonIgnoreProperties("products")
+    private Seller seller;
 }

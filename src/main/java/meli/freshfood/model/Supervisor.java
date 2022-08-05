@@ -6,14 +6,13 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
 
-
-@Data
 @Entity
-public class Seller {
+@Data
+public class Supervisor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sellerId;
+    private Long supersivorId;
 
     @Column(nullable = false, length = 10)
     private String firstName;
@@ -21,8 +20,11 @@ public class Seller {
     @Column(nullable = false, length = 60)
     private String lastName;
 
-    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("seller")
-    private List<Product> products;
-}
+    @OneToOne(mappedBy = "supervisor")
+    @JsonIgnoreProperties("supervisor")
+    private Warehouse warehouse;
 
+    @OneToMany(mappedBy = "supervisor")
+    @JsonIgnoreProperties("supervisor")
+    private List<InboundOrder> inboundOrders;
+}
