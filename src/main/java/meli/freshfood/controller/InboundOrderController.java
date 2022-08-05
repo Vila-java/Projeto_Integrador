@@ -5,6 +5,8 @@ import meli.freshfood.model.InboundOrder;
 import meli.freshfood.service.InboundOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,9 +18,8 @@ public class InboundOrderController {
     private InboundOrderService service;
 
     @PutMapping("/inboundorder")
-    public ResponseEntity<InboundOrder> (InboundOrderDTO inboundOrderDTO) {
-        return ResponseEntity.created(service.update());
-
+    public ResponseEntity<InboundOrder> update(@RequestBody InboundOrderDTO inboundOrderDTO) {
+        return ResponseEntity.ok(service.update(inboundOrderDTO));
     }
 
 
