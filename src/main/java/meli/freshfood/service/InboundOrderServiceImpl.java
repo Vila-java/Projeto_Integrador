@@ -5,7 +5,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InboundOrderServivceImpl implements InboundOrderService {
-    public InboundOrder update() {
 
+    public InboundOrder save(){
+
+    }
+    public InboundOrder update() {
     }
 }
