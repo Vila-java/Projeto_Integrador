@@ -25,6 +25,7 @@ public class SupervisorServiceImpl implements SupervisorService {
         return supervisor;
     }
 
+    @Override
     public Boolean supervisorExistsInWarehouse(Supervisor supervisor, Warehouse warehouse) {
         if (supervisor.getWarehouse().equals(warehouse)) {
             return true;
