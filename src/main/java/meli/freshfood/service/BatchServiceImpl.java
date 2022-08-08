@@ -9,4 +9,18 @@ import java.util.Optional;
 
 @Service
 public class BatchServiceImpl implements BatchService {
+	@Autowired
+	private BatchRepository batchRepository;
+
+	@Override
+	public Optional<Batch> findById(Long id) {
+		Optional<Batch> batch = batchRepository.findById(id);
+
+		if (batch.isEmpty()) {
+			// TODO: Alterar exceção
+			throw new RuntimeException();
+		}
+
+		return batch;
+	}
 }
