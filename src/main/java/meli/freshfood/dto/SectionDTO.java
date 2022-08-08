@@ -1,7 +1,10 @@
 package meli.freshfood.dto;
 
+import lombok.Data;
+
+@Data
 public class SectionDTO {
-    private String sectionCode;
-    private String warehouseCode;
+    private Long sectionCode;
+    private Long warehouseCode;
 
 }
