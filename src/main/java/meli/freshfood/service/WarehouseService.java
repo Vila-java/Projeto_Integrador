@@ -1,6 +1,9 @@
 package meli.freshfood.service;
 
+import meli.freshfood.model.Warehouse;
+
+import java.util.Optional;
+
 public interface WarehouseService {
-    boolean isValid(Long warehouseId);
-    boolean supervisorBelongsToWarehouse (Long supervisorId);
+    Optional<Warehouse> findById(Long id);
 }

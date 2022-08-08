@@ -1,34 +1,35 @@
 package meli.freshfood.service;
 
 import meli.freshfood.model.Warehouse;
+import meli.freshfood.repository.WarehouseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
 
-    Warehouse warehouse = new Warehouse();
+    @Autowired
+    private WarehouseRepository warehouseRepository;
 
-    public boolean isValid(Long warehouseId)
-    {
-        boolean valid = false;
+    @Override
+    public Optional<Warehouse> findById(Long id) {
+        Optional<Warehouse> warehouse = warehouseRepository.findById(id);
 
-        if(warehouse.getWarehouseId().equals(warehouseId))
-        {
-            valid = true;
+        if (warehouse.isEmpty()) {
+            // TODO: Alterar exceção
+            throw new RuntimeException();
         }
 
-        return valid;
+        return warehouse;
     }
 
-    public boolean supervisorBelongsToWarehouse (Long supervisorId)
-    {
-        boolean belongs = false;
 
-        if(warehouse.getSupervisor().getSupersivorId().equals(supervisorId))
-        {
-            belongs = true;
-        }
-
-        return belongs;
-    }
 }
+
+
+
+
+
+

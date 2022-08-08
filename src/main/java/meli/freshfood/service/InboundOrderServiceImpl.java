@@ -1,5 +1,6 @@
 package meli.freshfood.service;
 
+import meli.freshfood.dto.InboundOrderDTO;
 import meli.freshfood.model.InboundOrder;
 import meli.freshfood.repository.InboundOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,10 @@ public class InboundOrderServiceImpl implements InboundOrderService {
 
     public InboundOrder create(InboundOrder inboundOrder){
         return inboundOrderRepository.save(inboundOrder);
+    }
+
+    public InboundOrder update(InboundOrderDTO inboundOrderDTO) {
+        return null;
     }
 
 }
