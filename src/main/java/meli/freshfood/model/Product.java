@@ -23,7 +23,7 @@ public class Product {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private StoreType storageType;
+    private StorageType storageType;
 
     @Column(precision = 11, scale = 2)
     private BigDecimal price;
