@@ -1,6 +1,7 @@
 package meli.freshfood.service;
 
 import meli.freshfood.dto.BatchDTO;
+import meli.freshfood.exception.InternalServerErrorException;
 import meli.freshfood.model.Product;
 import meli.freshfood.model.Section;
 import meli.freshfood.model.Warehouse;
@@ -21,8 +22,7 @@ public class SectionServiceImpl implements SectionService {
     public Optional<Section> findById(Long id) {
         Optional<Section> section = sectionRepository.findById(id);
         if (section.isEmpty()) {
-            // TODO: Alterar exceção
-            throw new RuntimeException();
+            throw new InternalServerErrorException("O setor precisa ser preenchido");
         }
         return section;
     }
@@ -32,7 +32,7 @@ public class SectionServiceImpl implements SectionService {
         if (section.getStorageType().equals(product.getStorageType())) {
             return true;
         } else {
-            return false;
+            throw new InternalServerErrorException("O setor e o produto não têm o mesmo tipo de armazenamento!");
         }
     }
 
@@ -41,7 +41,7 @@ public class SectionServiceImpl implements SectionService {
         if (section.getWarehouse().equals(warehouse)) {
             return true;
         } else {
-            return false;
+            throw new InternalServerErrorException("O setor não pertence ao armazém!");
         }
     }
 
@@ -54,7 +54,7 @@ public class SectionServiceImpl implements SectionService {
         if(section.getProductCapacity() >= totalProducts) {
            return true;
         } else {
-            return false;
+            throw new InternalServerErrorException("Capacidade de armazenamento excedida!");
         }
     }
 }

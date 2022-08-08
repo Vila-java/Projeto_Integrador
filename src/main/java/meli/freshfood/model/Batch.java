@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import meli.freshfood.dto.BatchDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -15,7 +16,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Batch {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long batchNumber;
@@ -31,7 +31,6 @@ public class Batch {
 
     @Column(nullable = false, length = 7)
     private Integer currentQuantity;
-
 
     //TODO: Verificar a utilizacao do manufacturingDate e manufacturingTime;
     @DateTimeFormat(pattern = "dd-MM-yyyy")
@@ -60,4 +59,14 @@ public class Batch {
     @JoinColumn(name = "inbound_order_id")
     @JsonIgnoreProperties("batch")
     private InboundOrder inboundOrder;
+
+    public void updateByDTO(BatchDTO batchDTO) {
+        currentTemperature = batchDTO.getCurrentTemperature();
+        minimumTemperature = batchDTO.getMinimumTemperature();
+        initialQuantity = batchDTO.getInitialQuantity();
+        currentQuantity = batchDTO.getCurrentQuantity();
+        manufacturingDate = batchDTO.getManufacturingDate();
+        manufacturingTime = batchDTO.getManufacturingTime();
+        dueDate = batchDTO.getDueDate();
+    }
 }

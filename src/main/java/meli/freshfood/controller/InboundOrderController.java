@@ -16,9 +16,9 @@ public class InboundOrderController {
     private InboundOrderService service;
 
     @PostMapping("/inboundorder")
-    public ResponseEntity<InboundOrder> create(@RequestBody InboundOrder inboundOrder) {
+    public ResponseEntity<InboundOrder> create(@RequestBody InboundOrderDTO inboundOrderDTO) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(service.create(inboundOrder));
+                .body(service.create(inboundOrderDTO));
     }
 
     @PutMapping("/inboundorder")

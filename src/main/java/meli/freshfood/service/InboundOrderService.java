@@ -4,6 +4,6 @@ import meli.freshfood.dto.InboundOrderDTO;
 import meli.freshfood.model.InboundOrder;
 
 public interface InboundOrderService {
-    InboundOrder create(InboundOrder inboundOrder);
+    InboundOrder create(InboundOrderDTO inboundOrderDTO);
     InboundOrder update(InboundOrderDTO inboundOrderDTO);
 }

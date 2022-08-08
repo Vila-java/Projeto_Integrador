@@ -6,5 +6,4 @@ import lombok.Data;
 public class SectionDTO {
     private Long sectionCode;
     private Long warehouseCode;
-
 }

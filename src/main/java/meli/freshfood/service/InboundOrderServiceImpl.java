@@ -28,45 +28,34 @@ public class InboundOrderServiceImpl implements InboundOrderService {
     @Autowired
     private BatchService batchService;
 
-    public InboundOrder create(InboundOrder inboundOrder){
-        return inboundOrderRepository.save(inboundOrder);
+    public InboundOrder create(InboundOrderDTO inboundOrderDTO){
+
+//        return inboundOrderRepository.save(inboundOrderDTO);
+        return null;
     }
 
     public InboundOrder update(InboundOrderDTO inboundOrderDTO) {
         Warehouse warehouse = warehouseService.findById(inboundOrderDTO.getSection().getWarehouseCode()).get();
         Supervisor supervisor = supervisorService.findById(inboundOrderDTO.getSupervisorId()).get();
-        if (!supervisorService.supervisorExistsInWarehouse(supervisor, warehouse)) {
-            // TODO: Alterar exceção
-            throw new RuntimeException();
-        }
-
         Section section = sectionService.findById(inboundOrderDTO.getSection().getSectionCode()).get();
 
-        // TODO: Verificar possibilidade de fazer em um único loop
-        if(!sectionService.checkSectionAvailableToStock(section, inboundOrderDTO.getBatchStock())) {
-            // TODO: Alterar exceção
-            throw new RuntimeException();
-        }
+        supervisorService.supervisorExistsInWarehouse(supervisor, warehouse);
+        sectionService.checkSectionAvailableToStock(section, inboundOrderDTO.getBatchStock());
+        sectionService.checkSectionBelongsToWarehouse(section,warehouse);
 
-        if (!sectionService.checkSectionBelongsToWarehouse(section,warehouse)){
-            // TODO: Alterar exceção
-            throw new RuntimeException();
-        }
-
-        inboundOrderDTO.getBatchStock().stream().forEach((batchDTO)-> {
+        inboundOrderDTO.getBatchStock().stream().forEach((batchDTO) -> {
             Product product = productService.findById(batchDTO.getProductId()).get();
-            if (!sectionService.checkSectionStorageTypeIsEqualProductStorageType(section, product)){
-                // TODO: Alterar exceção
-                throw new RuntimeException();
-            }
+            sectionService.checkSectionStorageTypeIsEqualProductStorageType(section, product);
             batchService.findById(batchDTO.getBatchNumber());
         });
 
         inboundOrderDTO.getBatchStock().stream().forEach((batchDTO)-> {
             Batch batch = batchService.findById(batchDTO.getBatchNumber()).get();
-
+            batch.updateByDTO(batchDTO);
         });
 
         return null;
+        // TODO: arrumar o retorno.
+  //      return inboundOrderRepository.save(inboundOrder);
     }
 }
