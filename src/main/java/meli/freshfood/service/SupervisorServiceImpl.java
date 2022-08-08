@@ -26,7 +26,7 @@ public class SupervisorServiceImpl implements SupervisorService {
     }
 
     public Boolean supervisorExistsInWarehouse(Supervisor supervisor, Warehouse warehouse) {
-        if (supervisor.getSupersivorId().equals(warehouse.getWarehouseId())) {
+        if (supervisor.getWarehouse().equals(warehouse)) {
             return true;
         } else {
             return false;

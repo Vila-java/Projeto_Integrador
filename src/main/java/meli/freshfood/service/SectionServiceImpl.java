@@ -1,8 +1,6 @@
 package meli.freshfood.service;
 
-import meli.freshfood.model.Batch;
-import meli.freshfood.model.Product;
-import meli.freshfood.model.Section;
+import meli.freshfood.model.*;
 import meli.freshfood.repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +25,7 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public Boolean checkTypeSectionAndProduct(Section section, Product product) {
+    public Boolean checkSectionStorageTypeIsEqualProductStorageType(Section section, Product product) {
         if (section.getStorageType().equals(product.getStorageType())) {
             return true;
         } else {
@@ -36,12 +34,21 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
+    public Boolean checkSectionBelongsToWarehouse(Section section, Warehouse warehouse) {
+        if (section.getWarehouse().equals(warehouse)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public Boolean checkSectionAvailableToStock(Section section, List<Batch> batches) {
-        Integer totalArea = batches.stream()
+        Integer totalProducts = batches.stream()
                 .map((b) -> b.getCurrentQuantity())
                 .reduce(0, (a,b) -> a+b);
 
-        if(section.getProductCapacity() >= totalArea) {
+        if(section.getProductCapacity() >= totalProducts) {
            return true;
         } else {
             return false;
