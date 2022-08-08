@@ -2,7 +2,6 @@ package meli.freshfood.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import org.springframework.boot.autoconfigure.session.StoreType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
