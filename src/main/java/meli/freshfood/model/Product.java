@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.session.StoreType;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Data
@@ -31,9 +32,9 @@ public class Product {
     @Column(nullable = false, precision = 11, scale = 2)
     private Double weight;
 
-    @OneToOne
-    @JoinColumn(name = "batch_id")
-    private Batch batch;
+    @OneToMany(mappedBy = "product")
+    @JsonIgnoreProperties("product")
+    private List<Batch> batches;
 
     @ManyToOne
     @JoinColumn(name = "seller_id")

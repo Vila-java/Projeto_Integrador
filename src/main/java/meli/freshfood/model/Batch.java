@@ -46,8 +46,9 @@ public class Batch {
     @Column(columnDefinition = "date", nullable = false)
     private LocalDate dueDate;
 
-    @OneToOne(mappedBy = "batch", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("batch")
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    @JsonIgnoreProperties("batches")
     private Product product;
 
     @ManyToOne
