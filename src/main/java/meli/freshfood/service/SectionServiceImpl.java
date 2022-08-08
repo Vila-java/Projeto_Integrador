@@ -1,6 +1,9 @@
 package meli.freshfood.service;
 
-import meli.freshfood.model.*;
+import meli.freshfood.dto.BatchDTO;
+import meli.freshfood.model.Product;
+import meli.freshfood.model.Section;
+import meli.freshfood.model.Warehouse;
 import meli.freshfood.repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +46,7 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public Boolean checkSectionAvailableToStock(Section section, List<Batch> batches) {
+    public Boolean checkSectionAvailableToStock(Section section, List<BatchDTO> batches) {
         Integer totalProducts = batches.stream()
                 .map((b) -> b.getCurrentQuantity())
                 .reduce(0, (a,b) -> a+b);
