@@ -33,6 +33,6 @@ public class Section {
     private Warehouse warehouse;
 
     @OneToMany(mappedBy = "section")
-    @JsonIgnoreProperties("section")
+    @JsonIgnoreProperties({"section", "supervisor", "batch"})
     private List<InboundOrder> inboundOrders;
 }

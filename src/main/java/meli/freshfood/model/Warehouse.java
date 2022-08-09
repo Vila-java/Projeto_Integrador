@@ -23,7 +23,7 @@ public class Warehouse {
 
     @OneToOne
     @JoinColumn(name = "supervisor_id")
-    @JsonIgnoreProperties("warehouse")
+    @JsonIgnoreProperties({"warehouse", "inboundOrders"})
     private Supervisor supervisor;
 }
 
