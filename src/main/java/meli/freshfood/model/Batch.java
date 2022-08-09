@@ -57,8 +57,22 @@ public class Batch {
 
     @ManyToOne
     @JoinColumn(name = "inbound_order_id")
-    @JsonIgnoreProperties("batch")
+    @JsonIgnoreProperties({"batch", "supervisor", "section"})
     private InboundOrder inboundOrder;
+
+    public Batch(BatchDTO batchDTO, Product product, Section section, InboundOrder inboundOrder) {
+        currentTemperature = batchDTO.getCurrentTemperature();
+        minimumTemperature = batchDTO.getMinimumTemperature();
+        initialQuantity = batchDTO.getInitialQuantity();
+        currentQuantity = batchDTO.getCurrentQuantity();
+        manufacturingDate = batchDTO.getManufacturingDate();
+        manufacturingTime = batchDTO.getManufacturingTime();
+        dueDate = batchDTO.getDueDate();
+
+        this.product = product;
+        this.section = section;
+        this.inboundOrder = inboundOrder;
+    }
 
     public void updateByDTO(BatchDTO batchDTO) {
         currentTemperature = batchDTO.getCurrentTemperature();
@@ -68,5 +82,11 @@ public class Batch {
         manufacturingDate = batchDTO.getManufacturingDate();
         manufacturingTime = batchDTO.getManufacturingTime();
         dueDate = batchDTO.getDueDate();
+    }
+
+    public BatchDTO toDTO() {
+        return new BatchDTO(this.batchNumber, product.getProductId(), this.currentTemperature,
+                this.minimumTemperature, this.initialQuantity, this.currentQuantity, this.manufacturingDate,
+                this.manufacturingTime, this.dueDate);
     }
 }
