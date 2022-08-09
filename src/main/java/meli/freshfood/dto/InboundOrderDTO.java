@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class InboundOrderDTO {
-    private Integer orderNumber;
+    private Long orderNumber;
     private Long supervisorId;
     private LocalDate orderDate;
     private SectionDTO section;
