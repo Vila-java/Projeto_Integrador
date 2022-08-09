@@ -10,6 +10,7 @@ import meli.freshfood.repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,8 +49,15 @@ public class SectionServiceImpl implements SectionService {
 
     @Override
     public Boolean checkSectionAvailableToStock(Section section, List<BatchDTO> batches) {
+        Integer expirationDate = 3;
         Integer totalProducts = batches.stream()
-                .map((b) -> b.getCurrentQuantity())
+                .map((b) -> {
+                    if(b.getDueDate().isAfter(LocalDate.now().plusWeeks(expirationDate))) {
+                        return b.getCurrentQuantity();
+                    } else {
+                        return 0;
+                    }
+                })
                 .reduce(0, (a, b) -> a + b);
 
         if (section.getProductCapacity() >= totalProducts) {

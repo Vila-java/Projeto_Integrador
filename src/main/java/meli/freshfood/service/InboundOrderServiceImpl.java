@@ -94,7 +94,4 @@ public class InboundOrderServiceImpl implements InboundOrderService {
 
         return inboundOrderDTO.getBatchStock();
     }
-
-    public void validateData(InboundOrderDTO inboundOrderDTO) {
-    }
 }
