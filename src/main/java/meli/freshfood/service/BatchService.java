@@ -6,4 +6,5 @@ import java.util.Optional;
 
 public interface BatchService {
 	Optional<Batch> findById(Long id);
+	Batch save(Batch batch);
 }

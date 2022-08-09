@@ -1,5 +1,6 @@
 package meli.freshfood.service;
 
+import lombok.Builder;
 import meli.freshfood.model.Batch;
 import meli.freshfood.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,10 @@ public class BatchServiceImpl implements BatchService {
 		}
 
 		return batch;
+	}
+
+	@Override
+	public Batch save(Batch batch) {
+		return batchRepository.save(batch);
 	}
 }
