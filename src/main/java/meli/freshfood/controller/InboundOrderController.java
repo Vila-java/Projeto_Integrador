@@ -30,5 +30,4 @@ public class InboundOrderController {
                 .body(service.update(inboundOrderDTO));
     }
 
-
 }
