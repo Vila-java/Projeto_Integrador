@@ -1,5 +1,6 @@
 package meli.freshfood.service;
 
+import meli.freshfood.exception.InternalServerErrorException;
 import meli.freshfood.model.Product;
 import meli.freshfood.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class ProductServiceImpl implements ProductService {
         Optional<Product> product = productRepository.findById(id);
 
         if (product.isEmpty()) {
-            // TODO: Alterar exceção
-            throw new RuntimeException();
+
+            throw new InternalServerErrorException("O produto precisa ser preenchido");
         }
 
         return product;

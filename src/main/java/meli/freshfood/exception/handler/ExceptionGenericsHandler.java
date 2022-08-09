@@ -38,5 +38,29 @@ public class ExceptionGenericsHandler {
 		);
 	}
 
+	@ExceptionHandler(BadRequestException.class)
+	public ResponseEntity<ExceptionDetails> handlerIdCannotBeNull(Exception ex) {
+		return new ResponseEntity<>(
+				ExceptionDetails.builder()
+						.title("Id cannot be null!")
+						.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+						.message(ex.getMessage())
+						.timestamp(LocalDateTime.now())
+						.build(),
+				HttpStatus.INTERNAL_SERVER_ERROR
+		);
+	}
 
+	@ExceptionHandler(BadRequestException.class)
+	public ResponseEntity<ExceptionDetails> handlerIdAlreadyExists(Exception ex) {
+		return new ResponseEntity<>(
+				ExceptionDetails.builder()
+						.title("Id already exists!")
+						.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+						.message(ex.getMessage())
+						.timestamp(LocalDateTime.now())
+						.build(),
+				HttpStatus.INTERNAL_SERVER_ERROR
+		);
+	}
 }
