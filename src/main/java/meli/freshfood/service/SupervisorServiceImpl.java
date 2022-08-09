@@ -1,6 +1,7 @@
 package meli.freshfood.service;
 
 import meli.freshfood.exception.InternalServerErrorException;
+import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Supervisor;
 import meli.freshfood.model.Warehouse;
 import meli.freshfood.repository.SupervisorRepository;
@@ -20,7 +21,7 @@ public class SupervisorServiceImpl implements SupervisorService {
         Optional<Supervisor> supervisor = supervisorRepository.findById(id);
 
         if (supervisor.isEmpty()) {
-            throw new InternalServerErrorException("O supervisor precisa ser preenchido");
+            throw new NotFoundException("O supersivor não foi encontrado!");
         }
         return supervisor;
     }

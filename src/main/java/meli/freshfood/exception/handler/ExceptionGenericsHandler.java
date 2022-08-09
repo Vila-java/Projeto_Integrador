@@ -15,7 +15,7 @@ public class ExceptionGenericsHandler {
 	public ResponseEntity<ExceptionDetails> handlerNotFoundException(Exception ex) {
 		return new ResponseEntity<>(
 				ExceptionDetails.builder()
-						.title("Not found")
+						.title("Not found!")
 						.status(HttpStatus.NOT_FOUND.value())
 						.message(ex.getMessage())
 						.timestamp(LocalDateTime.now())
@@ -27,7 +27,7 @@ public class ExceptionGenericsHandler {
 	public ResponseEntity<ExceptionDetails> handlerBadRequestException(Exception ex) {
 		return new ResponseEntity<>(
 				ExceptionDetails.builder()
-						.title("Bad Request")
+						.title("Bad request!")
 						.status(HttpStatus.BAD_REQUEST.value())
 						.message(ex.getMessage())
 						.timestamp(LocalDateTime.now())

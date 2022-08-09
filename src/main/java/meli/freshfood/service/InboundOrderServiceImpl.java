@@ -63,8 +63,7 @@ public class InboundOrderServiceImpl implements InboundOrderService {
         return batchesDTO;
     }
 
-    // TODO: Testar com mais de um produto e verificar se só passa se todos os produtos estiverem corretos
-    // TODO: Validar se o lote corresponde ao inboundOrder
+     // TODO: Validar se o lote corresponde ao inboundOrder
     @Transactional
     public List<BatchDTO> update(InboundOrderDTO inboundOrderDTO) {
         InboundOrder inboundOrder = inboundOrderRepository.findById((Long)inboundOrderDTO.getOrderNumber()).get();

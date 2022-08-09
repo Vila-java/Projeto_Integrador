@@ -1,6 +1,7 @@
 package meli.freshfood.service;
 
 import meli.freshfood.exception.InternalServerErrorException;
+import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Batch;
 import meli.freshfood.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class BatchServiceImpl implements BatchService {
     public Optional<Batch> findById(Long id) {
         Optional<Batch> batch = batchRepository.findById(id);
         if (batch.isEmpty()) {
-            throw new InternalServerErrorException("O lote precisa ser preenchido");
+            throw new NotFoundException("O lote não foi encontrado!");
         }
         return batch;
     }

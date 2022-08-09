@@ -1,6 +1,7 @@
 package meli.freshfood.service;
 
 import meli.freshfood.exception.InternalServerErrorException;
+import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Warehouse;
 import meli.freshfood.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,10 @@ public class WarehouseServiceImpl implements WarehouseService {
         Optional<Warehouse> warehouse = warehouseRepository.findById(id);
 
         if (warehouse.isEmpty()) {
-
-            throw new InternalServerErrorException("O armazém precisa ser preenchido");
+            throw new NotFoundException("O armazém não foi encontrado!");
         }
-
         return warehouse;
     }
-
 }
 
 

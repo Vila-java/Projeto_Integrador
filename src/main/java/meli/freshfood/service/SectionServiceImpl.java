@@ -2,6 +2,7 @@ package meli.freshfood.service;
 
 import meli.freshfood.dto.BatchDTO;
 import meli.freshfood.exception.InternalServerErrorException;
+import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Product;
 import meli.freshfood.model.Section;
 import meli.freshfood.model.Warehouse;
@@ -22,7 +23,7 @@ public class SectionServiceImpl implements SectionService {
     public Optional<Section> findById(Long id) {
         Optional<Section> section = sectionRepository.findById(id);
         if (section.isEmpty()) {
-            throw new InternalServerErrorException("O setor precisa ser preenchido");
+            throw new NotFoundException("O setor não foi encontrado!");
         }
         return section;
     }
@@ -49,10 +50,10 @@ public class SectionServiceImpl implements SectionService {
     public Boolean checkSectionAvailableToStock(Section section, List<BatchDTO> batches) {
         Integer totalProducts = batches.stream()
                 .map((b) -> b.getCurrentQuantity())
-                .reduce(0, (a,b) -> a+b);
+                .reduce(0, (a, b) -> a + b);
 
-        if(section.getProductCapacity() >= totalProducts) {
-           return true;
+        if (section.getProductCapacity() >= totalProducts) {
+            return true;
         } else {
             throw new InternalServerErrorException("Capacidade de armazenamento excedida!");
         }
