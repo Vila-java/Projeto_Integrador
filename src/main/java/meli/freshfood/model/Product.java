@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -39,4 +40,7 @@ public class Product {
     @JoinColumn(name = "seller_id")
     @JsonIgnoreProperties("products")
     private Seller seller;
+
+    @OneToMany(mappedBy = "product")
+    Set<ProductPurchaseOrder> productPurchaseOrders;
 }

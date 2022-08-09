@@ -24,12 +24,8 @@ public class PurchaseOrder {
     private StatusPurchaseOrder statusPurchaseOrder;
 
 
-    @ManyToMany
-    @JoinTable(name = "product_purchaseOrder", // nome da tabela de ligacao
-            joinColumns = @JoinColumn(name = "purchaseOrder_id", referencedColumnName = "id"), //atributo do author na tabela de ligacao
-            inverseJoinColumns = @JoinColumn(name = "product_id", referencedColumnName = "productId")) // att do book na tabela de ligacao
-    @JsonIgnoreProperties("purchaseOrders")
-    private Set<Product> products;
+    @OneToMany(mappedBy = "purchaseOrder")
+    Set<ProductPurchaseOrder> productPurchaseOrders;
 
 
     @OneToOne

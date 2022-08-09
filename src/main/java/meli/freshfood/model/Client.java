@@ -1,5 +1,6 @@
 package meli.freshfood.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -17,4 +18,8 @@ public class Client {
 
     @Column(nullable = false, length = 60)
     private String lastName;
+
+    @OneToOne(mappedBy = "client")
+    @JsonIgnoreProperties("client")
+    private PurchaseOrder purchaseOrder;
 }
