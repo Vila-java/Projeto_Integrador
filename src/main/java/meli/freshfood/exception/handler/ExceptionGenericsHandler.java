@@ -1,9 +1,7 @@
 package meli.freshfood.exception.handler;
 
 
-import meli.freshfood.exception.BadRequestException;
-import meli.freshfood.exception.ExceptionDetails;
-import meli.freshfood.exception.NotFoundException;
+import meli.freshfood.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -38,7 +36,7 @@ public class ExceptionGenericsHandler {
 		);
 	}
 
-	@ExceptionHandler(BadRequestException.class)
+	@ExceptionHandler(IdCannotBeNullException.class)
 	public ResponseEntity<ExceptionDetails> handlerIdCannotBeNull(Exception ex) {
 		return new ResponseEntity<>(
 				ExceptionDetails.builder()
@@ -51,7 +49,7 @@ public class ExceptionGenericsHandler {
 		);
 	}
 
-	@ExceptionHandler(BadRequestException.class)
+	@ExceptionHandler(IdAlreadyExistsException.class)
 	public ResponseEntity<ExceptionDetails> handlerIdAlreadyExists(Exception ex) {
 		return new ResponseEntity<>(
 				ExceptionDetails.builder()
