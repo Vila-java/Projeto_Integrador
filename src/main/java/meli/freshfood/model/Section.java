@@ -3,7 +3,6 @@ package meli.freshfood.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.session.StoreType;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,7 +18,7 @@ public class Section {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private StoreType storageType;
+    private StorageType storageType;
 
     @Column(nullable = false, length = 6)
     private Long productCapacity;
@@ -34,6 +33,6 @@ public class Section {
     private Warehouse warehouse;
 
     @OneToMany(mappedBy = "section")
-    @JsonIgnoreProperties("section")
+    @JsonIgnoreProperties({"section", "supervisor", "batch"})
     private List<InboundOrder> inboundOrders;
 }

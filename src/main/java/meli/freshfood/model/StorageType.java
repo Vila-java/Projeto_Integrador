@@ -3,9 +3,9 @@ package meli.freshfood.model;
 
 public enum StorageType {
 
-    FROZEN("Frozen"),
-    REFRIGERATED("Refrigerated"),
-    FRESH("Fresh");
+    FROZEN("FROZEN"),
+    REFRIGERATED("REFRIGERATED"),
+    FRESH("FRESH");
 
     private final String description;
 
