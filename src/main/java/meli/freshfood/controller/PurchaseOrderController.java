@@ -28,14 +28,14 @@ public class PurchaseOrderController {
     }
 
     //mostrar produtos no pedido
-    @GetMapping("/orders")
-    public ResponseEntity<List<Product>> findAllProducts(@RequestBody Long purchaseOrderId) {
+    @GetMapping("/orders/{purchaseOrderId}")
+    public ResponseEntity<List<Product>> findAllProducts(@PathVariable Long purchaseOrderId) {
         return ResponseEntity.ok(purchaseOrderService.findAllProducts(purchaseOrderId));
     }
     
     //Modifique o pedido existente para torná-lo do tipo de carrinho ABERTO/FINALIZADO
     @PutMapping("/{id}")
-    public ResponseEntity<String> closePurchaseOrder(@RequestParam Long id)  {
+    public ResponseEntity<String> closePurchaseOrder(@PathVariable Long id)  {
         purchaseOrderService.closePurchaseOrder(id);
         return ResponseEntity.ok("Produto atualizado com sucesso!");
     }
