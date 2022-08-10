@@ -1,13 +1,14 @@
 package meli.freshfood.model;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
-@AllArgsConstructor
+@NoArgsConstructor
 public class ProductPurchaseOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,4 +23,10 @@ public class ProductPurchaseOrder {
     private PurchaseOrder purchaseOrder;
 
     private Integer productQuantity;
+
+    public ProductPurchaseOrder(Product product, PurchaseOrder purchaseOrder, Integer productQuantity) {
+        this.product = product;
+        this.purchaseOrder = purchaseOrder;
+        this.productQuantity = productQuantity;
+    }
 }
