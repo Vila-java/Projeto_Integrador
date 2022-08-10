@@ -7,11 +7,8 @@ import meli.freshfood.repository.InboundOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.stream.Collectors;
 
 
@@ -38,9 +35,9 @@ public class InboundOrderServiceImpl implements InboundOrderService {
 
     @Transactional
     public List<BatchDTO> create(InboundOrderDTO inboundOrderDTO){
-        Section section = sectionService.findById(inboundOrderDTO.getSection().getSectionCode()).get();
-        Warehouse warehouse = warehouseService.findById(inboundOrderDTO.getSection().getWarehouseCode()).get();
-        Supervisor supervisor = supervisorService.findById(inboundOrderDTO.getSupervisorId()).get();
+        Section section = sectionService.findById(inboundOrderDTO.getSection().getSectionCode());
+        Warehouse warehouse = warehouseService.findById(inboundOrderDTO.getSection().getWarehouseCode());
+        Supervisor supervisor = supervisorService.findById(inboundOrderDTO.getSupervisorId());
         InboundOrder inboundOrder = new InboundOrder(inboundOrderDTO, supervisor, section);
         inboundOrderRepository.save(inboundOrder);
 
@@ -49,7 +46,7 @@ public class InboundOrderServiceImpl implements InboundOrderService {
         sectionService.checkSectionBelongsToWarehouse(section,warehouse);
 
         List<Batch> batches = inboundOrderDTO.getBatchStock().stream().map((batchDTO) -> {
-            Product product = productService.findById(batchDTO.getProductId()).get();
+            Product product = productService.findById(batchDTO.getProductId());
             sectionService.checkSectionStorageTypeIsEqualProductStorageType(section, product);
             Batch batch = new Batch(batchDTO, product, section, inboundOrder);
             return batch;
@@ -67,18 +64,18 @@ public class InboundOrderServiceImpl implements InboundOrderService {
     @Transactional
     public List<BatchDTO> update(InboundOrderDTO inboundOrderDTO) {
         InboundOrder inboundOrder = inboundOrderRepository.findById((Long)inboundOrderDTO.getOrderNumber()).get();
-        Section section = sectionService.findById(inboundOrderDTO.getSection().getSectionCode()).get();
-        Warehouse warehouse = warehouseService.findById(inboundOrderDTO.getSection().getWarehouseCode()).get();
-        Supervisor supervisor = supervisorService.findById(inboundOrderDTO.getSupervisorId()).get();
+        Section section = sectionService.findById(inboundOrderDTO.getSection().getSectionCode());
+        Warehouse warehouse = warehouseService.findById(inboundOrderDTO.getSection().getWarehouseCode());
+        Supervisor supervisor = supervisorService.findById(inboundOrderDTO.getSupervisorId());
 
         supervisorService.supervisorExistsInWarehouse(supervisor, warehouse);
         sectionService.checkSectionAvailableToStock(section, inboundOrderDTO.getBatchStock());
         sectionService.checkSectionBelongsToWarehouse(section,warehouse);
 
         List<Batch> batches = inboundOrderDTO.getBatchStock().stream().map((batchDTO) -> {
-            Product product = productService.findById(batchDTO.getProductId()).get();
+            Product product = productService.findById(batchDTO.getProductId());
             sectionService.checkSectionStorageTypeIsEqualProductStorageType(section, product);
-            Batch batch = batchService.findById(batchDTO.getBatchNumber()).get();
+            Batch batch = batchService.findById(batchDTO.getBatchNumber());
             batch.updateByDTO(batchDTO);
             batch.setInboundOrder(inboundOrder);
             batch.setProduct(product);

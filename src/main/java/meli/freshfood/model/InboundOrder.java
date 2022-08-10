@@ -3,7 +3,6 @@ package meli.freshfood.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import meli.freshfood.dto.BatchDTO;
 import meli.freshfood.dto.InboundOrderDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
