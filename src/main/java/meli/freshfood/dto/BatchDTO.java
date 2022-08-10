@@ -3,11 +3,12 @@ package meli.freshfood.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
 @AllArgsConstructor
 public class BatchDTO {
 	private Long batchNumber;

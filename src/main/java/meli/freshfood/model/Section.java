@@ -1,14 +1,19 @@
 package meli.freshfood.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+
 @NoArgsConstructor
 public class Section {
 
@@ -24,12 +29,12 @@ public class Section {
     private Long productCapacity;
 
     @OneToMany(mappedBy = "section")
-    @JsonIgnoreProperties("section")
+    @JsonIgnore()
     private List<Batch> batches;
 
     @ManyToOne
     @JoinColumn(name = "warehouse_id")
-    @JsonIgnoreProperties("sections")
+    @JsonIgnore()
     private Warehouse warehouse;
 
     @OneToMany(mappedBy = "section")

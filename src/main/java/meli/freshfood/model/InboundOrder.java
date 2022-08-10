@@ -2,7 +2,9 @@ package meli.freshfood.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import meli.freshfood.dto.InboundOrderDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,7 +12,9 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+
 @Entity
 @NoArgsConstructor
 public class InboundOrder {

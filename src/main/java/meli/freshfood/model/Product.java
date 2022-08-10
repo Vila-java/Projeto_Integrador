@@ -1,7 +1,10 @@
 package meli.freshfood.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -9,7 +12,9 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+
 public class Product {
 
     @Id
@@ -33,14 +38,15 @@ public class Product {
     private Double weight;
 
     @OneToMany(mappedBy = "product")
-    @JsonIgnoreProperties("product")
+    @JsonIgnore()
     private List<Batch> batches;
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
-    @JsonIgnoreProperties("products")
+    @JsonIgnore()
     private Seller seller;
 
     @OneToMany(mappedBy = "product")
+    @JsonIgnore()
     Set<ProductPurchaseOrder> productPurchaseOrders;
 }
