@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SectionServiceImpl implements SectionService {
@@ -21,12 +20,9 @@ public class SectionServiceImpl implements SectionService {
     private SectionRepository sectionRepository;
 
     @Override
-    public Optional<Section> findById(Long id) {
-        Optional<Section> section = sectionRepository.findById(id);
-        if (section.isEmpty()) {
-            throw new NotFoundException("O setor não foi encontrado!");
-        }
-        return section;
+    public Section findById(Long id) {
+        return sectionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("O setor não foi encontrado!"));
     }
 
     @Override
