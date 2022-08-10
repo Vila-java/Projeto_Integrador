@@ -1,11 +1,13 @@
 package meli.freshfood.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Data
 @Entity
+@AllArgsConstructor
 public class ProductPurchaseOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

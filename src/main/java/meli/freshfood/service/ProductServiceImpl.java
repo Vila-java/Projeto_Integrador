@@ -31,17 +31,12 @@ public class ProductServiceImpl implements ProductService {
         return product;
     }
 
-//    @Override
-//    public List<ProductDTO> findAll() {
-//        List<ProductDTO> productsList = productRepository.findAll(List<ProductDTO> productDTO);
-//        if (productsList.isEmpty()) {
-//            throw new NotFoundException("A lista de produtos não existe!");
-//        }
-//        return null;
-//    }
+    @Override
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
 
-
-    boolean productExists (PurchaseOrderDTO purchaseOrderDTO){
+    boolean productExists(PurchaseOrderDTO purchaseOrderDTO) {
         Product product = new Product();
 
         purchaseOrderDTO.getProductsDTO().stream().map((p) ->
@@ -50,27 +45,51 @@ public class ProductServiceImpl implements ProductService {
         return true;
     }
 
-    public boolean checkBatchAvailabe(List<ProductDTO> productsDTO) {
-        productsDTO.stream().forEach((p) -> {
-            Product product = findById(p.getProductId()).get();
-            List<Batch> batches = batchService.filterNotExpiredProducts(product.getBatches());
-            Integer totalCapacity = batches.stream()
-                    .map((b) -> b.getCurrentQuantity())
-                    .reduce(0, (b1, b2) -> b1 + b2);
+    @Override
+    public boolean checkBatchAvailable(ProductDTO productDTO) {
+        Product product = findById(productDTO.getProductId()).get();
+        Integer totalCapacityAvailable = batchService.totalAvailableBatchesCapacity(product.getBatches());
 
-            if(totalCapacity < p.getQuantity()) {
-                // TODO: Ajustar exceção
-                throw new NotFoundException("");
-            }
-        });
+        if (totalCapacityAvailable < productDTO.getQuantity()) {
+            // TODO: Ajustar exceção
+            throw new NotFoundException("");
+        }
         return true;
     }
 
 
-    public Batch updateStock(PurchaseOrderDTO purchaseOrderDTO){
-        return null;
-
+    @Override
+    public void checkBatchAvailableList(List<ProductDTO> productsDTO) {
+        productsDTO.stream().forEach((p) -> {
+            checkBatchAvailable(p);
+        });
     }
 
 
+    public boolean updateStock(PurchaseOrderDTO purchaseOrderDTO) {
+
+
+//        purchaseOrderDTO.getProductsDTO().stream().forEach((pDTO) -> {
+//            checkBatchAvailable(pDTO);
+//            Product product = productRepository.findById(pDTO.getProductId()).get();
+//            Integer productQuantity = pDTO.getQuantity();
+//
+//            List<Batch> batches = product.getBatches();
+//
+//            for(batches : b)
+//
+//
+//            product.getBatches().forEach((b) -> {
+//                productQuantity -= 1;
+//            });
+//
+////            product.getBatches().stream().forEach((b) -> {
+////                b.setCurrentQuantity(b.getCurrentQuantity() - p.getQuantity());
+////                productQuantity -= b.getCurrentQuantity();
+////            });
+//        });
+//
+       return true;
+
+    }
 }

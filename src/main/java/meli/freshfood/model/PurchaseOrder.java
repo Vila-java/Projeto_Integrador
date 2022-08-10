@@ -21,7 +21,7 @@ public class PurchaseOrder {
     private LocalDate purchaseDate;
 
     @Enumerated(EnumType.STRING)
-    private StatusPurchaseOrder statusPurchaseOrder;
+    private StatusPurchaseOrder orderStatus;
 
 
     @OneToMany(mappedBy = "purchaseOrder")

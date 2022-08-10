@@ -8,7 +8,8 @@ import java.util.Optional;
 
 public interface ProductService {
     Optional<Product> findById(Long id);
-//    List<ProductDTO> findAll();
-   // List<ProductDTO> findByStorageType();
-
+    List<Product> findAll();
+    // List<ProductDTO> findByStorageType();
+    boolean checkBatchAvailable(ProductDTO productDTO);
+    void checkBatchAvailableList(List<ProductDTO> productsDTO);
 }

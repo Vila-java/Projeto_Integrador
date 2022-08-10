@@ -10,4 +10,5 @@ public interface BatchService {
 	Batch save(Batch batch);
 	List<Batch> sortByDueDate(List<Batch> batches);
 	List<Batch> filterNotExpiredProducts(List<Batch> batches);
+	Integer totalAvailableBatchesCapacity(List<Batch> batches);
 }
