@@ -2,6 +2,7 @@ package meli.freshfood.service;
 
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Product;
+import meli.freshfood.model.StorageType;
 import meli.freshfood.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findProductByCategory(String storageType) {
-       List<Product> listProducts = productRepository.findByStorageType(storageType);
+        StorageType storageTypeObj = StorageType.parseToStorage(storageType);
+        List<Product> listProducts = productRepository.findByStorageType(storageTypeObj);
         if(listProducts.isEmpty())  {
             throw new NotFoundException("A lista de produtos não foi encontrada!");
         }
