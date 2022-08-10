@@ -2,19 +2,20 @@ package meli.freshfood.service;
 
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Client;
-import meli.freshfood.model.PurchaseOrder;
+import meli.freshfood.repository.ClientRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class ClientServiceImpl implements ClientService {
-    Client client = new Client();
 
-    public Boolean clientExists(PurchaseOrder purchaseOrder) {
-        if (client.getClientId().equals(purchaseOrder.getClient().getClientId())) {
-            return true;
-        } else {
-            throw new NotFoundException("Cliente não cadastrado!");
-        }
+    @Autowired
+    private ClientRepository clientRepository;
 
+    @Override
+    public Client findById(Long id) {
+       return clientRepository.findById(id)
+        .orElseThrow(() -> new NotFoundException("O cliente não foi encontrado!"));
     }
 }

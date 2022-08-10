@@ -1,7 +1,7 @@
 package meli.freshfood.service;
 
-import meli.freshfood.model.PurchaseOrder;
+import meli.freshfood.model.Client;
 
 public interface ClientService {
-    Boolean clientExists (PurchaseOrder purchaseOrder);
+    Client findById(Long id);
 }
