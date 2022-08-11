@@ -1,8 +1,10 @@
 package meli.freshfood.controller;
 
 
+import meli.freshfood.dto.ProductDetailsDTO;
 import meli.freshfood.dto.PurchaseOrderDTO;
 import meli.freshfood.model.Product;
+import meli.freshfood.model.ProductPurchaseOrder;
 import meli.freshfood.service.PurchaseOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +32,7 @@ public class PurchaseOrderController {
 
     //mostrar produtos no pedido
     @GetMapping("/orders/{purchaseOrderId}")
-    public ResponseEntity<List<Product>> findAllProducts(@PathVariable Long purchaseOrderId) {
+    public ResponseEntity<List<ProductDetailsDTO>> findAllProducts(@PathVariable Long purchaseOrderId) {
         return ResponseEntity.ok(purchaseOrderService.findAllProducts(purchaseOrderId));
     }
     
@@ -38,7 +40,7 @@ public class PurchaseOrderController {
     @PutMapping("/{id}")
     public ResponseEntity<String> closePurchaseOrder(@PathVariable Long id)  {
         purchaseOrderService.closePurchaseOrder(id);
-        return ResponseEntity.ok("Produto atualizado com sucesso!");
+        return ResponseEntity.ok("Carrinho de compras foi finalizado com sucesso!");
     }
     
 }

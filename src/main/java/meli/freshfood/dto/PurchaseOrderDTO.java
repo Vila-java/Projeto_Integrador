@@ -14,5 +14,5 @@ public class PurchaseOrderDTO {
     private LocalDate Date;
     private Long buyerId;
     private String orderStatus;
-    private List<ProductDTO> productsDTO;
+    private List<ProductDTO> products;
 }
