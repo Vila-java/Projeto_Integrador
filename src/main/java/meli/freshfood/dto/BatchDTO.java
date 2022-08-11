@@ -2,7 +2,6 @@ package meli.freshfood.dto;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 
 import java.time.LocalDate;

@@ -15,4 +15,7 @@ public interface BatchService {
 	boolean checkBatchAvailable(ProductDTO productDTO);
 	void updateStock(ProductDTO productDTO);
 	List<Batch> sortByDueDate(List<Batch> batches);
+	List<Batch> sortByCurrentQuantity(List<Batch> batches);
+	List<Batch> sortByBatchNumber(List<Batch> batches);
+	List<Batch> sort(List<Batch> batches, String batchOrder);
 }

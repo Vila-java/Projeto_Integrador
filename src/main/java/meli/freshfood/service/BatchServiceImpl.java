@@ -34,6 +34,17 @@ public class BatchServiceImpl implements BatchService {
     }
 
     @Override
+    public List<Batch> sortByCurrentQuantity(List<Batch> batches) {
+        return batches.stream().sorted((b1, b2) -> {
+            if(b1.getCurrentQuantity() > b2.getCurrentQuantity()) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }).collect(Collectors.toList());
+    }
+
+    @Override
     public List<Batch> sortByDueDate(List<Batch> batches) {
         return batches.stream().sorted((b1, b2) -> {
             if(b1.getDueDate().isAfter(b2.getDueDate())) {
@@ -42,6 +53,28 @@ public class BatchServiceImpl implements BatchService {
                 return 0;
             }
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Batch> sortByBatchNumber(List<Batch> batches) {
+        return batches.stream().sorted((b1, b2) -> {
+            if(b1.getBatchNumber().compareTo(b2.getBatchNumber()) > 0 ) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Batch> sort(List<Batch> batches, String batchOrder) {
+        if(batchOrder.equalsIgnoreCase("Q")) {
+            return sortByCurrentQuantity(batches);
+        } else if(batchOrder.equalsIgnoreCase("V")) {
+            return sortByDueDate(batches);
+        } else {
+            return sortByBatchNumber(batches);
+        }
     }
 
     @Override
