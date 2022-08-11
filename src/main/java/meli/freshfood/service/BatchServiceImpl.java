@@ -25,7 +25,7 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public Batch findById(Long id) {
         return batchRepository.findById(id)
-       .orElseThrow(() -> new NotFoundException("O lote não foi encontrado!"));
+                .orElseThrow(() -> new NotFoundException("O lote não foi encontrado!"));
     }
 
     @Override
