@@ -1,5 +1,7 @@
 package meli.freshfood.controller;
 
+import meli.freshfood.dto.BatchDetailsDTO;
+import meli.freshfood.dto.ProductBatchesDTO;
 import meli.freshfood.model.Product;
 import meli.freshfood.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,20 @@ public class ProductController {
 
     //retorna uma lista completa de prodrutos filtrados por categoria
     @GetMapping("/list")
-    public ResponseEntity<List<Product>> findProductByCategory(@RequestParam(required = false) String storageType) {
+    public ResponseEntity<List<Product>> findProductByCategory(
+            @RequestParam(required = false) String storageType
+    ) {
         return ResponseEntity.ok(productService.findProductByCategory(storageType));
+    }
+
+    @GetMapping("/list/batch")
+    public ResponseEntity<ProductBatchesDTO> findProductByCategory(
+            @RequestParam(required = true) Long productId,
+            @RequestParam(required = false) String batchOrder
+    ) {
+        List<BatchDetailsDTO> batchDetailsDTOS = productService.getBatches(productId, batchOrder);
+
+        ProductBatchesDTO productBatchesDTO = new ProductBatchesDTO(productId, batchDetailsDTOS);
+        return ResponseEntity.ok(productBatchesDTO);
     }
 }
