@@ -21,7 +21,6 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new NotFoundException("O produto não foi encontrado!"));
     }
 
-    // TODO se tiver muito grande a visualização no retorno criar um DTO especifico
     @Override
     public List<Product> findAll() {
         List<Product> listProducts = productRepository.findAll();

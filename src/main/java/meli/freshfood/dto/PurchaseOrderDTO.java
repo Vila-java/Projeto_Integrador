@@ -9,7 +9,6 @@ import java.util.List;
 
 @Getter
 @Setter
-
 public class PurchaseOrderDTO {
     private LocalDate Date;
     private Long buyerId;

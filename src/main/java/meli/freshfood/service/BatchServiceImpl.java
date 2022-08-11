@@ -79,7 +79,6 @@ public class BatchServiceImpl implements BatchService {
         checkBatchAvailable(productDTO);
         Product product = productService.findById(productDTO.getProductId());
 
-        // TODO: Verificar se existe uma solução melhor
         final int[] purchaseQuantity = new int[1];
         purchaseQuantity[0] = productDTO.getQuantity();
 

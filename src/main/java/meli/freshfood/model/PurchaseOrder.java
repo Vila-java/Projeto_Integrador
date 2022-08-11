@@ -15,7 +15,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-
 @Entity
 @NoArgsConstructor
 public class PurchaseOrder {
