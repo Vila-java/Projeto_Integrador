@@ -14,11 +14,11 @@ public enum StorageType {
     }
 
     public static StorageType parseToStorage(String initials) {
-        if(initials.equals("FR")) {
+        if(initials.equalsIgnoreCase("FR")) {
             return StorageType.FRESH;
-        } else if (initials.equals("RF")) {
+        } else if (initials.equalsIgnoreCase("RF")) {
             return StorageType.REFRIGERATED;
-        } else if (initials.equals("FF")) {
+        } else if (initials.equalsIgnoreCase("FF")) {
             return StorageType.FROZEN;
         } else {
             return null;
