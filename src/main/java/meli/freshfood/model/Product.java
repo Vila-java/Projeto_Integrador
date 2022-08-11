@@ -2,9 +2,7 @@ package meli.freshfood.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,7 +12,8 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 
     @Id

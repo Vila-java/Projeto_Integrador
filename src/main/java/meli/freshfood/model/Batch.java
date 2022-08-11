@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Batch {
 
     @Id
