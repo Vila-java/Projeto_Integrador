@@ -1,5 +1,5 @@
 package meli.freshfood.service;
 
-class ProductServiceImplTest {
+class ClientServiceImplTest {
 
 }

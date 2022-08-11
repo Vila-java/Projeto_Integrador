@@ -1,12 +1,16 @@
 package meli.freshfood.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(uniqueConstraints = {
         @UniqueConstraint(name = "uniqueSupervisor", columnNames = {"supervisor_id"})
@@ -22,12 +26,12 @@ public class Warehouse {
     private String addressCode;
 
     @OneToMany(mappedBy = "warehouse")
-    @JsonIgnoreProperties("warehouse")
+    @JsonIgnore()
     private List<Section> sections;
 
     @OneToOne
     @JoinColumn(name = "supervisor_id")
-    @JsonIgnoreProperties({"warehouse", "inboundOrders"})
+    @JsonIgnore()
     private Supervisor supervisor;
 }
 

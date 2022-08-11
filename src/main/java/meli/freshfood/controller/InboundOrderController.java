@@ -2,7 +2,6 @@ package meli.freshfood.controller;
 
 import meli.freshfood.dto.BatchDTO;
 import meli.freshfood.dto.InboundOrderDTO;
-import meli.freshfood.model.InboundOrder;
 import meli.freshfood.service.InboundOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +28,5 @@ public class InboundOrderController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(service.update(inboundOrderDTO));
     }
-
 
 }

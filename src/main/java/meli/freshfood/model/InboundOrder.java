@@ -1,9 +1,11 @@
 package meli.freshfood.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import meli.freshfood.dto.BatchDTO;
+import lombok.Setter;
 import meli.freshfood.dto.InboundOrderDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,7 +13,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 public class InboundOrder {
@@ -25,17 +28,17 @@ public class InboundOrder {
     private LocalDate orderDate;
 
     @OneToMany(mappedBy = "inboundOrder")
-    @JsonIgnoreProperties("inboundOrder")
+    @JsonIgnore()
     private List<Batch> batch;
 
     @ManyToOne
     @JoinColumn(name="supervisor_id")
-    @JsonIgnoreProperties({"inboundOrders", "warehouse"})
+    @JsonIgnore()
     private Supervisor supervisor;
 
     @ManyToOne
     @JoinColumn(name = "section_id")
-    @JsonIgnoreProperties({"inboundOrders", "warehouse"})
+    @JsonIgnore()
     private Section section;
 
     public InboundOrder(InboundOrderDTO inboundOrderDTO, Supervisor supervisor, Section section) {

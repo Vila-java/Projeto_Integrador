@@ -2,8 +2,11 @@ package meli.freshfood.service;
 
 import meli.freshfood.model.Product;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface ProductService {
-    Optional<Product> findById(Long id);
+
+    Product findById(Long id);
+    List<Product> findAll();
+    List<Product> findProductByCategory(String storageType);
 }

@@ -10,8 +10,8 @@ import meli.freshfood.repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SectionServiceImpl implements SectionService {
@@ -20,12 +20,9 @@ public class SectionServiceImpl implements SectionService {
     private SectionRepository sectionRepository;
 
     @Override
-    public Optional<Section> findById(Long id) {
-        Optional<Section> section = sectionRepository.findById(id);
-        if (section.isEmpty()) {
-            throw new NotFoundException("O setor não foi encontrado!");
-        }
-        return section;
+    public Section findById(Long id) {
+        return sectionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("O setor não foi encontrado!"));
     }
 
     @Override
@@ -48,8 +45,15 @@ public class SectionServiceImpl implements SectionService {
 
     @Override
     public Boolean checkSectionAvailableToStock(Section section, List<BatchDTO> batches) {
+        Integer expirationDate = 3;
         Integer totalProducts = batches.stream()
-                .map((b) -> b.getCurrentQuantity())
+                .map((b) -> {
+                    if(b.getDueDate().isAfter(LocalDate.now().plusWeeks(expirationDate))) {
+                        return b.getCurrentQuantity();
+                    } else {
+                        return 0;
+                    }
+                })
                 .reduce(0, (a, b) -> a + b);
 
         if (section.getProductCapacity() >= totalProducts) {

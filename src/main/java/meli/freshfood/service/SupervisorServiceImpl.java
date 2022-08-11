@@ -1,14 +1,11 @@
 package meli.freshfood.service;
 
-import meli.freshfood.exception.InternalServerErrorException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Supervisor;
 import meli.freshfood.model.Warehouse;
 import meli.freshfood.repository.SupervisorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class SupervisorServiceImpl implements SupervisorService {
@@ -17,13 +14,9 @@ public class SupervisorServiceImpl implements SupervisorService {
     private SupervisorRepository supervisorRepository;
 
     @Override
-    public Optional<Supervisor> findById(Long id) {
-        Optional<Supervisor> supervisor = supervisorRepository.findById(id);
-
-        if (supervisor.isEmpty()) {
-            throw new NotFoundException("O supersivor não foi encontrado!");
-        }
-        return supervisor;
+    public Supervisor findById(Long id) {
+        return supervisorRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("O supervisor não foi encontrado!"));
     }
 
     @Override

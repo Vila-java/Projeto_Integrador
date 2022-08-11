@@ -1,13 +1,17 @@
 package meli.freshfood.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class Supervisor {
 
     @Id
@@ -21,10 +25,10 @@ public class Supervisor {
     private String lastName;
 
     @OneToOne(mappedBy = "supervisor")
-    @JsonIgnoreProperties("supervisor")
+    @JsonIgnore()
     private Warehouse warehouse;
 
     @OneToMany(mappedBy = "supervisor")
-    @JsonIgnoreProperties("supervisor")
+    @JsonIgnore()
     private List<InboundOrder> inboundOrders;
 }

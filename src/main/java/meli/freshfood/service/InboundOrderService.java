@@ -2,7 +2,6 @@ package meli.freshfood.service;
 
 import meli.freshfood.dto.BatchDTO;
 import meli.freshfood.dto.InboundOrderDTO;
-import meli.freshfood.model.InboundOrder;
 
 import java.util.List;
 

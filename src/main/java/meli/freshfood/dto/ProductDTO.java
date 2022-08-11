@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SectionDTO {
-    private Long sectionCode;
-    private Long warehouseCode;
+public class ProductDTO {
+    private Long productId;
+    private Integer quantity;
 }
