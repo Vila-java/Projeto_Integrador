@@ -1,5 +1,6 @@
 package meli.freshfood.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import meli.freshfood.dto.BatchDTO;
@@ -48,17 +49,17 @@ public class Batch {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    @JsonIgnoreProperties("batches")
+    @JsonIgnore()
     private Product product;
 
     @ManyToOne
     @JoinColumn(name = "section_id")
-    @JsonIgnoreProperties("batches")
+    @JsonIgnore()
     private Section section;
 
     @ManyToOne
     @JoinColumn(name = "inbound_order_id")
-    @JsonIgnoreProperties({"batch", "supervisor", "section"})
+    @JsonIgnore()
     private InboundOrder inboundOrder;
 
     public Batch(BatchDTO batchDTO, Product product, Section section, InboundOrder inboundOrder) {
