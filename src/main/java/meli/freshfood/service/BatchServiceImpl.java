@@ -138,6 +138,4 @@ public class BatchServiceImpl implements BatchService {
     public List<Batch> sortByBatchNumber(List<Batch> batches) {
         return batches.stream().sorted(Comparator.comparing(Batch::getBatchNumber)).collect(Collectors.toList());
     }
-
-
 }
