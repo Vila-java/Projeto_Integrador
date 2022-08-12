@@ -2,7 +2,14 @@ package meli.freshfood.service;
 
 import meli.freshfood.dto.InboundOrderDTO;
 import meli.freshfood.model.InboundOrder;
+import meli.freshfood.model.Supervisor;
+import meli.freshfood.model.Warehouse;
+import meli.freshfood.model.Section;
 import meli.freshfood.repository.InboundOrderRepository;
+import meli.freshfood.utils.InboundOrderUtils;
+import meli.freshfood.utils.SectionUtils;
+import meli.freshfood.utils.SupervisorUtils;
+import meli.freshfood.utils.WarehouseUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,12 +32,41 @@ class InboundOrderServiceImplTest {
     @Mock
     InboundOrderRepository inboundOrderRepository;
 
+    @Mock
+    WarehouseServiceImpl warehouseService;
+
+    @Mock
+    SectionServiceImpl sectionService;
+
+    @Mock
+    SupervisorServiceImpl supervisorService;
+
+    @Mock
+    BatchServiceImpl batchService;
+
     @Test
     @DisplayName("Cria novo pedido de compra")
     void createInboundOrder_whenNewInboundOrder() {
-        InboundOrder inboundOrder = new InboundOrder();
+        BDDMockito.when(warehouseService.findById(Mockito.anyLong()))
+                .thenReturn(WarehouseUtils.newWarehouse());
+
+        Section section = SectionUtils.newSection();
+        BDDMockito.when(sectionService.validatesSection(
+                                    Mockito.any(InboundOrderDTO.class),
+                                    Mockito.any(Warehouse.class))
+                ).thenReturn(section);
+
+        Supervisor supervisor = SupervisorUtils.newSupervisor();
+        BDDMockito.when(supervisorService.validatesSupervisor(
+                                    Mockito.any(InboundOrderDTO.class),
+                                    Mockito.any(Warehouse.class))
+                ).thenReturn(supervisor);
+
         BDDMockito.when(inboundOrderRepository.save(Mockito.any(InboundOrder.class)))
-                .thenReturn(inboundOrder);
+                .thenReturn(InboundOrderUtils.newInboundOrder(supervisor, section));
+
+/*        BDDMockito.when(batchService.createBatches(Mockito.any(InboundOrderDTO.class), Mockito.any(Section.class), Mockito.any(InboundOrder.class)))
+                .thenReturn(InboundOrderUtils.newInboundOrder(supervisor, section));*/
 
 //        InboundOrder inboundOrderCreated = inboundOrderService.create(InboundOrderDTO inboundOrderDTO);
 //

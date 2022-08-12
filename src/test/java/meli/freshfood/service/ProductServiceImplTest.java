@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -59,4 +60,17 @@ class ProductServiceImplTest {
         assertThat(exception.getMessage()).isEqualTo("O produto não foi encontrado!");
     }
 
+    @Test
+    @DisplayName("Retorna a lista de produtos quando existir")
+    void findAllProducts_returnProductsList_whenProductListExists() {
+
+        List<Product> productListMocked = ProductUtils.productList();
+
+        BDDMockito.when(productRepo.findAll())
+                .thenReturn(productListMocked);
+
+        List<Product> productList = productService.findAll();
+        assertThat(productList).isNotNull();
+        assertThat(productList.size()).isEqualTo(productListMocked.size());
+    }
 }
