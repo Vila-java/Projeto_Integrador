@@ -53,5 +53,4 @@ public class WarehouseServiceImpl implements WarehouseService {
 
         return new ProductWarehouseDTO(productId, warehouseDTOS);
     }
-
 }
