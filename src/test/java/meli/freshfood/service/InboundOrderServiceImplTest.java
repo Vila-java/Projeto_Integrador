@@ -1,15 +1,12 @@
 package meli.freshfood.service;
 
+import meli.freshfood.dto.BatchDTO;
 import meli.freshfood.dto.InboundOrderDTO;
-import meli.freshfood.model.InboundOrder;
-import meli.freshfood.model.Supervisor;
-import meli.freshfood.model.Warehouse;
-import meli.freshfood.model.Section;
+import meli.freshfood.dto.SectionDTO;
+import meli.freshfood.exception.NotFoundException;
+import meli.freshfood.model.*;
 import meli.freshfood.repository.InboundOrderRepository;
-import meli.freshfood.utils.InboundOrderUtils;
-import meli.freshfood.utils.SectionUtils;
-import meli.freshfood.utils.SupervisorUtils;
-import meli.freshfood.utils.WarehouseUtils;
+import meli.freshfood.utils.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,8 +16,11 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -46,7 +46,7 @@ class InboundOrderServiceImplTest {
 
     @Test
     @DisplayName("Cria novo pedido de compra")
-    void createInboundOrder_whenNewInboundOrder() {
+    void createInboundOrder_returnBatchList_whenNewInboundOrder() {
         BDDMockito.when(warehouseService.findById(Mockito.anyLong()))
                 .thenReturn(WarehouseUtils.newWarehouse());
 
@@ -65,34 +65,57 @@ class InboundOrderServiceImplTest {
         BDDMockito.when(inboundOrderRepository.save(Mockito.any(InboundOrder.class)))
                 .thenReturn(InboundOrderUtils.newInboundOrder(supervisor, section));
 
-/*        BDDMockito.when(batchService.createBatches(Mockito.any(InboundOrderDTO.class), Mockito.any(Section.class), Mockito.any(InboundOrder.class)))
-                .thenReturn(InboundOrderUtils.newInboundOrder(supervisor, section));*/
+        BDDMockito.when(batchService.createBatches(Mockito.any(InboundOrderDTO.class), Mockito.any(Section.class), Mockito.any(InboundOrder.class)))
+                .thenReturn(BatchUtils.newBatchDTOList());
 
-//        InboundOrder inboundOrderCreated = inboundOrderService.create(InboundOrderDTO inboundOrderDTO);
-//
-//
-//
-//        void create_returnStudent_whenNewStudent() {
-//            StudentDTO newStudent = TestUtilsGenerator.getNewStudentWithOneSubject();
-//
-//            StudentDTO savedStudent = service.create(newStudent);
-//
-//            assertThat(savedStudent.getId()).isPositive();
-//            assertThat(savedStudent.getStudentName()).isEqualTo(savedStudent.getStudentName());
-//            verify(studentDAO, atLeastOnce()).save(newStudent);
-//        }
-//
-//
-//        BDDMockito.when(propRepo.getByName(ArgumentMatchers.anyString()))
-//                .thenReturn(TestUtilsGenerator.getByNameWhenExist());
-//        BDDMockito.when(districtRepo.getByName(ArgumentMatchers.anyString()))
-//                .thenReturn(TestUtilsGenerator.createDistrict());
-//
-//        BigDecimal expected = TestUtilsGenerator.getTotalPriceByDistrict();
-//
-//        String propName = "Casa";
-//        BigDecimal result = propService.calculatePropPriceByDistrict(propName);
-//
-//        assertThat(result).isEqualTo(expected);
+        SectionDTO sectionDTO = SectionUtils.newSectionDTO(section, section.getWarehouse());
+        List<BatchDTO> batchesMockedDTO = BatchUtils.newBatchDTOList();
+        InboundOrderDTO inboundOrderDTOMocked = InboundOrderUtils.newInboundOrderDTO(supervisor, sectionDTO, batchesMockedDTO);
+
+        List<BatchDTO> batches = inboundOrderService.create(inboundOrderDTOMocked);
+
+        //TODO: Adicionar mais casos de teste
+        assertThat(batches).isNotEmpty()
+                            .isInstanceOf(List.class);
+
+        assertThat(batches.size()).isEqualTo(batchesMockedDTO.size());
     }
+
+    @Test
+    @DisplayName("Cria novo pedido de compra")
+    void createInboundOrder_returnNotFoundException_whenWarehouseNotExists() {
+        BDDMockito.when(warehouseService.findById(Mockito.anyLong()))
+                .thenThrow(new NotFoundException("O armazém não foi encontrado!"));
+
+        Section section = SectionUtils.newSection();
+        Supervisor supervisor = SupervisorUtils.newSupervisor();
+        SectionDTO sectionDTO = SectionUtils.newSectionDTO(section, section.getWarehouse());
+        List<BatchDTO> batchesMockedDTO = BatchUtils.newBatchDTOList();
+        InboundOrderDTO inboundOrderDTOMocked = InboundOrderUtils.newInboundOrderDTO(supervisor, sectionDTO, batchesMockedDTO);
+
+        Exception exception = assertThrows(
+                NotFoundException.class,
+                () -> inboundOrderService.create(inboundOrderDTOMocked)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("O armazém não foi encontrado!");
+    }
+
+
+    @Test
+    @DisplayName("Retorna o cliente quando ele existir")
+    void findById_returnInboundOrder_whenInboundOrderIdExists() {
+        Section section = SectionUtils.newSection();
+        Supervisor supervisor = SupervisorUtils.newSupervisor();
+        Optional<InboundOrder> inboundOrderMocked = Optional.of(InboundOrderUtils.newInboundOrder(supervisor, section));
+
+        BDDMockito.when(inboundOrderRepository.findById(ArgumentMatchers.anyLong()))
+                .thenReturn(inboundOrderMocked);
+
+        InboundOrder inboundOrder = inboundOrderService.findById(ArgumentMatchers.anyLong());
+
+        assertThat(inboundOrder.getOrderNumber()).isPositive();
+        assertThat(inboundOrder.getClass()).isEqualTo(InboundOrder.class);
+    }
+
 }

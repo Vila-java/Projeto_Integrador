@@ -1,7 +1,6 @@
 package meli.freshfood.utils;
 
 
-import meli.freshfood.model.Section;
 import meli.freshfood.model.Supervisor;
 import meli.freshfood.model.Warehouse;
 

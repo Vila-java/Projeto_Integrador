@@ -32,9 +32,8 @@ public class BatchUtils {
     }
 
     public static BatchDTO newBatchDTOWithParams(Long id, Long productId, Integer quantity) {
-        new BatchDTO(id, productId, 23F, 10F,
+        return new BatchDTO(id, productId, 23F, 10F,
                 quantity, quantity, LocalDate.now(), LocalDateTime.now(), LocalDate.now());
-        return null;
     }
 
     public static List<BatchDTO> newBatchDTOList() {
@@ -44,5 +43,4 @@ public class BatchUtils {
         batchesDTO.add(newBatchDTOWithParams(3L, 3L, 4));
         return batchesDTO;
     }
-
 }
