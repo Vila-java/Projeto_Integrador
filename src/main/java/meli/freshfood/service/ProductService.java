@@ -10,5 +10,4 @@ public interface ProductService {
     Product findById(Long id);
     List<Product> findAll();
     List<Product> findProductByCategory(String storageType);
-    List<BatchDetailsDTO> getBatches(Long productId, String batchOrder);
 }
