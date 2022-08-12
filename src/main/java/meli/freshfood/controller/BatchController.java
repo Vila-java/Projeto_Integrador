@@ -20,11 +20,12 @@ public class BatchController {
     @Autowired
     private BatchService batchService;
 
-
     @GetMapping("/due-date")
-    public ResponseEntity<List<BatchStockDTO>> getProductsFiltered (@RequestParam Integer intervalDate) {
-        return ResponseEntity.ok(batchService.getByDueDate(intervalDate));
+    public ResponseEntity<List<BatchStockDTO>> getProductsFiltered
+            (@RequestParam Integer intervalDate, @RequestParam(required = false) Long sectionId) {
+        return ResponseEntity.ok(batchService.getByDueDate(intervalDate, sectionId));
     }
+
     @GetMapping("/list/batch")
     public ResponseEntity<ProductBatchesDTO> findProductByCategory(
             @RequestParam Long productId,
