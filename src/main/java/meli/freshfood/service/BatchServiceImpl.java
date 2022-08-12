@@ -1,13 +1,17 @@
 package meli.freshfood.service;
 
+import meli.freshfood.dto.BatchDTO;
+import meli.freshfood.dto.InboundOrderDTO;
 import meli.freshfood.dto.BatchDetailsDTO;
 import meli.freshfood.dto.ProductDTO;
 import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Batch;
+import meli.freshfood.model.InboundOrder;
 import meli.freshfood.model.Product;
 import meli.freshfood.model.Section;
 import meli.freshfood.model.Warehouse;
+import meli.freshfood.model.Section;
 import meli.freshfood.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +33,7 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public Batch findById(Long id) {
         return batchRepository.findById(id)
-       .orElseThrow(() -> new NotFoundException("O lote não foi encontrado!"));
+                .orElseThrow(() -> new NotFoundException("O lote não foi encontrado!"));
     }
 
     public List<Batch> findAllByProduct(Product product){
@@ -42,6 +46,7 @@ public class BatchServiceImpl implements BatchService {
     }
 
 
+    @Override
     public List<Batch> filterNotExpiredProducts(List<Batch> batches) {
         Integer expirationDate = 3;
         return batches.stream().filter((b) ->
@@ -76,6 +81,7 @@ public class BatchServiceImpl implements BatchService {
         checkBatchAvailable(productDTO);
         Product product = productService.findById(productDTO.getProductId());
 
+        // TODO: Verificar se existe uma solução melhor
         final int[] purchaseQuantity = new int[1];
         purchaseQuantity[0] = productDTO.getQuantity();
 
@@ -141,5 +147,39 @@ public class BatchServiceImpl implements BatchService {
 
     public List<Batch> sortByBatchNumber(List<Batch> batches) {
         return batches.stream().sorted(Comparator.comparing(Batch::getBatchNumber)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BatchDTO> createBatches(InboundOrderDTO inboundOrderDTO, Section section, InboundOrder inboundOrder) {
+        // valida
+        List<Batch> batches = inboundOrderDTO.getBatchStock().stream().map((batchDTO) -> {
+            Product product = productService.findById(batchDTO.getProductId());
+            productService.checkProductStorageIsEqualSectionStorage(product, section);
+            Batch batch = new Batch(batchDTO, product, section, inboundOrder);
+            return batch;
+        }).collect(Collectors.toList());
+
+        // salva
+        return batches.stream().map((batch)-> {
+            save(batch);
+            return batch.toDTO();
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateBatches(InboundOrderDTO inboundOrderDTO, Section section, InboundOrder inboundOrder) {
+        List<Batch> batches = inboundOrderDTO.getBatchStock().stream().map((batchDTO) -> {
+            Product product = productService.findById(batchDTO.getProductId());
+            productService.checkProductStorageIsEqualSectionStorage(product, section);
+            Batch batch = findById(batchDTO.getBatchNumber());
+            batch.updateByDTO(batchDTO);
+            batch.setInboundOrder(inboundOrder);
+            batch.setProduct(product);
+            return batch;
+        }).collect(Collectors.toList());
+
+        batches.stream().forEach((batch)-> {
+            save(batch);
+        });
     }
 }
