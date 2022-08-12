@@ -23,10 +23,11 @@ public interface BatchService {
 	void updateStock(ProductDTO productDTO);
 	List<Batch> sortByDueDate(List<Batch> batches);
 	List<BatchStockDTO> filterNotExpiredProductsByDays(List<BatchStockDTO> batches, Integer intervalDate);
-	List<BatchStockDTO> getByDueDate(Integer intervalDate, Long id);
+	List<BatchStockDTO> findBatchesFilteredByDueDateAndSection(Integer intervalDate, Long id);
 	List<Batch> findAllByProduct(Product product);
 	List<BatchDetailsDTO> getBatchesByProduct(Long productId, String batchOrder);
 	List<BatchDTO> createBatches(InboundOrderDTO inboundOrderDTO, Section section, InboundOrder inboundOrder);
 	void updateBatches(InboundOrderDTO inboundOrderDTO, Section section, InboundOrder inboundOrder);
+	List<BatchStockDTO> findBatchesByCategoryAndDueDate(Integer intervalDate, String storageType, Boolean order);
 
 }
