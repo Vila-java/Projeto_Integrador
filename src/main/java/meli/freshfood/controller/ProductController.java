@@ -1,7 +1,9 @@
 package meli.freshfood.controller;
 
+import meli.freshfood.dto.ProductWarehouseDTO;
 import meli.freshfood.model.Product;
 import meli.freshfood.service.ProductService;
+import meli.freshfood.service.WarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,8 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private WarehouseService warehouseService;
 
     //retorna uma lista completa de prodrutos
     @GetMapping
@@ -27,7 +31,14 @@ public class ProductController {
 
     //retorna uma lista completa de prodrutos filtrados por categoria
     @GetMapping("/list")
-    public ResponseEntity<List<Product>> findProductByCategory(@RequestParam(required = false) String storageType) {
+    public ResponseEntity<List<Product>> findProductByCategory(
+            @RequestParam(required = false) String storageType
+    ) {
         return ResponseEntity.ok(productService.findProductByCategory(storageType));
+    }
+
+    @GetMapping("/warehouse")
+    public ResponseEntity<ProductWarehouseDTO> findByProduct(@RequestParam Long productId){
+        return ResponseEntity.ok(warehouseService.findByProduct(productId));
     }
 }

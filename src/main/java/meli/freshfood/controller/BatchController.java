@@ -1,5 +1,7 @@
 package meli.freshfood.controller;
 
+import meli.freshfood.dto.BatchDetailsDTO;
+import meli.freshfood.dto.ProductBatchesDTO;
 import meli.freshfood.dto.BatchStockDTO;
 import meli.freshfood.service.BatchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +24,15 @@ public class BatchController {
     @GetMapping("/due-date")
     public ResponseEntity<List<BatchStockDTO>> getProductsFiltered (@RequestParam Integer intervalDate) {
         return ResponseEntity.ok(batchService.getByDueDate(intervalDate));
+    }
+    @GetMapping("/list/batch")
+    public ResponseEntity<ProductBatchesDTO> findProductByCategory(
+            @RequestParam Long productId,
+            @RequestParam(required = false) String batchOrder
+    ) {
+        List<BatchDetailsDTO> batchDetailsDTOS = batchService.getBatchesByProduct(productId, batchOrder);
+
+        ProductBatchesDTO productBatchesDTO = new ProductBatchesDTO(productId, batchDetailsDTOS);
+        return ResponseEntity.ok(productBatchesDTO);
     }
 }

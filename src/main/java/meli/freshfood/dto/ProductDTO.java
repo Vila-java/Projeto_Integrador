@@ -1,6 +1,5 @@
 package meli.freshfood.dto;
 
-
 import lombok.Getter;
 import lombok.Setter;
 

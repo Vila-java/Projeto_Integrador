@@ -1,7 +1,9 @@
 package meli.freshfood.service;
 
+import meli.freshfood.exception.InternalServerErrorException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Product;
+import meli.freshfood.model.Section;
 import meli.freshfood.model.StorageType;
 import meli.freshfood.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +41,14 @@ public class ProductServiceImpl implements ProductService {
             throw new NotFoundException("A lista de produtos não foi encontrada!");
         }
         return listProducts;
+    }
+
+    @Override
+    public Boolean checkProductStorageIsEqualSectionStorage(Product product, Section section) {
+        if (section.getStorageType().equals(product.getStorageType())) {
+            return true;
+        } else {
+            throw new InternalServerErrorException("O setor e o produto não têm o mesmo tipo de armazenamento!");
+        }
     }
 }
