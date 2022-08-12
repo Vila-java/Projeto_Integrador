@@ -10,4 +10,7 @@ public interface ProductPurchaseOrderService {
         ProductPurchaseOrder findById(Long id);
         ProductPurchaseOrder create(Product product, PurchaseOrder purchaseOrder, Integer quantity);
         BigDecimal totalPriceAllProducts(PurchaseOrder purchaseOrder);
+        ProductPurchaseOrder findByPurchaseOrderAndProduct(PurchaseOrder purchaseOrder, Product product);
+        ProductPurchaseOrder update(ProductPurchaseOrder productPurchaseOrder, Integer quantity);
+        void removeAllOrders(PurchaseOrder purchaseOrder);
 }

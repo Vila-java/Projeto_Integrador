@@ -1,10 +1,12 @@
 package meli.freshfood.service;
 
 import meli.freshfood.dto.BatchDTO;
+import meli.freshfood.dto.InboundOrderDTO;
 import meli.freshfood.exception.InternalServerErrorException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Product;
 import meli.freshfood.model.Section;
+import meli.freshfood.model.Supervisor;
 import meli.freshfood.model.Warehouse;
 import meli.freshfood.repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +28,13 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public Boolean checkSectionStorageTypeIsEqualProductStorageType(Section section, Product product) {
-        if (section.getStorageType().equals(product.getStorageType())) {
-            return true;
-        } else {
-            throw new InternalServerErrorException("O setor e o produto não têm o mesmo tipo de armazenamento!");
-        }
+    public Section validatesSection(InboundOrderDTO inboundOrderDTO, Warehouse warehouse) {
+        Section section = findById(inboundOrderDTO.getSection().getSectionCode());
+
+        checkSectionAvailableToStock(section, inboundOrderDTO.getBatchStock());
+        checkSectionBelongsToWarehouse(section,warehouse);
+
+        return section;
     }
 
     @Override

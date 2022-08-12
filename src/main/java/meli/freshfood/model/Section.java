@@ -1,7 +1,9 @@
 package meli.freshfood.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -35,6 +37,6 @@ public class Section {
     private Warehouse warehouse;
 
     @OneToMany(mappedBy = "section")
-    @JsonIgnoreProperties({"section", "supervisor", "batch"})
+    @JsonIgnore()
     private List<InboundOrder> inboundOrders;
 }

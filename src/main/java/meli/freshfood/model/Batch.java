@@ -1,7 +1,10 @@
 package meli.freshfood.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import meli.freshfood.dto.BatchDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -48,17 +51,17 @@ public class Batch {
 
     @ManyToOne
     @JoinColumn(name = "product_id")
-    @JsonIgnoreProperties("batches")
+    @JsonIgnore()
     private Product product;
 
     @ManyToOne
     @JoinColumn(name = "section_id")
-    @JsonIgnoreProperties("batches")
+    @JsonIgnore()
     private Section section;
 
     @ManyToOne
     @JoinColumn(name = "inbound_order_id")
-    @JsonIgnoreProperties({"batch", "supervisor", "section"})
+    @JsonIgnore()
     private InboundOrder inboundOrder;
 
     public Batch(BatchDTO batchDTO, Product product, Section section, InboundOrder inboundOrder) {

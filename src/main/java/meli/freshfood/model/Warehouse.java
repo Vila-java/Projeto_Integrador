@@ -1,7 +1,8 @@
 package meli.freshfood.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,13 +14,17 @@ import java.util.List;
 @NoArgsConstructor
 
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(name = "uniqueSupervisor", columnNames = {"supervisor_id"})
+})
 public class Warehouse {
 
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long warehouseId;
 
-   @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 100)
     private String addressCode;
 
     @OneToMany(mappedBy = "warehouse")
