@@ -25,7 +25,7 @@ public class ProductUtils {
         List<Product> productList = new ArrayList<>();
         productList.add(newProductWithParams(1L, "Frango", "Frango ótimo", StorageType.FRESH, new BigDecimal(12)));
         productList.add(newProductWithParams(2L, "Carne", " Espetinho de carne", StorageType.FROZEN, new BigDecimal(2)));
-        productList.add(newProductWithParams(3L, "Peixe", " File de peixe empanado", StorageType.FRESH, new BigDecimal(15)));
+        productList.add(newProductWithParams(3L, "Peixe", " File de peixe empanado", StorageType.REFRIGERATED, new BigDecimal(15)));
 
         return productList;
     }

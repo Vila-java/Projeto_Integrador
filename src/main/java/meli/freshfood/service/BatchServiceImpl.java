@@ -56,10 +56,9 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public Integer totalAvailableBatchesCapacity(List<Batch> batches) {
         List<Batch> batchesAvailable = filterNotExpiredProducts(batches);
-        Integer totalAvailableCapacity = batchesAvailable.stream()
+        return batchesAvailable.stream()
                 .map((b) -> b.getCurrentQuantity())
                 .reduce(0, (b1, b2) -> b1 + b2);
-        return totalAvailableCapacity;
     }
 
     @Override

@@ -81,6 +81,7 @@ class InboundOrderServiceImplTest {
         assertThat(batches.size()).isEqualTo(batchesMockedDTO.size());
     }
 
+
     @Test
     @DisplayName("Cria novo pedido de compra")
     void createInboundOrder_returnNotFoundException_whenWarehouseNotExists() {
@@ -103,7 +104,7 @@ class InboundOrderServiceImplTest {
 
 
     @Test
-    @DisplayName("Retorna o cliente quando ele existir")
+    @DisplayName("Retorna a ordem de entrada quando existir")
     void findById_returnInboundOrder_whenInboundOrderIdExists() {
         Section section = SectionUtils.newSection();
         Supervisor supervisor = SupervisorUtils.newSupervisor();
@@ -116,6 +117,22 @@ class InboundOrderServiceImplTest {
 
         assertThat(inboundOrder.getOrderNumber()).isPositive();
         assertThat(inboundOrder.getClass()).isEqualTo(InboundOrder.class);
+    }
+
+
+    @Test
+    @DisplayName("Retorna exceção quando a ordem de entrada não existe")
+    void returnNotFoundException_whenInboundOrderNotExists() {
+
+            BDDMockito.when(inboundOrderRepository.findById(ArgumentMatchers.anyLong()))
+                    .thenThrow(new NotFoundException("A Ordem de entrada não foi encontrado!"));
+
+            Exception exception = assertThrows(
+                    NotFoundException.class,
+                    () -> inboundOrderService.findById(ArgumentMatchers.anyLong())
+            );
+
+            assertThat(exception.getMessage()).isEqualTo("A Ordem de entrada não foi encontrado!");
     }
 
 }
