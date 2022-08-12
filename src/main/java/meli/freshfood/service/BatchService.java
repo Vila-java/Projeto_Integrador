@@ -1,5 +1,6 @@
 package meli.freshfood.service;
 
+import meli.freshfood.dto.BatchDetailsDTO;
 import meli.freshfood.dto.ProductDTO;
 import meli.freshfood.model.Batch;
 
@@ -14,5 +15,5 @@ public interface BatchService {
 	Integer totalAvailableBatchesCapacity(List<Batch> batches);
 	boolean checkBatchAvailable(ProductDTO productDTO);
 	void updateStock(ProductDTO productDTO);
-	List<Batch> sortByDueDate(List<Batch> batches);
+	List<BatchDetailsDTO> getBatchesByProduct(Long productId, String batchOrder);
 }
