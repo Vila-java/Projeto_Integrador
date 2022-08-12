@@ -87,3 +87,14 @@ curl --location --request GET 'localhost:8080/api/v1/fresh-products/list?storage
 ```
 localhost:8080/api/v1/fresh-products/orders/1
 ```
+
+- Filtrar uma lista de produtos por ID do lote.
+```
+curl --location --request GET 'localhost:8080/api/v1/fresh-products/list/batch?productId=1'
+```
+
+- Filtrar uma lista de produtos por ID e Lotes, Quantidade ou Vencimento.<br>
+(L - lote / Q - Quantidade / V - Vencimento)
+```
+curl --location --request GET 'localhost:8080/api/v1/fresh-products/list/batch?productId=2&batchOrder=Q'
+```
