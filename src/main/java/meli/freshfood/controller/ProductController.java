@@ -31,7 +31,9 @@ public class ProductController {
 
     //retorna uma lista completa de prodrutos filtrados por categoria
     @GetMapping("/list")
-    public ResponseEntity<List<Product>> findProductByCategory(@RequestParam(required = false) String storageType) {
+    public ResponseEntity<List<Product>> findProductByCategory(
+            @RequestParam(required = false) String storageType
+    ) {
         return ResponseEntity.ok(productService.findProductByCategory(storageType));
     }
 

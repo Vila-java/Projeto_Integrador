@@ -1,7 +1,6 @@
 package meli.freshfood.exception;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

@@ -1,15 +1,19 @@
 package meli.freshfood.service;
 
+import meli.freshfood.dto.BatchDetailsDTO;
 import meli.freshfood.dto.ProductDTO;
 import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Batch;
 import meli.freshfood.model.Product;
+import meli.freshfood.model.Section;
+import meli.freshfood.model.Warehouse;
 import meli.freshfood.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,18 +41,7 @@ public class BatchServiceImpl implements BatchService {
         return batchRepository.save(batch);
     }
 
-    @Override
-    public List<Batch> sortByDueDate(List<Batch> batches) {
-        return batches.stream().sorted((b1, b2) -> {
-            if(b1.getDueDate().isAfter(b2.getDueDate())) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }).collect(Collectors.toList());
-    }
 
-    @Override
     public List<Batch> filterNotExpiredProducts(List<Batch> batches) {
         Integer expirationDate = 3;
         return batches.stream().filter((b) ->
@@ -101,5 +94,52 @@ public class BatchServiceImpl implements BatchService {
                 this.save(batch);
             }
         });
+    }
+
+    @Override
+    public List<BatchDetailsDTO> getBatchesByProduct(Long productId, String batchOrder) {
+        Product product = productService.findById(productId);
+
+        List<Batch> batches = product.getBatches();
+        if(batchOrder != null) {
+            batches = sort(batches, batchOrder);
+        }
+
+        List<BatchDetailsDTO> batchesDTO = batches.stream()
+                .map((batch) -> {
+                    Section section = batch.getSection();
+                    Warehouse warehouse = section.getWarehouse();
+                    return new BatchDetailsDTO(
+                            batch.getBatchNumber(), batch.getCurrentTemperature(),
+                            batch.getCurrentQuantity(), batch.getDueDate(),
+                            warehouse.getWarehouseId(), section.getSectionId()
+                    );
+        }).collect(Collectors.toList());
+
+        return batchesDTO;
+    }
+
+    public List<Batch> sort(List<Batch> batches, String batchOrder) {
+        if(batchOrder.equalsIgnoreCase("Q")) {
+            return sortByCurrentQuantity(batches);
+        } else if(batchOrder.equalsIgnoreCase("V")) {
+            return sortByDueDate(batches);
+        } else if(batchOrder.equalsIgnoreCase("L")) {
+            return sortByBatchNumber(batches);
+        } else {
+            throw new BadRequestException("Não existe esse tipo de ordenação!");
+        }
+    }
+
+    public List<Batch> sortByCurrentQuantity(List<Batch> batches) {
+        return batches.stream().sorted(Comparator.comparing(Batch::getCurrentQuantity)).collect(Collectors.toList());
+    }
+
+    public List<Batch> sortByDueDate(List<Batch> batches) {
+        return batches.stream().sorted(Comparator.comparing(Batch::getDueDate)).collect(Collectors.toList());
+    }
+
+    public List<Batch> sortByBatchNumber(List<Batch> batches) {
+        return batches.stream().sorted(Comparator.comparing(Batch::getBatchNumber)).collect(Collectors.toList());
     }
 }
