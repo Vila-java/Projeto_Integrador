@@ -21,12 +21,6 @@ public class SectionServiceImpl implements SectionService {
     @Autowired
     private SectionRepository sectionRepository;
 
-    @Autowired
-    private WarehouseService warehouseService;
-
-    @Autowired
-    private SupervisorService supervisorService;
-
     @Override
     public Section findById(Long id) {
         return sectionRepository.findById(id)
@@ -41,15 +35,6 @@ public class SectionServiceImpl implements SectionService {
         checkSectionBelongsToWarehouse(section,warehouse);
 
         return section;
-    }
-
-    @Override
-    public Boolean checkSectionStorageTypeIsEqualProductStorageType(Section section, Product product) {
-        if (section.getStorageType().equals(product.getStorageType())) {
-            return true;
-        } else {
-            throw new InternalServerErrorException("O setor e o produto não têm o mesmo tipo de armazenamento!");
-        }
     }
 
     @Override

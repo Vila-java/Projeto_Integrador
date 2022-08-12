@@ -30,9 +30,6 @@ public class BatchServiceImpl implements BatchService {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    private SectionService sectionService;
-
     @Override
     public Batch findById(Long id) {
         return batchRepository.findById(id)
@@ -157,7 +154,7 @@ public class BatchServiceImpl implements BatchService {
         // valida
         List<Batch> batches = inboundOrderDTO.getBatchStock().stream().map((batchDTO) -> {
             Product product = productService.findById(batchDTO.getProductId());
-            sectionService.checkSectionStorageTypeIsEqualProductStorageType(section, product);
+            productService.checkProductStorageIsEqualSectionStorage(product, section);
             Batch batch = new Batch(batchDTO, product, section, inboundOrder);
             return batch;
         }).collect(Collectors.toList());
@@ -173,7 +170,7 @@ public class BatchServiceImpl implements BatchService {
     public void updateBatches(InboundOrderDTO inboundOrderDTO, Section section, InboundOrder inboundOrder) {
         List<Batch> batches = inboundOrderDTO.getBatchStock().stream().map((batchDTO) -> {
             Product product = productService.findById(batchDTO.getProductId());
-            sectionService.checkSectionStorageTypeIsEqualProductStorageType(section, product);
+            productService.checkProductStorageIsEqualSectionStorage(product, section);
             Batch batch = findById(batchDTO.getBatchNumber());
             batch.updateByDTO(batchDTO);
             batch.setInboundOrder(inboundOrder);
