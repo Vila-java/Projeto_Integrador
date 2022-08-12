@@ -66,6 +66,9 @@ class ProductPurchaseOrderServiceImplTest {
     @DisplayName("Retorna o preço total de um carrinho de compra")
     void totalPriceAllProducts_ShouldReturnTotalPriceOfAllProductsInAPurchaseOrder() {
         PurchaseOrder purchaseOrder = PurchaseOrderUtils.newPurchaseOrderWithProductsUtils();
+        BDDMockito.when(productPurchaseOrderRepo.findAllByPurchaseOrder(ArgumentMatchers.any(PurchaseOrder.class)))
+                .thenReturn(ProductPurchaseOrderUtils.newProductPurchaseOrderList());
+
         BigDecimal productPurchaseOrder = productPurchaseOrderService.totalPriceAllProducts(purchaseOrder);
 
         BigDecimal expected = new BigDecimal("44.8");
