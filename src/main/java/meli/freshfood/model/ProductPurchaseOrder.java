@@ -1,6 +1,5 @@
 package meli.freshfood.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +12,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 public class ProductPurchaseOrder {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
