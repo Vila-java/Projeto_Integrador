@@ -30,7 +30,6 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Autowired
     private BatchService batchService;
 
-
     @Override
     public Warehouse findById(Long id) {
         return warehouseRepository.findById(id)
