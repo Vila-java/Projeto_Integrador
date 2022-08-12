@@ -98,3 +98,8 @@ curl --location --request GET 'localhost:8080/api/v1/fresh-products/list/batch?p
 ```
 curl --location --request GET 'localhost:8080/api/v1/fresh-products/list/batch?productId=2&batchOrder=Q'
 ```
+
+- Lista de armazéns de um produto
+```
+curl --location --request GET 'localhost:8080/api/v1/fresh-products/warehouse?productId=10'
+```
