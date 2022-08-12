@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -98,4 +99,25 @@ public class BatchServiceImpl implements BatchService {
             }
         });
     }
+
+    @Override
+    public List<Batch> filterNotExpiredProductsByDays(List<Batch> batches, Integer intervalDate) {
+        return batches.stream().filter((b) -> {
+                LocalDate dueDate = b.getDueDate();
+                if(dueDate.isAfter(LocalDate.now()) &&
+                        dueDate.isBefore(LocalDate.now().plusDays(intervalDate))) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }).collect(Collectors.toList());
+    }
+
+
+    //Retorna todos os lotes armazenados em um setor de um armazém dentro de um intervalo de datas filtrados pela data de vencimento
+    @Override
+    public List<Batch> getByDueDate(List<Batch> batches, Integer intervalDate) {
+        return filterNotExpiredProductsByDays(batches, intervalDate);
+    }
+
 }
