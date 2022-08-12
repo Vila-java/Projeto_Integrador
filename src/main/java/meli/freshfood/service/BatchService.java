@@ -1,5 +1,6 @@
 package meli.freshfood.service;
 
+import meli.freshfood.dto.BatchStockDTO;
 import meli.freshfood.dto.ProductDTO;
 import meli.freshfood.model.Batch;
 
@@ -15,6 +16,6 @@ public interface BatchService {
 	boolean checkBatchAvailable(ProductDTO productDTO);
 	void updateStock(ProductDTO productDTO);
 	List<Batch> sortByDueDate(List<Batch> batches);
-	List<Batch> filterNotExpiredProductsByDays(List<Batch> batches, Integer intervalDate);
-	List<Batch> getByDueDate(List<Batch> batches, Integer intervalDate);
+	List<BatchStockDTO> filterNotExpiredProductsByDays(List<BatchStockDTO> batches, Integer intervalDate);
+	List<BatchStockDTO> getByDueDate(Integer intervalDate);
 }
