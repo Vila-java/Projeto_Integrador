@@ -2,7 +2,7 @@ package meli.freshfood.controller;
 
 import meli.freshfood.dto.BatchDetailsDTO;
 import meli.freshfood.dto.ProductBatchesDTO;
-import meli.freshfood.model.Product;
+import meli.freshfood.service.BatchService;
 import meli.freshfood.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,23 +15,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/fresh-products")
-public class ProductController {
+public class BatchController {
 
     @Autowired
-    private ProductService productService;
+    private BatchService batchService;
 
-
-    //retorna uma lista completa de prodrutos
-    @GetMapping
-    public ResponseEntity<List<Product>> findAll() {
-        return ResponseEntity.ok(productService.findAll());
-    }
-
-    //retorna uma lista completa de prodrutos filtrados por categoria
-    @GetMapping("/list")
-    public ResponseEntity<List<Product>> findProductByCategory(
-            @RequestParam(required = false) String storageType
+    @GetMapping("/list/batch")
+    public ResponseEntity<ProductBatchesDTO> findProductByCategory(
+            @RequestParam(required = true) Long productId,
+            @RequestParam(required = false) String batchOrder
     ) {
-        return ResponseEntity.ok(productService.findProductByCategory(storageType));
+        List<BatchDetailsDTO> batchDetailsDTOS = batchService.getBatchesByProduct(productId, batchOrder);
+
+        ProductBatchesDTO productBatchesDTO = new ProductBatchesDTO(productId, batchDetailsDTOS);
+        return ResponseEntity.ok(productBatchesDTO);
     }
 }
