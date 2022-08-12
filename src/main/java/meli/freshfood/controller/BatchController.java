@@ -3,7 +3,6 @@ package meli.freshfood.controller;
 import meli.freshfood.dto.BatchDetailsDTO;
 import meli.freshfood.dto.ProductBatchesDTO;
 import meli.freshfood.service.BatchService;
-import meli.freshfood.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

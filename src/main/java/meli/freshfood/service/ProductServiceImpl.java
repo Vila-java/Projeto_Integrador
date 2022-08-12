@@ -1,14 +1,13 @@
 package meli.freshfood.service;
 
-import meli.freshfood.dto.BatchDetailsDTO;
 import meli.freshfood.exception.NotFoundException;
-import meli.freshfood.model.*;
+import meli.freshfood.model.Product;
+import meli.freshfood.model.StorageType;
 import meli.freshfood.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImpl implements ProductService {

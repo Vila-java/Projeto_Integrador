@@ -1,6 +1,5 @@
 package meli.freshfood.service;
 
-import meli.freshfood.dto.BatchDetailsDTO;
 import meli.freshfood.model.Product;
 
 import java.util.List;

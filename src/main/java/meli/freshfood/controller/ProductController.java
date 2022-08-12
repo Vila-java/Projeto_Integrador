@@ -1,7 +1,5 @@
 package meli.freshfood.controller;
 
-import meli.freshfood.dto.BatchDetailsDTO;
-import meli.freshfood.dto.ProductBatchesDTO;
 import meli.freshfood.model.Product;
 import meli.freshfood.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
