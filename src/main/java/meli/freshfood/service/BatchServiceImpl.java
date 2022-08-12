@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -116,15 +117,23 @@ public class BatchServiceImpl implements BatchService {
             }).collect(Collectors.toList());
     }
 
-
     //Retorna todos os lotes armazenados em um setor de um armazém dentro de um intervalo de datas filtrados pela data de vencimento
     @Override
-    public List<BatchStockDTO> getByDueDate(Integer intervalDate) {
+    public List<BatchStockDTO> getByDueDate(Integer intervalDate, Long id) {
         List<Batch> batches = batchRepository.findAll();
-        List<BatchStockDTO> batchesDTO = batches.stream().map(batch -> batch.toBatchStockDTO()).collect(Collectors.toList());
+        List<Batch> batchesSorted;
+
+        if(id != null){
+            List<Batch> batchesFilteredBySection = this.filterBatchesBySection(batches, id);
+            batchesSorted = sortByDueDate(batchesFilteredBySection);
+         } else {
+            batchesSorted = sortByDueDate(batches);
+        }
+                List<BatchStockDTO> batchesDTO = batchesSorted.stream()
+                .map(batch -> batch.toBatchStockDTO())
+                .collect(Collectors.toList());
         return filterNotExpiredProductsByDays(batchesDTO, intervalDate);
     }
-
 
     @Override
     public List<BatchDetailsDTO> getBatchesByProduct(Long productId, String batchOrder) {
@@ -172,6 +181,13 @@ public class BatchServiceImpl implements BatchService {
     public List<Batch> sortByBatchNumber(List<Batch> batches) {
         return batches.stream().sorted(Comparator.comparing(Batch::getBatchNumber)).collect(Collectors.toList());
     }
+
+    public List<Batch> filterBatchesBySection (List<Batch> batches, Long id) {
+        List<Batch> batchesFiltered = batches
+                .stream().filter((b) -> b.getSection().getSectionId().equals(id))
+                .collect(Collectors.toList());
+        return batchesFiltered;
+    };
 
     @Override
     public List<BatchDTO> createBatches(InboundOrderDTO inboundOrderDTO, Section section, InboundOrder inboundOrder) {
