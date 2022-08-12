@@ -32,6 +32,10 @@ public class BatchServiceImpl implements BatchService {
        .orElseThrow(() -> new NotFoundException("O lote não foi encontrado!"));
     }
 
+    public List<Batch> findAllByProduct(Product product){
+        return batchRepository.findAllByProduct(product);
+    }
+
     @Override
     public Batch save(Batch batch) {
         return batchRepository.save(batch);
