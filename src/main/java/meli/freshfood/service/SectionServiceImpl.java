@@ -1,10 +1,12 @@
 package meli.freshfood.service;
 
 import meli.freshfood.dto.BatchDTO;
+import meli.freshfood.dto.InboundOrderDTO;
 import meli.freshfood.exception.InternalServerErrorException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Product;
 import meli.freshfood.model.Section;
+import meli.freshfood.model.Supervisor;
 import meli.freshfood.model.Warehouse;
 import meli.freshfood.repository.SectionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +21,26 @@ public class SectionServiceImpl implements SectionService {
     @Autowired
     private SectionRepository sectionRepository;
 
+    @Autowired
+    private WarehouseService warehouseService;
+
+    @Autowired
+    private SupervisorService supervisorService;
+
     @Override
     public Section findById(Long id) {
         return sectionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("O setor não foi encontrado!"));
+    }
+
+    @Override
+    public Section validatesSection(InboundOrderDTO inboundOrderDTO, Warehouse warehouse) {
+        Section section = findById(inboundOrderDTO.getSection().getSectionCode());
+
+        checkSectionAvailableToStock(section, inboundOrderDTO.getBatchStock());
+        checkSectionBelongsToWarehouse(section,warehouse);
+
+        return section;
     }
 
     @Override
