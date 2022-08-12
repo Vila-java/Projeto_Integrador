@@ -1,16 +1,21 @@
 package meli.freshfood.service;
 
 
+import meli.freshfood.dto.ProductWarehouseDTO;
 import meli.freshfood.dto.WarehouseDTO;
 import meli.freshfood.exception.NotFoundException;
+import meli.freshfood.model.Product;
 import meli.freshfood.model.Warehouse;
+import meli.freshfood.model.Batch;
 import meli.freshfood.repository.BatchRepository;
 import meli.freshfood.repository.ProductRepository;
 import meli.freshfood.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,10 +25,10 @@ public class WarehouseServiceImpl implements WarehouseService {
     private WarehouseRepository warehouseRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productService;
 
     @Autowired
-    private BatchRepository batchRepository;
+    private BatchService batchService;
 
 
     @Override
@@ -33,25 +38,20 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public List<WarehouseDTO> findByProduct(Long productId) {
-//        List<Batch> listProductsBatches = batchRepository.findAllByProduct(productRepository.findById(productId)
-//                .orElseThrow(() -> new NotFoundException("O produto não foi encontrado!")));
-//        listProductsBatches.stream()
-//            .collect(Collectors.groupingBy(p ->p.getSection().getWarehouse().getWarehouseId(),
-//                    Collectors.summingInt(Batch::getCurrentQuantity)))
-//                    .forEach();
-//
-//        listProductsBatches.stream()
-//                .collect(Collectors.groupingBy(batch -> batch.getSection().getWarehouse().getWarehouseId()))
-//                .entrySet().stream()
-//                .map(e -> e.getValue().stream()
-//                        .reduce((f1,f2) -> new WarehouseDTO(f1.getSection().getWarehouse().getWarehouseId(),
-//                                f1.getCurrentQuantity() + f2.getCurrentQuantity())))
-//                .map(f -> f.get())
-//                .collect(Collectors.toList());
-//
-//
-        return null;
+    public ProductWarehouseDTO findByProduct(Long productId) {
+        Product product = productService.findById(productId);
+        List<Batch> batches = batchService.findAllByProduct(product);
+
+        Map<Long, Integer> collect = batches.stream()
+                            .collect(Collectors.groupingBy(
+                                    b -> b.getSection().getWarehouse().getWarehouseId(),
+                                    Collectors.summingInt(b -> b.getCurrentQuantity())
+                            ));
+
+        List<WarehouseDTO> warehouseDTOS = new ArrayList();
+        collect.forEach((k, v) -> warehouseDTOS.add(new WarehouseDTO(k, v)));
+
+        return new ProductWarehouseDTO(productId, warehouseDTOS);
     }
 
 }
