@@ -8,6 +8,7 @@ import meli.freshfood.model.Address;
 @Setter
 public class CarrierDTO {
 
+    private Long id;
     private String firstName;
     private String lastName;
     private String cpf;

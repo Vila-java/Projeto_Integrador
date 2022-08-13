@@ -1,18 +1,19 @@
 package meli.freshfood.service;
 
-import meli.freshfood.model.Carrier;
+import meli.freshfood.dto.CarrierDTO;
+
 
 import java.util.List;
 
 public interface CarrierService {
 
-    Carrier save(Carrier carrier);
+    CarrierDTO save(CarrierDTO carrierDTO);
 
-    List<Carrier> findaAll();
+    List<CarrierDTO> findaAll();
 
-    Carrier findById(Long id);
+    CarrierDTO findById(Long id);
 
-    Carrier updateById(Carrier tutorial);
+    CarrierDTO updateById(CarrierDTO tutorial);
 
     void deleteById(Long id);
 }
