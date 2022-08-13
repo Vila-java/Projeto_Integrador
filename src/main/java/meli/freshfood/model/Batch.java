@@ -1,10 +1,7 @@
 package meli.freshfood.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import meli.freshfood.dto.BatchDTO;
 import meli.freshfood.dto.BatchStockDTO;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,6 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Batch {
 
     @Id
