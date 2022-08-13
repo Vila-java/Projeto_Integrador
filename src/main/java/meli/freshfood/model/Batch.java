@@ -93,6 +93,7 @@ public class Batch {
     }
 
     public BatchStockDTO toBatchStockDTO() {
-        return new BatchStockDTO(this.batchNumber, product.getProductId(), this.product.getStorageType(), this.getDueDate(), this.getCurrentQuantity());
+        return new BatchStockDTO(this.batchNumber, product.getProductId(), this.product.getStorageType(),
+                this.getDueDate(), this.getCurrentQuantity(), this.getSection().getSectionId());
     }
 }

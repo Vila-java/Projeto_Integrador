@@ -1,5 +1,6 @@
 package meli.freshfood.service;
 
+import meli.freshfood.dto.BatchStockDTO;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.*;
 import meli.freshfood.repository.BatchRepository;
@@ -15,8 +16,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,5 +58,36 @@ class BatchServiceImplTest {
         );
 
         assertThat(exception.getMessage()).isEqualTo("O lote não foi encontrado!");
+    }
+
+    @Test
+    public void findBatchesFilteredByDueDateIntervalAndSection_ShouldReturnBatchesFiltered() {
+
+        BDDMockito.when(batchRepo.findAll()).thenReturn(BatchUtils.newBatchStockList());
+        Integer intervalDate = 5;
+        Long sectionId = 1L;
+
+        List<BatchStockDTO> batchesFilteredByDueDateAndSection = batchService.findBatches(intervalDate, sectionId, null, true);
+
+        List<BatchStockDTO> expected = BatchUtils.newBatchStockDTOList();
+
+        assertThat(batchesFilteredByDueDateAndSection.get(0).getBatchNumber()).isEqualTo(expected.get(0).getBatchNumber());
+        assertThat(batchesFilteredByDueDateAndSection.get(0).getSectionId()).isEqualTo(expected.get(0).getSectionId());
+
+
+    }
+
+    @Test
+    public void findBatchesFilteredByDueDateIntervalAndCategory_ShouldReturnBatchesFiltered() {
+        BDDMockito.when(batchRepo.findAll()).thenReturn(BatchUtils.newBatchStockList());
+        Integer intervalDate = 5;
+
+        List<BatchStockDTO> batchesFilteredByDueDateAndSection = batchService.findBatches(intervalDate, null, "FR", true);
+
+        List<BatchStockDTO> expected = BatchUtils.newBatchStockDTOList();
+
+        assertThat(batchesFilteredByDueDateAndSection.get(0).getBatchNumber()).isEqualTo(expected.get(0).getBatchNumber());
+        assertThat(batchesFilteredByDueDateAndSection.get(0).getProductTypeId()).isEqualTo(expected.get(0).getProductTypeId());
+
     }
 }
