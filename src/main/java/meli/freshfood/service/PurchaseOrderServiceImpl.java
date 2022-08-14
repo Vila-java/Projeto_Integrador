@@ -31,6 +31,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
     @Autowired
     ClientService clientService;
 
+    @Autowired
+    ClientOrderService clientOrderService;
+
 
     @Override
     public Double create(PurchaseOrderDTO purchaseOrderDTO) {
@@ -83,6 +86,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
     public void closePurchaseOrder(Long id) {
         PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("O carrinho de compras não foi encontrado!"));
+        clientOrderService.saveOrder(purchaseOrder);
         productPurchaseOrderService.removeAllOrders(purchaseOrder);
         purchaseOrder.setOrderStatus(StatusPurchaseOrder.DISABLED);
         purchaseOrderRepository.save(purchaseOrder);
