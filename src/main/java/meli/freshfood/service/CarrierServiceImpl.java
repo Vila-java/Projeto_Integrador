@@ -20,7 +20,7 @@ public class CarrierServiceImpl implements CarrierService {
     @Autowired
     private ModelMapper modelMapper;
 
-    //método que insere um Carrier
+    //método que cadastra um Carrier
     @Override
     public CarrierDTO save(CarrierDTO carrierDTO) {
         Carrier carrier = modelMapper.map(carrierDTO, Carrier.class);
@@ -43,6 +43,7 @@ public class CarrierServiceImpl implements CarrierService {
         return modelMapper.map(carrier, CarrierDTO.class);
     }
 
+    //método que atualiza um Carrier
     @Override
     public CarrierDTO updateById(CarrierDTO carrierDTO) {
         Carrier carrier = carrierRepository.findById(carrierDTO.getId()).get();
@@ -51,6 +52,7 @@ public class CarrierServiceImpl implements CarrierService {
         return modelMapper.map(carrier, CarrierDTO.class);
     }
 
+    //método que deleta um Carrier
     @Override
     public void deleteById(Long id) {
         findById(id);
