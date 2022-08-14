@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ProductPurchaseOrderServiceImpl implements ProductPurchaseOrderService {
@@ -32,10 +31,9 @@ public class ProductPurchaseOrderServiceImpl implements ProductPurchaseOrderServ
     @Override
     public BigDecimal totalPriceAllProducts(PurchaseOrder purchaseOrder) {
         List<ProductPurchaseOrder> productPurchaseOrders = productPurchaseOrderRepository.findAllByPurchaseOrder(purchaseOrder);
-        BigDecimal totalPrice = productPurchaseOrders.stream().map((po) -> {
+        return productPurchaseOrders.stream().map((po) -> {
             return po.getProduct().getPrice().multiply(new BigDecimal(po.getProductQuantity()));
-        }).reduce(new BigDecimal(0), (po1, po2) -> po1.add(po2));
-        return totalPrice;
+        }).reduce(new BigDecimal(0), BigDecimal::add);
     }
 
     @Override

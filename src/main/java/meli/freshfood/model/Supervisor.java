@@ -1,8 +1,7 @@
 package meli.freshfood.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import lombok.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +11,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Supervisor {
 
     @Id

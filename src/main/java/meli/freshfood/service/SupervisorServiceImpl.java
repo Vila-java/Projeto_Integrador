@@ -1,9 +1,12 @@
 package meli.freshfood.service;
 
+import meli.freshfood.dto.InboundOrderDTO;
 import meli.freshfood.exception.NotFoundException;
+import meli.freshfood.model.InboundOrder;
 import meli.freshfood.model.Supervisor;
 import meli.freshfood.model.Warehouse;
 import meli.freshfood.repository.SupervisorRepository;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +27,14 @@ public class SupervisorServiceImpl implements SupervisorService {
         if (supervisor.getWarehouse().equals(warehouse)) {
             return true;
         } else {
-            return false;
+            throw new NotFoundException("O supervisor não pertence ao armazém");
         }
+    }
+
+    @Override
+    public Supervisor validatesSupervisor(InboundOrderDTO inboundOrderDTO, Warehouse warehouse) {
+        Supervisor supervisor = findById(inboundOrderDTO.getSupervisorId());
+        supervisorExistsInWarehouse(supervisor, warehouse);
+        return supervisor;
     }
 }

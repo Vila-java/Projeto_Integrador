@@ -3,7 +3,6 @@ package meli.freshfood.service;
 import meli.freshfood.dto.ProductDTO;
 import meli.freshfood.dto.ProductDetailsDTO;
 import meli.freshfood.dto.PurchaseOrderDTO;
-import meli.freshfood.model.Product;
 import meli.freshfood.model.PurchaseOrder;
 
 import java.util.List;

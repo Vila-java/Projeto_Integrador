@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SectionDTO {
-    private Long sectionCode;
+public class WarehouseDTO {
     private Long warehouseCode;
+    private Integer totalQuantity;
 }

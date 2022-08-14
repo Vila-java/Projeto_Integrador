@@ -1,6 +1,6 @@
 package meli.freshfood.dto;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,6 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class InboundOrderDTO {
     private Long orderNumber;
     private Long supervisorId;
