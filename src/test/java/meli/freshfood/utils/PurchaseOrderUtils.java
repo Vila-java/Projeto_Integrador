@@ -26,4 +26,13 @@ public class PurchaseOrderUtils {
         return new PurchaseOrder(1L, LocalDate.of(2022, 01, 1),
                 StatusPurchaseOrder.ACTIVATED, productPurchaseOrder, client);
     }
+
+    public static PurchaseOrder newPurchaseOrderWithProductsUtilsDisabled(){
+        Client client = ClientUtils.newClient();
+
+        Set<ProductPurchaseOrder> productPurchaseOrder = new HashSet<>();
+        productPurchaseOrder.add(ProductPurchaseOrderUtils.newProductPurchaseOrder());
+        return new PurchaseOrder(1L, LocalDate.of(2022, 01, 1),
+                StatusPurchaseOrder.DISABLED, productPurchaseOrder, client);
+    }
 }
