@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,4 +28,8 @@ public class Client {
     @OneToOne(mappedBy = "client")
     @JsonIgnore()
     private PurchaseOrder purchaseOrder;
+
+/*    @OneToMany()
+    @JsonIgnore
+    private List<ClientOrder> clientOrders;*/
 }
