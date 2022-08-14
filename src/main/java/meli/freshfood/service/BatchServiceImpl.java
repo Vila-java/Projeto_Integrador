@@ -11,7 +11,6 @@ import meli.freshfood.model.InboundOrder;
 import meli.freshfood.model.Product;
 import meli.freshfood.model.Section;
 import meli.freshfood.model.Warehouse;
-import meli.freshfood.model.Section;
 import meli.freshfood.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

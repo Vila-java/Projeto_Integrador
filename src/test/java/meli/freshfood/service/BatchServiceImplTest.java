@@ -17,6 +17,9 @@ import org.mockito.quality.Strictness;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,5 +58,60 @@ class BatchServiceImplTest {
         );
 
         assertThat(exception.getMessage()).isEqualTo("O lote não foi encontrado!");
+    }
+
+    @Test
+    @DisplayName("Retorna todos os lotes do produto passado")
+    void findAllByProduct_returnBatches_whenProductPassed() {
+        List<Batch> batchesMocked = BatchUtils.newBatchesList();
+
+        BDDMockito.when(batchRepo.findAllByProduct(ArgumentMatchers.any(Product.class)))
+                .thenReturn(batchesMocked);
+
+        Product product = ProductUtils.newProduct();
+        List<Batch> batches = batchService.findAllByProduct(product);
+
+        assertThat(batches.size()).isEqualTo(batchesMocked.size());
+        assertThat(batches.getClass()).isEqualTo(ArrayList.class);
+    }
+
+    @Test
+    @DisplayName("Retorna o lote salvo")
+    void save_returnBatch() {
+        Batch batchToSave = BatchUtils.newBatch();
+
+        BDDMockito.when(batchRepo.save(ArgumentMatchers.any(Batch.class)))
+                .thenReturn(batchToSave);
+
+        Batch batch = batchService.save(batchToSave);
+
+        assertThat(batch.getBatchNumber()).isPositive();
+        assertThat(batch.getClass()).isEqualTo(Batch.class);
+    }
+
+    @Test
+    @DisplayName("Retorna todos os lotes que não vão vencer nas próximas 3 semanas")
+    void filterNotExpiredProducts_returnValidBatches_whenBatchesNotExpired() {
+        Integer weeksToDue = 4;
+        LocalDate dueDate = LocalDate.now().plusWeeks(weeksToDue);
+        List<Batch> batchesMocked = BatchUtils.newBatchesListWithDueDate(dueDate);
+
+        List<Batch> batches = batchService.filterNotExpiredProducts(batchesMocked);
+
+        assertThat(batches.size()).isEqualTo(batchesMocked.size());
+        assertThat(batches.getClass()).isEqualTo(ArrayList.class);
+    }
+
+    @Test
+    @DisplayName("Retorna lista vazia quando todos os lotes passados estão vencidos")
+    void filterNotExpiredProducts_returnEmptyList_whenAllBatchesExpired() {
+        Integer weeksToDue = 0;
+        LocalDate dueDate = LocalDate.now().plusWeeks(weeksToDue);
+        List<Batch> batchesMocked = BatchUtils.newBatchesListWithDueDate(dueDate);
+
+        List<Batch> batches = batchService.filterNotExpiredProducts(batchesMocked);
+
+        assertThat(batches.size()).isZero();
+        assertThat(batches.getClass()).isEqualTo(ArrayList.class);
     }
 }
