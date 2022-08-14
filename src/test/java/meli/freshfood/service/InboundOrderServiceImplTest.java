@@ -3,6 +3,7 @@ package meli.freshfood.service;
 import meli.freshfood.dto.BatchDTO;
 import meli.freshfood.dto.InboundOrderDTO;
 import meli.freshfood.dto.SectionDTO;
+import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.*;
 import meli.freshfood.repository.InboundOrderRepository;
@@ -83,7 +84,7 @@ class InboundOrderServiceImplTest {
 
 
     @Test
-    @DisplayName("Cria novo pedido de compra")
+    @DisplayName("Retorna exceção de não encontrado quando o armazém não existe")
     void createInboundOrder_returnNotFoundException_whenWarehouseNotExists() {
         BDDMockito.when(warehouseService.findById(Mockito.anyLong()))
                 .thenThrow(new NotFoundException("O armazém não foi encontrado!"));
@@ -102,6 +103,208 @@ class InboundOrderServiceImplTest {
         assertThat(exception.getMessage()).isEqualTo("O armazém não foi encontrado!");
     }
 
+    @Test
+    @DisplayName("Retorna exceção de não encontrado quando setor não existe")
+    void createInboundOrder_returnNotFoundException_whenSectionNotExists() {
+        BDDMockito.when(warehouseService.findById(Mockito.anyLong()))
+                .thenReturn(WarehouseUtils.newWarehouse());
+
+        BDDMockito.when(sectionService.validatesSection(Mockito.any(InboundOrderDTO.class), Mockito.any(Warehouse.class)))
+                .thenThrow(new NotFoundException("O setor não foi encontrado!"));
+
+        Section section = SectionUtils.newSection();
+        Supervisor supervisor = SupervisorUtils.newSupervisor();
+        SectionDTO sectionDTO = SectionUtils.newSectionDTO(section, section.getWarehouse());
+        List<BatchDTO> batchesMockedDTO = BatchUtils.newBatchDTOList();
+        InboundOrderDTO inboundOrderDTOMocked = InboundOrderUtils.newInboundOrderDTO(supervisor, sectionDTO, batchesMockedDTO);
+
+        Exception exception = assertThrows(
+                NotFoundException.class,
+                () -> inboundOrderService.create(inboundOrderDTOMocked)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("O setor não foi encontrado!");
+    }
+
+    @Test
+    @DisplayName("Retorna exceção de bad request quando o usuário faz uma entrada maior que a capacidade do setor")
+    void createInboundOrder_returnBadRequestException_whenSectionNotSupportStock() {
+        BDDMockito.when(warehouseService.findById(Mockito.anyLong()))
+                .thenReturn(WarehouseUtils.newWarehouse());
+
+        BDDMockito.when(sectionService.validatesSection(Mockito.any(InboundOrderDTO.class), Mockito.any(Warehouse.class)))
+                .thenThrow(new BadRequestException("Capacidade de armazenamento excedida!"));
+
+        Section section = SectionUtils.newSection();
+        Supervisor supervisor = SupervisorUtils.newSupervisor();
+        SectionDTO sectionDTO = SectionUtils.newSectionDTO(section, section.getWarehouse());
+        List<BatchDTO> batchesMockedDTO = BatchUtils.newBatchDTOList();
+        InboundOrderDTO inboundOrderDTOMocked = InboundOrderUtils.newInboundOrderDTO(supervisor, sectionDTO, batchesMockedDTO);
+
+        Exception exception = assertThrows(
+                BadRequestException.class,
+                () -> inboundOrderService.create(inboundOrderDTOMocked)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("Capacidade de armazenamento excedida!");
+    }
+
+    @Test
+    @DisplayName("Retorna exceção de bad request quando o usuário envia setor e armazém incompatíveis")
+    void createInboundOrder_returnBadRequestException_whenSectionDontBelongsToWarehouse() {
+        BDDMockito.when(warehouseService.findById(Mockito.anyLong()))
+                .thenReturn(WarehouseUtils.newWarehouse());
+
+        BDDMockito.when(sectionService.validatesSection(Mockito.any(InboundOrderDTO.class), Mockito.any(Warehouse.class)))
+                .thenThrow(new BadRequestException("O setor não pertence ao armazém!"));
+
+        Section section = SectionUtils.newSection();
+        Supervisor supervisor = SupervisorUtils.newSupervisor();
+        SectionDTO sectionDTO = SectionUtils.newSectionDTO(section, section.getWarehouse());
+        List<BatchDTO> batchesMockedDTO = BatchUtils.newBatchDTOList();
+        InboundOrderDTO inboundOrderDTOMocked = InboundOrderUtils.newInboundOrderDTO(supervisor, sectionDTO, batchesMockedDTO);
+
+        Exception exception = assertThrows(
+                BadRequestException.class,
+                () -> inboundOrderService.create(inboundOrderDTOMocked)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("O setor não pertence ao armazém!");
+    }
+
+    @Test
+    @DisplayName("Retorna exceção de não encotrado quando o supervisor não existe")
+    void createInboundOrder_returnNotFoundException_whenSupervisorNotExists() {
+        BDDMockito.when(warehouseService.findById(Mockito.anyLong()))
+                .thenReturn(WarehouseUtils.newWarehouse());
+
+        Section section = SectionUtils.newSection();
+        BDDMockito.when(sectionService.validatesSection(
+                Mockito.any(InboundOrderDTO.class),
+                Mockito.any(Warehouse.class))
+        ).thenReturn(section);
+
+        Supervisor supervisor = SupervisorUtils.newSupervisor();
+        BDDMockito.when(supervisorService.validatesSupervisor(
+                Mockito.any(InboundOrderDTO.class),
+                Mockito.any(Warehouse.class))
+        ).thenThrow(new NotFoundException("O supervisor não foi encontrado!"));
+
+        SectionDTO sectionDTO = SectionUtils.newSectionDTO(section, section.getWarehouse());
+        List<BatchDTO> batchesMockedDTO = BatchUtils.newBatchDTOList();
+        InboundOrderDTO inboundOrderDTOMocked = InboundOrderUtils.newInboundOrderDTO(supervisor, sectionDTO, batchesMockedDTO);
+
+        Exception exception = assertThrows(
+                NotFoundException.class,
+                () -> inboundOrderService.create(inboundOrderDTOMocked)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("O supervisor não foi encontrado!");
+    }
+
+    @Test
+    @DisplayName("Retorna exceção de bad request quando o supervisor não existe no armazém passado")
+    void createInboundOrder_returnBadRequest_whenSupervisorNotExistsInWarehouse() {
+        BDDMockito.when(warehouseService.findById(Mockito.anyLong()))
+                .thenReturn(WarehouseUtils.newWarehouse());
+
+        Section section = SectionUtils.newSection();
+        BDDMockito.when(sectionService.validatesSection(
+                Mockito.any(InboundOrderDTO.class),
+                Mockito.any(Warehouse.class))
+        ).thenReturn(section);
+
+        Supervisor supervisor = SupervisorUtils.newSupervisor();
+        BDDMockito.when(supervisorService.validatesSupervisor(
+                Mockito.any(InboundOrderDTO.class),
+                Mockito.any(Warehouse.class))
+        ).thenThrow(new BadRequestException("O supervisor não pertence ao armazém"));
+
+        SectionDTO sectionDTO = SectionUtils.newSectionDTO(section, section.getWarehouse());
+        List<BatchDTO> batchesMockedDTO = BatchUtils.newBatchDTOList();
+        InboundOrderDTO inboundOrderDTOMocked = InboundOrderUtils.newInboundOrderDTO(supervisor, sectionDTO, batchesMockedDTO);
+
+        Exception exception = assertThrows(
+                BadRequestException.class,
+                () -> inboundOrderService.create(inboundOrderDTOMocked)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("O supervisor não pertence ao armazém");
+    }
+
+    @Test
+    @DisplayName("Retorna exceção de não encontrado quando o produto passado não existe")
+    void createInboundOrder_returnNotFoundException_whenProductNotExists() {
+        BDDMockito.when(warehouseService.findById(Mockito.anyLong()))
+                .thenReturn(WarehouseUtils.newWarehouse());
+
+        Section section = SectionUtils.newSection();
+        BDDMockito.when(sectionService.validatesSection(
+                Mockito.any(InboundOrderDTO.class),
+                Mockito.any(Warehouse.class))
+        ).thenReturn(section);
+
+        Supervisor supervisor = SupervisorUtils.newSupervisor();
+        BDDMockito.when(supervisorService.validatesSupervisor(
+                Mockito.any(InboundOrderDTO.class),
+                Mockito.any(Warehouse.class))
+        ).thenReturn(supervisor);
+
+
+        BDDMockito.when(inboundOrderRepository.save(Mockito.any(InboundOrder.class)))
+                .thenReturn(InboundOrderUtils.newInboundOrder(supervisor, section));
+
+        BDDMockito.when(batchService.createBatches(Mockito.any(InboundOrderDTO.class), Mockito.any(Section.class), Mockito.any(InboundOrder.class)))
+                .thenThrow(new NotFoundException("O produto não foi encontrado!"));
+
+        SectionDTO sectionDTO = SectionUtils.newSectionDTO(section, section.getWarehouse());
+        List<BatchDTO> batchesMockedDTO = BatchUtils.newBatchDTOList();
+        InboundOrderDTO inboundOrderDTOMocked = InboundOrderUtils.newInboundOrderDTO(supervisor, sectionDTO, batchesMockedDTO);
+
+        Exception exception = assertThrows(
+                NotFoundException.class,
+                () -> inboundOrderService.create(inboundOrderDTOMocked)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("O produto não foi encontrado!");
+    }
+
+    @Test
+    @DisplayName("Retorna exceção quando tipo de produto e tipo de setor são diferentes")
+    void createInboundOrder_returnBadRequestException_whenProductStorageDiffSectionStorage() {
+        BDDMockito.when(warehouseService.findById(Mockito.anyLong()))
+                .thenReturn(WarehouseUtils.newWarehouse());
+
+        Section section = SectionUtils.newSection();
+        BDDMockito.when(sectionService.validatesSection(
+                Mockito.any(InboundOrderDTO.class),
+                Mockito.any(Warehouse.class))
+        ).thenReturn(section);
+
+        Supervisor supervisor = SupervisorUtils.newSupervisor();
+        BDDMockito.when(supervisorService.validatesSupervisor(
+                Mockito.any(InboundOrderDTO.class),
+                Mockito.any(Warehouse.class))
+        ).thenReturn(supervisor);
+
+
+        BDDMockito.when(inboundOrderRepository.save(Mockito.any(InboundOrder.class)))
+                .thenReturn(InboundOrderUtils.newInboundOrder(supervisor, section));
+
+        BDDMockito.when(batchService.createBatches(Mockito.any(InboundOrderDTO.class), Mockito.any(Section.class), Mockito.any(InboundOrder.class)))
+                .thenThrow(new BadRequestException("O setor e o produto não têm o mesmo tipo de armazenamento!"));
+
+        SectionDTO sectionDTO = SectionUtils.newSectionDTO(section, section.getWarehouse());
+        List<BatchDTO> batchesMockedDTO = BatchUtils.newBatchDTOList();
+        InboundOrderDTO inboundOrderDTOMocked = InboundOrderUtils.newInboundOrderDTO(supervisor, sectionDTO, batchesMockedDTO);
+
+        Exception exception = assertThrows(
+                BadRequestException.class,
+                () -> inboundOrderService.create(inboundOrderDTOMocked)
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("O setor e o produto não têm o mesmo tipo de armazenamento!");
+    }
 
     @Test
     @DisplayName("Retorna a ordem de entrada quando existir")
@@ -118,7 +321,6 @@ class InboundOrderServiceImplTest {
         assertThat(inboundOrder.getOrderNumber()).isPositive();
         assertThat(inboundOrder.getClass()).isEqualTo(InboundOrder.class);
     }
-
 
     @Test
     @DisplayName("Retorna exceção quando a ordem de entrada não existe")
