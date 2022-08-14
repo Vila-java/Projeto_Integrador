@@ -5,6 +5,7 @@ import meli.freshfood.model.Client;
 import java.util.List;
 
 public interface ClientService {
+
     Client findById(Long id);
     List<Client> findAllClient();
     Client save(Client client);

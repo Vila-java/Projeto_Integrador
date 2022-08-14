@@ -1,8 +1,8 @@
 package meli.freshfood.service;
 
 import meli.freshfood.dto.BatchDTO;
-import meli.freshfood.dto.InboundOrderDTO;
 import meli.freshfood.dto.BatchDetailsDTO;
+import meli.freshfood.dto.InboundOrderDTO;
 import meli.freshfood.dto.ProductDTO;
 import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
@@ -11,7 +11,6 @@ import meli.freshfood.model.InboundOrder;
 import meli.freshfood.model.Product;
 import meli.freshfood.model.Section;
 import meli.freshfood.model.Warehouse;
-import meli.freshfood.model.Section;
 import meli.freshfood.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +44,6 @@ public class BatchServiceImpl implements BatchService {
         return batchRepository.save(batch);
     }
 
-
     @Override
     public List<Batch> filterNotExpiredProducts(List<Batch> batches) {
         Integer expirationDate = 3;
@@ -57,10 +55,9 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public Integer totalAvailableBatchesCapacity(List<Batch> batches) {
         List<Batch> batchesAvailable = filterNotExpiredProducts(batches);
-        Integer totalAvailableCapacity = batchesAvailable.stream()
+        return batchesAvailable.stream()
                 .map((b) -> b.getCurrentQuantity())
                 .reduce(0, (b1, b2) -> b1 + b2);
-        return totalAvailableCapacity;
     }
 
     @Override
