@@ -7,6 +7,8 @@ import meli.freshfood.model.PurchaseOrder;
 import java.util.List;
 
 public interface ClientOrderService {
+    ClientOrder findById(Long id);
     ClientOrder saveOrder(PurchaseOrder purchaseOrder);
     List<ClientOrderDTO> getAllOrders(Long clientId);
+    String changeOrderStatus (Long id, String status);
 }

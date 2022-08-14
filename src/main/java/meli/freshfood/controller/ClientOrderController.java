@@ -6,10 +6,7 @@ import meli.freshfood.service.ClientOrderService;
 import meli.freshfood.service.ClientOrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +20,10 @@ public class ClientOrderController {
     @GetMapping("/client-order/{id}")
     public ResponseEntity<List<ClientOrderDTO>> getAllOrders(@PathVariable Long id) {
         return ResponseEntity.ok(clientOrderService.getAllOrders(id));
+    }
+
+    @PutMapping ("/client-order")
+    public ResponseEntity<String> changeOrderStatus(@RequestParam Long id, @RequestParam String status) {
+        return ResponseEntity.ok(clientOrderService.changeOrderStatus(id,status));
     }
 }
