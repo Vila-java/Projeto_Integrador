@@ -39,8 +39,12 @@ public class Carrier {
     @Min(value = 10)
     private Long phoneNumber;
 
-    @OneToOne
-    @JoinColumn(name = "address_id")
-    private Address address;
+    private String zipCode;
+    private String address;
+    private String number;
+    private String neighborhood;
+    private String city;
+    private String state;
+
 
 }

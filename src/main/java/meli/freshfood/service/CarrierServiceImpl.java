@@ -1,5 +1,6 @@
 package meli.freshfood.service;
 
+import meli.freshfood.client.ViaCepClient;
 import meli.freshfood.dto.CarrierDTO;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Carrier;
@@ -17,8 +18,13 @@ public class CarrierServiceImpl implements CarrierService {
     @Autowired
     private CarrierRepository carrierRepository;
 
+
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private ViaCepClient viaCepClient;
+
 
     //método que cadastra um Carrier
     @Override
@@ -32,23 +38,24 @@ public class CarrierServiceImpl implements CarrierService {
     //método que retorna todos os Carriers já ordenados por ordem alfabética
     @Override
     public List<CarrierDTO> findaAll() {
-         List<Carrier> carriersList = carrierRepository.findAll(Sort.by(Sort.Direction.ASC, "firstName"));
-         return modelMapper.map(carriersList, List.class);
+        List<Carrier> carriersList = carrierRepository.findAll(Sort.by(Sort.Direction.ASC, "firstName"));
+        return modelMapper.map(carriersList, List.class);
     }
 
     //método que retorna um Carrier buscando pelo ID
     @Override
     public CarrierDTO findById(Long id) {
         Carrier carrier = carrierRepository.findById(id).orElseThrow(() -> new NotFoundException("Carrier not found!"));
-        return modelMapper.map(carrier, CarrierDTO.class);
+        CarrierDTO dto = modelMapper.map(carrier, CarrierDTO.class);
+        return dto;
     }
 
     //método que atualiza um Carrier
     @Override
     public CarrierDTO updateById(CarrierDTO carrierDTO) {
-        Carrier carrier = carrierRepository.findById(carrierDTO.getId()).get();
+        findById(carrierDTO.getId());
         Carrier carrierToSave = modelMapper.map(carrierDTO, Carrier.class);
-        carrier = carrierRepository.save(carrierToSave);
+        Carrier carrier = carrierRepository.save(carrierToSave);
         return modelMapper.map(carrier, CarrierDTO.class);
     }
 
@@ -57,6 +64,5 @@ public class CarrierServiceImpl implements CarrierService {
     public void deleteById(Long id) {
         findById(id);
         carrierRepository.deleteById(id);
-
     }
 }

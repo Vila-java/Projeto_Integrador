@@ -13,7 +13,7 @@ public interface CarrierService {
 
     CarrierDTO findById(Long id);
 
-    CarrierDTO updateById(CarrierDTO tutorial);
+    CarrierDTO updateById(CarrierDTO carrierDTO);
 
     void deleteById(Long id);
 }

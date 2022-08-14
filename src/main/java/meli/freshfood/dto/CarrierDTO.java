@@ -1,11 +1,14 @@
 package meli.freshfood.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import meli.freshfood.model.Address;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class CarrierDTO {
 
     private Long id;
@@ -14,6 +17,11 @@ public class CarrierDTO {
     private String cpf;
     private String email;
     private Long phoneNumber;
-    private Address address;
+    private String zipCode;
+    private String address;
+    private String number;
+    private String neighborhood;
+    private String city;
+    private String state;
 
 }

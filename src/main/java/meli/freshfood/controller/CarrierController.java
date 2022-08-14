@@ -2,6 +2,7 @@ package meli.freshfood.controller;
 
 import meli.freshfood.dto.CarrierDTO;
 import meli.freshfood.service.CarrierService;
+import meli.freshfood.client.ViaCepClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -17,9 +18,13 @@ public class CarrierController {
     @Autowired
     private CarrierService carrierService;
 
+    @Autowired
+    private ViaCepClient viaCepClient;
+
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public CarrierDTO save(@RequestBody CarrierDTO carrierDTO) {
+
         return carrierService.save(carrierDTO);
     }
 
@@ -27,7 +32,7 @@ public class CarrierController {
     @ResponseStatus(code = HttpStatus.OK)
     public CarrierDTO updateById(@RequestBody CarrierDTO carrierDTO, @PathVariable Long id) {
         carrierDTO.setId(id);
-        return carrierService.save(carrierDTO);
+        return carrierService.updateById(carrierDTO);
     }
 
     @GetMapping
