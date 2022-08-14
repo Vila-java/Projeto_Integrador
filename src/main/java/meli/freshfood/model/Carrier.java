@@ -31,7 +31,7 @@ public class Carrier {
     @Column(nullable = false, length = 11)
     private String cpf;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     @Email
     private String email;
 
