@@ -118,7 +118,10 @@ VALUES
     (null, "2022-06-05", "ACTIVATED", 3),
     (null, "2022-08-05", "DISABLED", 4),
     (null, "2022-03-05", "ACTIVATED", 5),
-    (null, "2022-01-05", "DISABLED", 6);
+    (null, "2022-01-05", "DISABLED", 2);
+    (null, "2022-01-05", "DISABLED", 1);
+    (null, "2022-01-05", "DISABLED", 5);
+    (null, "2022-01-05", "DISABLED", 3);
 
 INSERT INTO `freshfood_db`.`product_purchase_order`
 (`id`, `product_quantity`, `product_id`, `purchase_order_id`)
