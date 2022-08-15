@@ -1,10 +1,7 @@
 package meli.freshfood.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import meli.freshfood.dto.BatchDTO;
 import meli.freshfood.dto.BatchStockDTO;
 import meli.freshfood.dto.ProductPromotionDTO;
@@ -19,6 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Batch {
 
     @Id
@@ -96,6 +94,7 @@ public class Batch {
     }
 
     public BatchStockDTO toBatchStockDTO() {
-        return new BatchStockDTO(this.batchNumber, product.getProductId(), this.product.getStorageType(), this.getDueDate(), this.getCurrentQuantity());
+        return new BatchStockDTO(this.batchNumber, product.getProductId(), this.product.getStorageType(),
+                this.getDueDate(), this.getCurrentQuantity(), this.getSection().getSectionId());
     }
 }

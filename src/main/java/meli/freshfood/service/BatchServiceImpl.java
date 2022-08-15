@@ -1,10 +1,14 @@
 package meli.freshfood.service;
 
+import meli.freshfood.dto.BatchStockDTO;
+import meli.freshfood.dto.BatchDTO;
+import meli.freshfood.dto.BatchDetailsDTO;
+import meli.freshfood.dto.InboundOrderDTO;
+import meli.freshfood.dto.ProductDTO;
 import meli.freshfood.dto.*;
 import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.*;
-import meli.freshfood.model.Section;
 import meli.freshfood.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +27,6 @@ public class BatchServiceImpl implements BatchService {
     @Autowired
     private ProductService productService;
 
-
     @Override
     public Batch findById(Long id) {
         return batchRepository.findById(id)
@@ -39,7 +42,6 @@ public class BatchServiceImpl implements BatchService {
         return batchRepository.save(batch);
     }
 
-
     @Override
     public List<Batch> filterNotExpiredProducts(List<Batch> batches) {
         Integer expirationDate = 3;
@@ -51,16 +53,15 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public Integer totalAvailableBatchesCapacity(List<Batch> batches) {
         List<Batch> batchesAvailable = filterNotExpiredProducts(batches);
-        Integer totalAvailableCapacity = batchesAvailable.stream()
+        return batchesAvailable.stream()
                 .map((b) -> b.getCurrentQuantity())
                 .reduce(0, (b1, b2) -> b1 + b2);
-        return totalAvailableCapacity;
     }
 
     @Override
     public boolean checkBatchAvailable(ProductDTO productDTO) {
         Product product = productService.findById(productDTO.getProductId());
-        Integer totalCapacityAvailable = this.totalAvailableBatchesCapacity(product.getBatches());
+        Integer totalCapacityAvailable = totalAvailableBatchesCapacity(product.getBatches());
 
         if (totalCapacityAvailable < productDTO.getQuantity()) {
             throw new BadRequestException("Estoque indisponível para quantidade de produto solicitada!");
@@ -91,42 +92,13 @@ public class BatchServiceImpl implements BatchService {
                     purchaseQuantity[0] -= batch.getCurrentQuantity();
                     batch.setCurrentQuantity(0);
                 }
-                this.save(batch);
+                save(batch);
             }
         });
     }
 
-    @Override
-    public List<BatchStockDTO> filterNotExpiredProductsByDays(List<BatchStockDTO> batches, Integer intervalDate) {
-        return batches.stream().filter((b) -> {
-            LocalDate dueDate = b.getDueDate();
-            if (dueDate.isAfter(LocalDate.now()) &&
-                    dueDate.isBefore(LocalDate.now().plusDays(intervalDate))) {
-                return true;
-            } else {
-                return false;
-            }
-        }).collect(Collectors.toList());
-    }
 
     //Retorna todos os lotes armazenados em um setor de um armazém dentro de um intervalo de datas filtrados pela data de vencimento
-    @Override
-    public List<BatchStockDTO> findBatchesFilteredByDueDateAndSection(Integer intervalDate, Long id) {
-        List<Batch> batches = batchRepository.findAll();
-        List<Batch> batchesSorted;
-
-        if (id != null) {
-            List<Batch> batchesFilteredBySection = this.filterBatchesBySection(batches, id);
-            batchesSorted = sortByDueDate(batchesFilteredBySection);
-        } else {
-            batchesSorted = sortByDueDate(batches);
-        }
-        List<BatchStockDTO> batchesDTO = batchesSorted.stream()
-                .map(batch -> batch.toBatchStockDTO())
-                .collect(Collectors.toList());
-        return filterNotExpiredProductsByDays(batchesDTO, intervalDate);
-    }
-
     @Override
     public List<BatchDetailsDTO> getBatchesByProduct(Long productId, String batchOrder) {
         Product product = productService.findById(productId);
@@ -170,15 +142,18 @@ public class BatchServiceImpl implements BatchService {
         return batches.stream().sorted(Comparator.comparing(Batch::getDueDate)).collect(Collectors.toList());
     }
 
-    public List<Batch> sortByBatchNumber(List<Batch> batches) {
-        return batches.stream().sorted(Comparator.comparing(Batch::getBatchNumber)).collect(Collectors.toList());
+    @Override
+    public List<BatchStockDTO> filterNotExpiredProductsByDays(List<BatchStockDTO> batches, Integer intervalDate) {
+        return null;
     }
 
-    public List<Batch> filterBatchesBySection(List<Batch> batches, Long id) {
-        List<Batch> batchesFiltered = batches
-                .stream().filter((b) -> b.getSection().getSectionId().equals(id))
-                .collect(Collectors.toList());
-        return batchesFiltered;
+    @Override
+    public List<BatchStockDTO> findBatchesFilteredByDueDateAndSection(Integer intervalDate, Long id) {
+        return null;
+    }
+
+    public List<Batch> sortByBatchNumber(List<Batch> batches) {
+        return batches.stream().sorted(Comparator.comparing(Batch::getBatchNumber)).collect(Collectors.toList());
     }
 
     @Override
@@ -215,24 +190,60 @@ public class BatchServiceImpl implements BatchService {
         });
     }
 
-    public List<Batch> sortByCategory(String storageType, List<Batch> batches) {
-        StorageType storageTypeObj = StorageType.parseToStorage(storageType);
-        return batches.stream().filter(b -> b.getProduct()
-                .getStorageType()
-                .equals(storageTypeObj))
-                .collect(Collectors.toList());
+    public List<Batch> filterByCategory(List<Batch> batches, String storageType) {
+        if(storageType != null) {
+            StorageType storageTypeObj = StorageType.parseToStorage(storageType);
+            return batches.stream().filter(b -> b.getProduct()
+                    .getStorageType()
+                    .equals(storageTypeObj))
+                    .collect(Collectors.toList());
+        }
+        return batches;
+    }
+
+    public List<Batch> filterBySection(List<Batch> batches, Long id) {
+
+        if(id != null) {
+            List<Batch> batchesFiltered = batches
+                    .stream().filter((b) -> b.getSection().getSectionId().equals(id))
+                    .collect(Collectors.toList());
+            return batchesFiltered;
+        }
+            return batches;
+    }
+
+    public List<Batch> filterDueDateInterval(List<Batch> batches, Integer intervalDate) {
+        return batches.stream().filter((b) -> {
+            LocalDate dueDate = b.getDueDate();
+            return dueDate.isAfter(LocalDate.now()) &&
+                    dueDate.isBefore(LocalDate.now().plusDays(intervalDate));
+        }).collect(Collectors.toList());
+    }
+
+    public List<Batch> sortByDueDateAscOrDesc(List<Batch> batches, Boolean asc) {
+        if(asc) {
+            return batches.stream().sorted(Comparator.comparing(Batch::getDueDate)).collect(Collectors.toList());
+        }
+        else
+        {
+            return batches.stream().sorted(Comparator.comparing(Batch::getDueDate).reversed()).collect(Collectors.toList());
+        }
+    }
+
+    @Override
+    public List<BatchStockDTO> findBatches (Integer intervalDate, Long sectionId, String storageType, Boolean asc) {
+        List<Batch> batches = batchRepository.findAll();
+            batches =  filterDueDateInterval(batches, intervalDate);
+            batches = filterBySection(batches, sectionId);
+            batches = filterByCategory(batches, storageType);
+            batches = sortByDueDateAscOrDesc(batches, asc);
+
+        return batches.stream().map(Batch::toBatchStockDTO).collect(Collectors.toList());
     }
 
     @Override
     public List<BatchStockDTO> findBatchesByCategoryAndDueDate(Integer intervalDate, String storageType, Boolean order) {
-        List<Batch> batches = batchRepository.findAll();
-        List<Batch> batchesSortedByCategory = this.sortByCategory(storageType, batches);
-        List<Batch> batchesSortedByCategoryAndDueDate = this.sortByDueDate(batchesSortedByCategory);
-        List<BatchStockDTO> batchesDTO = batchesSortedByCategoryAndDueDate.stream()
-                .map(batch -> batch.toBatchStockDTO())
-                .collect(Collectors.toList());
-        return this.filterNotExpiredProductsByDays(batchesDTO, intervalDate);
-
+        return null;
     }
 
 //

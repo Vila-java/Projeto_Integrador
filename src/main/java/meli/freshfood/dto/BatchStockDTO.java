@@ -22,5 +22,6 @@ public class BatchStockDTO {
     private StorageType productTypeId;
     private LocalDate dueDate;
     private Integer quantity;
+    private Long sectionId;
 
 }

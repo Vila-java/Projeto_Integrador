@@ -28,6 +28,7 @@ public interface BatchService {
 	List<BatchDetailsDTO> getBatchesByProduct(Long productId, String batchOrder);
 	List<BatchDTO> createBatches(InboundOrderDTO inboundOrderDTO, Section section, InboundOrder inboundOrder);
 	void updateBatches(InboundOrderDTO inboundOrderDTO, Section section, InboundOrder inboundOrder);
+	List<BatchStockDTO> findBatches(Integer intervalDate, Long sectionId, String storageType, Boolean asc);
 	List<BatchStockDTO> findBatchesByCategoryAndDueDate(Integer intervalDate, String storageType, Boolean order);
 	List<BatchStockDTO> filterNotExpiredProductsByDaysInterval(List<BatchStockDTO> batches, Integer maxIntervalDate, Integer minIntervalDate);
 
