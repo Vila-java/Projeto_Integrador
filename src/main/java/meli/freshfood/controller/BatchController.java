@@ -23,7 +23,8 @@ public class BatchController {
 
     @GetMapping("/due-date")
     public ResponseEntity<List<BatchStockDTO>> findBatchesFilteredByDueDateAndSection
-            (@RequestParam Integer intervalDate, @RequestParam(required = false) Long sectionId) {
+            (@RequestParam Integer intervalDate,
+             @RequestParam(required = false) Long sectionId) {
         return ResponseEntity.ok(batchService.findBatchesFilteredByDueDateAndSection(intervalDate, sectionId));
     }
 
@@ -46,6 +47,15 @@ public class BatchController {
 
         List<BatchStockDTO> batch = batchService.findBatchesByCategoryAndDueDate(intervalDate, storageType, order);
         return ResponseEntity.ok(batch);
-
     }
+
+    @GetMapping("/due-date/interval-days")
+    public ResponseEntity<List<BatchStockDTO>> filterNotExpiredProductsByDaysInterval(
+            @RequestParam(required = false) Integer minIntervalDate,
+            @RequestParam(required = false) Integer maxIntervalDate) {
+
+        List<BatchStockDTO> batches = batchService.filterNotExpiredProductsByDaysInterval(minIntervalDate, maxIntervalDate);
+        return ResponseEntity.ok(batches);
+    }
+
 }
