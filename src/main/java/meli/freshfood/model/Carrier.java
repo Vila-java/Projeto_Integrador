@@ -17,7 +17,6 @@ import javax.validation.constraints.Min;
 @Entity
 public class Carrier {
 
-    //TODO: acrescentar @notnull -> verificar se é ela que engloba espaços em brancos etc
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -39,11 +38,23 @@ public class Carrier {
     @Min(value = 10)
     private Long phoneNumber;
 
+    @Column(nullable = false, length = 8)
     private String zipCode;
+
+    @Column(nullable = false, length = 10)
     private String address;
+
+    @Column(nullable = false)
+    @Min(value = 1)
     private Integer number;
+
+    @Column(nullable = false,length = 10)
     private String neighborhood;
+
+    @Column(nullable = false, length = 10)
     private String city;
+
+    @Column(nullable = false, length = 10)
     private String state;
 
     @OneToOne

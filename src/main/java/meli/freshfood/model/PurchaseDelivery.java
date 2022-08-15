@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Builder
 public class PurchaseDelivery {
 
-    //TODO: validações banco de dados
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

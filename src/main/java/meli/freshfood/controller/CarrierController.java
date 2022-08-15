@@ -2,7 +2,6 @@ package meli.freshfood.controller;
 
 import meli.freshfood.dto.CarrierDTO;
 import meli.freshfood.service.CarrierService;
-import meli.freshfood.client.ViaCepClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
