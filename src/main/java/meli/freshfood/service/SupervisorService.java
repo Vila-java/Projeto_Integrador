@@ -1,6 +1,7 @@
 package meli.freshfood.service;
 
 import meli.freshfood.dto.InboundOrderDTO;
+import meli.freshfood.dto.SupervisorDetailsDTO;
 import meli.freshfood.model.Supervisor;
 import meli.freshfood.model.Warehouse;
 
@@ -15,6 +16,5 @@ public interface SupervisorService {
     List<Supervisor> findAll();
     Supervisor updateById(Supervisor supervisor);
     void deleteById(Long supersivorId);
-
-
+    List<SupervisorDetailsDTO> findAllByWarehouseSupervisor(String warehouseSupervisor);
 }

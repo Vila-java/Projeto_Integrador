@@ -1,6 +1,7 @@
 package meli.freshfood.service;
 
 import meli.freshfood.dto.InboundOrderDTO;
+import meli.freshfood.dto.SupervisorDetailsDTO;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Supervisor;
 import meli.freshfood.model.Warehouse;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import java.util.stream.Collectors;
 
 @Service
 public class SupervisorServiceImpl implements SupervisorService {
@@ -63,5 +66,15 @@ public class SupervisorServiceImpl implements SupervisorService {
     public void deleteById(Long supersivorId) {
         findById(supersivorId);
         supervisorRepository.deleteById(supersivorId);
+    }
+
+    @Override
+    public List<SupervisorDetailsDTO> findAllByWarehouseSupervisor(String warehouseSupervisor) {
+        List<Supervisor> supervisorList = supervisorRepository.findAll();
+
+        return supervisorList.stream()
+                .filter(w -> w.getWarehouseSupervisor().equalsIgnoreCase(warehouseSupervisor))
+                .map(SupervisorDetailsDTO::new)
+                .collect(Collectors.toList());
     }
 }

@@ -1,5 +1,6 @@
 package meli.freshfood.controller;
 
+import meli.freshfood.dto.SupervisorDetailsDTO;
 import meli.freshfood.model.Supervisor;
 import meli.freshfood.service.SupervisorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,15 @@ public class SupervisorController {
 		supervisorService.deleteById(supersivorId);
 
 		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/warehouseList/{warehouseSupervisor}")
+	public ResponseEntity<List<SupervisorDetailsDTO>> findAllByWarehouseSupervisor(@PathVariable String warehouseSupervisor){
+		List<SupervisorDetailsDTO> supervisorDetailsDTOList = supervisorService.findAllByWarehouseSupervisor(warehouseSupervisor);
+
+		return ResponseEntity.ok(supervisorDetailsDTOList);
+
+		//TODO: Adicionar Exception
+		//throw new BadRequestException("Warehouse do Supervisor não encontrado!");
 	}
 }
