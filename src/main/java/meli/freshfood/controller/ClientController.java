@@ -1,6 +1,7 @@
 package meli.freshfood.controller;
 
 import meli.freshfood.model.Client;
+import meli.freshfood.model.PurchaseOrder;
 import meli.freshfood.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,11 @@ public class ClientController {
     @GetMapping
     public ResponseEntity<List<Client>> findAll(){
         return ResponseEntity.ok(clientService.findAllClient());
+    }
+
+    @GetMapping("/findPurchase/{id}")
+    public ResponseEntity<List<PurchaseOrder>> findAllPurchaseOrder(@PathVariable Long id){
+        return ResponseEntity.ok(clientService.findAllPurchaseOrder(id));
     }
 
     @PostMapping
