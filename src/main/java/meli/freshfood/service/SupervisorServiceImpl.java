@@ -8,6 +8,8 @@ import meli.freshfood.repository.SupervisorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SupervisorServiceImpl implements SupervisorService {
 
@@ -37,7 +39,25 @@ public class SupervisorServiceImpl implements SupervisorService {
     }
 
     @Override
-    public Supervisor save(Supervisor supervisor) {
+    public Supervisor create (Supervisor supervisor) {
         return supervisorRepository.save(supervisor);
     }
+
+    @Override
+    public List<Supervisor> findAll() {
+        List<Supervisor> listSupervisor = supervisorRepository.findAll();
+
+        if (listSupervisor.isEmpty()){
+            throw new NotFoundException("Lista de supervisor não encontrada!");
+        }
+
+        return listSupervisor;
+    }
+
+    @Override
+    public Supervisor update(Supervisor supervisor) {
+        return supervisorRepository.save(supervisor);
+    }
+
+
 }

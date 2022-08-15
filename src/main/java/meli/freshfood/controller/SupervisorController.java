@@ -7,21 +7,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/v1/fresh-products")
+@RequestMapping("/api/v1/fresh-products/supervisor")
 public class SupervisorController {
 
 	@Autowired
 	SupervisorService supervisorService;
 
-	@PostMapping("/supervisor")
-	public ResponseEntity<Supervisor> save (@RequestBody Supervisor supervisor){
-		return ResponseEntity.status(HttpStatus.CREATED).body(supervisorService.save(supervisor));
+	@PostMapping()
+	public ResponseEntity<Supervisor> create (@RequestBody Supervisor supervisor){
+		return ResponseEntity.status(HttpStatus.CREATED).body(supervisorService.create(supervisor));
 	}
 
-	@GetMapping("/supervisor/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Supervisor> findById(@PathVariable Long id){
 		return ResponseEntity.ok(supervisorService.findById(id));
+	}
+
+	@GetMapping()
+	public ResponseEntity<List<Supervisor>> findAll (){
+		return ResponseEntity.ok(supervisorService.findAll());
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<Supervisor> update (@RequestBody Supervisor supervisor){
+		return ResponseEntity.status(HttpStatus.CREATED).body(supervisorService.update(supervisor));
 	}
 }

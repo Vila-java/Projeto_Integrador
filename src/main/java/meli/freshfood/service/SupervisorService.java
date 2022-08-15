@@ -1,6 +1,7 @@
 package meli.freshfood.service;
 
 import meli.freshfood.dto.InboundOrderDTO;
+import meli.freshfood.model.Product;
 import meli.freshfood.model.Supervisor;
 import meli.freshfood.model.Warehouse;
 
@@ -11,5 +12,7 @@ public interface SupervisorService {
     Supervisor findById(Long id);
     Boolean supervisorExistsInWarehouse(Supervisor supervisor, Warehouse warehouse);
     Supervisor validatesSupervisor(InboundOrderDTO inboundOrderDTO, Warehouse warehouse);
-    Supervisor save (Supervisor supervisor);
+    Supervisor create(Supervisor supervisor);
+    List<Supervisor> findAll();
+    Supervisor update(Supervisor supervisor);
 }
