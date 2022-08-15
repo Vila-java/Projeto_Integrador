@@ -41,11 +41,13 @@ public class SupervisorServiceImpl implements SupervisorService {
         return supervisor;
     }
 
+    //Método para criar um novo supervisor.
     @Override
     public Supervisor create (Supervisor supervisor) {
         return supervisorRepository.save(supervisor);
     }
 
+    //Método para buscar todos os supervisores.
     @Override
     public List<Supervisor> findAll() {
         List<Supervisor> listSupervisor = supervisorRepository.findAll();
@@ -57,17 +59,20 @@ public class SupervisorServiceImpl implements SupervisorService {
         return listSupervisor;
     }
 
+    //Método para buscar um superviror por ID.
     @Override
     public Supervisor updateById(Supervisor supervisor) {
         return supervisorRepository.save(supervisor);
     }
 
+    //Método para deletar um supervisor por ID.
     @Override
     public void deleteById(Long supersivorId) {
         findById(supersivorId);
         supervisorRepository.deleteById(supersivorId);
     }
 
+    //Método para filtrar uma lista de supervisor por Warehouse (Ex: SP01)
     @Override
     public List<SupervisorDetailsDTO> findAllByWarehouseSupervisor(String warehouseSupervisor) {
         List<Supervisor> supervisorList = supervisorRepository.findAll();
