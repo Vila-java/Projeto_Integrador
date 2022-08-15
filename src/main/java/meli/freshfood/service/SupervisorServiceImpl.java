@@ -55,12 +55,12 @@ public class SupervisorServiceImpl implements SupervisorService {
     }
 
     @Override
-    public Supervisor update(Supervisor supervisor) {
+    public Supervisor updateById(Supervisor supervisor) {
         return supervisorRepository.save(supervisor);
     }
 
     @Override
-    public void delete (Long supersivorId) {
+    public void deleteById(Long supersivorId) {
         findById(supersivorId);
         supervisorRepository.deleteById(supersivorId);
     }

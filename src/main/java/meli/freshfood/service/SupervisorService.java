@@ -13,6 +13,8 @@ public interface SupervisorService {
     Supervisor validatesSupervisor(InboundOrderDTO inboundOrderDTO, Warehouse warehouse);
     Supervisor create(Supervisor supervisor);
     List<Supervisor> findAll();
-    Supervisor update(Supervisor supervisor);
-    void delete (Long supersivorId);
+    Supervisor updateById(Supervisor supervisor);
+    void deleteById(Long supersivorId);
+
+
 }

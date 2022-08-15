@@ -33,13 +33,13 @@ public class SupervisorController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Supervisor> update (@RequestBody Supervisor supervisor){
-		return ResponseEntity.status(HttpStatus.CREATED).body(supervisorService.update(supervisor));
+	public ResponseEntity<Supervisor> updateById (@RequestBody Supervisor supervisor){
+		return ResponseEntity.status(HttpStatus.CREATED).body(supervisorService.updateById(supervisor));
 	}
 
 	@DeleteMapping("/{supersivorId}")
-	public ResponseEntity<Void> delete (@PathVariable Long supersivorId){
-		supervisorService.delete(supersivorId);
+	public ResponseEntity<Void> deleteById (@PathVariable Long supersivorId){
+		supervisorService.deleteById(supersivorId);
 
 		return ResponseEntity.noContent().build();
 	}
