@@ -41,6 +41,10 @@ public class Product {
     @JsonIgnore()
     private List<Batch> batches;
 
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore()
+    private List<ProductReview> productReviews;
+
     @ManyToOne
     @JoinColumn(name = "seller_id")
     @JsonIgnore()
