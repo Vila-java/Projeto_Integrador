@@ -2,7 +2,6 @@ package meli.freshfood.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -41,7 +40,7 @@ public class Supervisor {
     @Column(nullable = false, length = 50)
     private String cidade;
 
-    @Column(nullable = false, length = 5)
+    @Column(nullable = false, length = 6)
     private String warehouseSupervisor;
 
     @OneToOne(mappedBy = "supervisor")
