@@ -2,6 +2,7 @@ package meli.freshfood.service;
 
 import meli.freshfood.dto.BatchDTO;
 import meli.freshfood.dto.InboundOrderDTO;
+import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.InternalServerErrorException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Section;
@@ -40,7 +41,7 @@ public class SectionServiceImpl implements SectionService {
         if (section.getWarehouse().equals(warehouse)) {
             return true;
         } else {
-            throw new InternalServerErrorException("O setor não pertence ao armazém!");
+            throw new BadRequestException("O setor não pertence ao armazém!");
         }
     }
 
@@ -60,7 +61,7 @@ public class SectionServiceImpl implements SectionService {
         if (section.getProductCapacity() >= totalProducts) {
             return true;
         } else {
-            throw new InternalServerErrorException("Capacidade de armazenamento excedida!");
+            throw new BadRequestException("Capacidade de armazenamento excedida!");
         }
     }
 }
