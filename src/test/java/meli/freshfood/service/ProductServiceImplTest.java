@@ -98,7 +98,6 @@ class ProductServiceImplTest {
         BDDMockito.when(productRepo.findByStorageType(StorageType.FRESH))
                 .thenReturn(ProductUtils.productList());
 
-//        assertThat(productListMocked.size()).isEqualTo(1);
         assertThat(productListMocked.get(0).getStorageType()).isEqualTo(StorageType.FRESH);
     }
 }
