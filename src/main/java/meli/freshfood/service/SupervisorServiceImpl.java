@@ -2,7 +2,6 @@ package meli.freshfood.service;
 
 import meli.freshfood.dto.InboundOrderDTO;
 import meli.freshfood.exception.NotFoundException;
-import meli.freshfood.model.InboundOrder;
 import meli.freshfood.model.Supervisor;
 import meli.freshfood.model.Warehouse;
 import meli.freshfood.repository.SupervisorRepository;
@@ -35,5 +34,10 @@ public class SupervisorServiceImpl implements SupervisorService {
         Supervisor supervisor = findById(inboundOrderDTO.getSupervisorId());
         supervisorExistsInWarehouse(supervisor, warehouse);
         return supervisor;
+    }
+
+    @Override
+    public Supervisor save(Supervisor supervisor) {
+        return supervisorRepository.save(supervisor);
     }
 }
