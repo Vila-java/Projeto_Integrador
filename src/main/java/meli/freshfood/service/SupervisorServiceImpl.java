@@ -59,5 +59,9 @@ public class SupervisorServiceImpl implements SupervisorService {
         return supervisorRepository.save(supervisor);
     }
 
-
+    @Override
+    public void delete (Long supersivorId) {
+        findById(supersivorId);
+        supervisorRepository.deleteById(supersivorId);
+    }
 }

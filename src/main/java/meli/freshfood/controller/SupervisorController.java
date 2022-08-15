@@ -36,4 +36,11 @@ public class SupervisorController {
 	public ResponseEntity<Supervisor> update (@RequestBody Supervisor supervisor){
 		return ResponseEntity.status(HttpStatus.CREATED).body(supervisorService.update(supervisor));
 	}
+
+	@DeleteMapping("/{supersivorId}")
+	public ResponseEntity<Void> delete (@PathVariable Long supersivorId){
+		supervisorService.delete(supersivorId);
+
+		return ResponseEntity.noContent().build();
+	}
 }
