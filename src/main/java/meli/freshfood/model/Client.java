@@ -25,11 +25,7 @@ public class Client {
     @Column(nullable = false, length = 60)
     private String lastName;
 
-    @OneToOne(mappedBy = "client")
+    @OneToMany(mappedBy = "client")
     @JsonIgnore()
-    private PurchaseOrder purchaseOrder;
-
-/*    @OneToMany()
-    @JsonIgnore
-    private List<ClientOrder> clientOrders;*/
+    private List<PurchaseOrder> purchaseOrder;
 }

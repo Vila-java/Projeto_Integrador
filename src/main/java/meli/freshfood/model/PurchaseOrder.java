@@ -35,7 +35,7 @@ public class PurchaseOrder {
     @JsonIgnore()
     Set<ProductPurchaseOrder> productPurchaseOrders;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "client_id")
     @JsonIgnore()
     private Client client;
