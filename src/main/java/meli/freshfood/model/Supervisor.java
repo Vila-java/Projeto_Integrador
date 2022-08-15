@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.util.List;
 
@@ -22,10 +21,10 @@ public class Supervisor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long supersivorId;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 50)
     private String firstName;
 
-    @Column(nullable = false, length = 60)
+    @Column(nullable = false, length = 50)
     private String lastName;
 
     @Column(nullable = false, length = 50)
@@ -38,7 +37,7 @@ public class Supervisor {
     @Column(nullable = false,length = 11)
     private String cpf;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false, length = 50)
     private String cidade;
 
     @OneToOne(mappedBy = "supervisor")
