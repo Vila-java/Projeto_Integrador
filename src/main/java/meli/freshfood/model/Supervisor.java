@@ -40,6 +40,9 @@ public class Supervisor {
     @Column(nullable = false, length = 50)
     private String cidade;
 
+    @Column(nullable = false, length = 5)
+    private String warehouseSupervisor;
+
     @OneToOne(mappedBy = "supervisor")
     @JsonIgnore()
     private Warehouse warehouse;
