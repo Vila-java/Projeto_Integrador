@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import meli.freshfood.dto.BatchDTO;
 import meli.freshfood.dto.BatchStockDTO;
+import meli.freshfood.dto.ProductPromotionDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;

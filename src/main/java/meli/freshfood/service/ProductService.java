@@ -12,4 +12,5 @@ public interface ProductService {
     List<Product> findAll();
     List<Product> findProductByCategory(String storageType);
     Boolean checkProductStorageIsEqualSectionStorage(Product product, Section section);
+    Product findProductByDueDatePromotion();
 }

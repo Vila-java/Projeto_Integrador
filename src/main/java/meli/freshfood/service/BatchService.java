@@ -29,5 +29,8 @@ public interface BatchService {
 	List<BatchDTO> createBatches(InboundOrderDTO inboundOrderDTO, Section section, InboundOrder inboundOrder);
 	void updateBatches(InboundOrderDTO inboundOrderDTO, Section section, InboundOrder inboundOrder);
 	List<BatchStockDTO> findBatchesByCategoryAndDueDate(Integer intervalDate, String storageType, Boolean order);
+	List<BatchStockDTO> filterNotExpiredProductsByDaysInterval(List<BatchStockDTO> batches, Integer maxIntervalDate, Integer minIntervalDate);
 
+	List<BatchStockDTO> filterNotExpiredProductsByDaysInterval(Integer minIntervalDate, Integer maxIntervalDate);
+//	List<Batch> filterNotExpiredProductsByDaysInterval(Integer maxIntervalDate, Integer minIntervalDate);
 }

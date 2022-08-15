@@ -1,10 +1,6 @@
 package meli.freshfood.service;
 
-import meli.freshfood.dto.BatchStockDTO;
-import meli.freshfood.dto.BatchDTO;
-import meli.freshfood.dto.InboundOrderDTO;
-import meli.freshfood.dto.BatchDetailsDTO;
-import meli.freshfood.dto.ProductDTO;
+import meli.freshfood.dto.*;
 import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.*;
@@ -13,7 +9,7 @@ import meli.freshfood.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.Collator;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,6 +22,7 @@ public class BatchServiceImpl implements BatchService {
 
     @Autowired
     private ProductService productService;
+
 
     @Override
     public Batch findById(Long id) {
@@ -237,4 +234,147 @@ public class BatchServiceImpl implements BatchService {
         return this.filterNotExpiredProductsByDays(batchesDTO, intervalDate);
 
     }
+
+//
+//    @Override
+//    public List<BatchStockDTO> filterNotExpiredProductsByDaysInterval(List<BatchStockDTO> batches, Integer maxIntervalDate, Integer minIntervalDate) {
+//        return batches.stream().filter((b) -> {
+//            LocalDate dueDate = b.getDueDate();
+//            if (dueDate.isAfter(LocalDate.now().plusDays(minIntervalDate)) &&
+//                    dueDate.isBefore(LocalDate.now().plusDays(maxIntervalDate))) {
+//                return true;
+//            } else {
+//                return false;
+//            }
+//        }).collect(Collectors.toList());
+//    }
+
+    @Override
+    public List<BatchStockDTO> filterNotExpiredProductsByDaysInterval(List<BatchStockDTO> batches, Integer maxIntervalDate, Integer minIntervalDate) {
+        return batches.stream().filter((b) -> {
+            LocalDate dueDate = b.getDueDate();
+            if (dueDate.isAfter(LocalDate.now()) &&
+                    dueDate.isBefore(LocalDate.now().plusDays(minIntervalDate)) &&
+                    dueDate.isBefore(LocalDate.now().plusDays(maxIntervalDate))) {
+                return true;
+            } else {
+                return false;
+            }
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BatchStockDTO> filterNotExpiredProductsByDaysInterval(Integer minIntervalDate, Integer maxIntervalDate) {
+        return null;
+    }
+
+//    @Override
+//    public List<BatchStockDTO> filterNotExpiredProductsByDaysInterval(Integer minIntervalDate, Integer maxIntervalDate) {
+//        return null;
+//    }
+//
+//    public void filterByPromotion30(List<Product> productsPromotion, Long id, BigDecimal price) {
+//        List<Product> products = productService.findAll();
+//        List<Batch> batches = batchRepository.findAll();
+//        List<Batch> batchesSorted;
+//
+//        if (id != null) {
+//            batchesSorted = filterNotExpiredProductsByDaysInterval(List < Batch > batches, 21, 15);
+//        }
+//    }
+
+
+//    @Override
+//    public List<BatchStockDTO> findBatchesFilteredByDueDateAndPromotion(Integer intervalDate, Long id) {
+//        List<Batch> batches = batchRepository.findAll();
+//        List<Batch> batchesSorted;
+//        Promotion30 promotion30 = 30;
+//        Promotion60 promotion60 = 60;
+//        Percent100 percent100 = 100;
+//
+//        if (batch.getDueDate().plusDays(21) && batch.getDueDate().plusDays(15).equals(intervalDate)) {
+//            PricePromotion pricePromotion = (product.getPrice().multiply(promotion30).divide(percent100));
+//        } else if (batch.getDueDate().plusDays(14) && batch.getDueDate().plusDays(07).equals(intervalDate)) {
+//            PricePromotion pricePromotion = (product.getPrice().multiply(promotion60).divide(percent100)){
+//            batchesSorted = sortByDueDate(batches);
+//        }
+//        List<BatchStockDTO> batchesDTO = batchesSorted.stream()
+//                .map(batch -> batch.toBatchStockDTO())
+//                .collect(Collectors.toList());
+//        return filterNotExpiredProductsByDays(batchesDTO, intervalDate);
+//    }
+
+
+
+//    @Override
+//    public BigDecimal totalPriceAllProductsPromotion(PurchaseOrder purchaseOrder) {
+//        List<ProductPurchaseOrder> productPurchaseOrders = productPurchaseOrderRepository.findAllByPurchaseOrder(purchaseOrder);
+//        BigDecimal totalPricePromotion = productPurchaseOrders.stream().map((po) -> {
+//            return po.getProduct().getPrice().multiply(new BigDecimal(po.getProductQuantity()));
+//        }).reduce(new BigDecimal(0), (po1, po2) -> po1.add(po2));
+//        return totalPricePromotion;
+//    }
+
+//        List<Batch> batchesDueDateSorted = sortByDueDate(product.getBatches());
+//
+//        batchesDueDateSorted.forEach(batch -> {
+//            if (batch.getCurrentQuantity() > 0 && purchaseQuantity[0] > 0) {
+//                if (batch.getCurrentQuantity() >= purchaseQuantity[0]) {
+//                    Integer stockBatch = batch.getCurrentQuantity();
+//                    batch.setCurrentQuantity(stockBatch - purchaseQuantity[0]);
+//                    purchaseQuantity[0] -= stockBatch;
+//                } else {
+//                    purchaseQuantity[0] -= batch.getCurrentQuantity();
+//                    batch.setCurrentQuantity(0);
+//                }
+//                this.save(batch);
+//            }
+//        });
+
+
+//    @Override
+//    public List<ProductPromotionDTO> findBatchesByIntervalDueDate(Integer maxIntervalDate, Integer minIntervalDate) {
+//        List<Batch> batches = batchRepository.findAll();
+//        List<ProductPromotionDTO> batchesDTO = batchesSortedByCategoryAndDueDate.stream()
+//                .map(batch -> batch.toBatchStockDTO())
+//                .collect(Collectors.toList());
+//        return this.filterNotExpiredProductsByDaysInterval(maxIntervalDate, minIntervalDate);
+//
+//    }
+
+//    @Override
+//    public List<BatchStockDTO> findBatchesFilteredByDueDatePromotion() {
+//        List<Batch> batches = batchRepository.findAll();
+////        List<Batch> batchesSorted;
+//
+//        LocalDate date;
+//        for (Batch batch : batches) {
+//            date = batch.getDueDate();
+//
+//        }
+//
+//        If(date > 15 && date < 21){
+//
+//        },
+//        List<BatchStockDTO> batchesDTO = batchesSorted.stream()
+//                .map(batch -> batch.toBatchStockDTO())
+//                .collect(Collectors.toList());
+//        return filterNotExpiredProductsByDays(batchesDTO, intervalDate);
+//    }
+//
+//
+//
+//
+//    If(date > 15 && date < 21),
+//    minIntervalDate = 21;
+//    maxIntervalDate = 15;
+//    14
+//    7
+//    >7
+
+
 }
+
+//    filter Products by Interval Days 7 a 14 Due Date
+//    filter Products by Interval Days 15 a 21 Due Date
+//    filter Products by less than 6 days Due Date
