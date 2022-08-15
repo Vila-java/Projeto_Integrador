@@ -1,13 +1,13 @@
 USE freshfood_db;
 INSERT INTO `freshfood_db`.`supervisor`
-(`supersivor_id`, `first_name`, `last_name`, `email`, `cpf`, `cidade`, `phone`)
+(`supersivor_id`, `first_name`, `last_name`, `email`, `cpf`, `cidade`, `phone`, `warehouse_supervisor`)
 VALUES
-    (null, "Bianca", "Polegatti", "bianca.polegatti@email.com", 12345678901, "SP", 1199999999),
-    (null, "Bianca", "Schmitt", "bianca.schmitt@email.com", 12345678901, "SP", 1199999999),
-    (null, "Samantha", "Luchhmann", "samantha.luchhmann@email.com", 12345678901, "SP", 1199999999),
-    (null, "Evelin", "Cristina", "evelin.cristina@email.com", 12345678901, "SP", 1199999999),
-    (null, "Matheus", "Roberto", "matheus.roberto@email.com", 12345678901, "SP", 1199999999),
-    (null, "Weslley", "Rocha", "weslley.rocha@email.com", 12345678901, "SP", 1199999999);
+    (null, "Bianca", "Polegatti", "bianca.polegatti@email.com", 12345678901, "São Paulo", 1199999999, "BRSP01"),
+    (null, "Bianca", "Schmitt", "bianca.schmitt@email.com", 12345678901, "Santa Cataria", 1199999999, "BRSC01"),
+    (null, "Samantha", "Luchhmann", "samantha.luchhmann@email.com", 12345678901, "Santa Cataria", 1199999999, "BRSC01"),
+    (null, "Evelin", "Cristina", "evelin.cristina@email.com", 12345678901, "Santa Cataria", 1199999999, "BRSC01"),
+    (null, "Matheus", "Roberto", "matheus.roberto@email.com", 12345678901, "Brasília", 1199999999, "BRDF01"),
+    (null, "Weslley", "Rocha", "weslley.rocha@email.com", 12345678901, "São Paulo", 1199999999, "BRSP01");
 
 INSERT INTO `freshfood_db`.`warehouse`
 (`warehouse_id`, `address_code`, `supervisor_id`)
