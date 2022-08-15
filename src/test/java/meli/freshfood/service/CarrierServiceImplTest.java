@@ -19,6 +19,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -36,20 +37,22 @@ class CarrierServiceImplTest {
 
     @Test
     void save_returnCarrier_WhenNewCarrier() {
+        when((carrierRepository.save(ArgumentMatchers.any(Carrier.class))))
+                .thenReturn(CarrierUtils.newCarrier());
+
         CarrierDTO carrierDTO = CarrierUtils.newCarrierDTO();
-        CarrierDTO savedCarrier = carrierServiceImpl.save(carrierDTO);
+        CarrierDTO savedCarrierDTO = carrierServiceImpl.save(carrierDTO);
 
-        assertThat(savedCarrier.getId()).isPositive();
-        assertThat(savedCarrier.getFirstName()).isEqualTo(carrierDTO.getFirstName());
-
+        assertThat(savedCarrierDTO.getId()).isPositive();
+        assertThat(savedCarrierDTO.getFirstName()).isEqualTo(savedCarrierDTO.getFirstName());
     }
 
     @Test
     @DisplayName("Retorna o carrier quando ele existir")
     void findById_returnCarrier_WhenCarrierIdExists() {
-        Optional<Carrier> carrierMocked = Optional.of(CarrierUtils.newCarrier(1L, "João", "Flores", "11122233345", "joao.flores@mercadolivre", 1122334455L, "01001001", "Praça da Sé", "1", "Sé", "São Paulo", "SP"));
+        Optional<Carrier> carrierMocked = Optional.of(CarrierUtils.newCarrier());
 
-        BDDMockito.when(carrierRepository.findById(ArgumentMatchers.anyLong())).thenReturn(carrierMocked);
+        when(carrierRepository.findById(ArgumentMatchers.anyLong())).thenReturn(carrierMocked);
 
         CarrierDTO carrierdto = carrierServiceImpl.findById(ArgumentMatchers.anyLong());
 
@@ -60,7 +63,7 @@ class CarrierServiceImplTest {
     @Test
     @DisplayName("Retorna uma exceção quando o carrier não existir")
     void findById_returnNotFoundExcepetion_WhenCarrierNotExists() {
-        BDDMockito.when(carrierRepository.findById(ArgumentMatchers.anyLong())).thenThrow(new NotFoundException("O carrier não foi encontrado!"));
+        when(carrierRepository.findById(ArgumentMatchers.anyLong())).thenThrow(new NotFoundException("O carrier não foi encontrado!"));
 
         Exception exception = assertThrows(
                 NotFoundException.class,
@@ -73,6 +76,7 @@ class CarrierServiceImplTest {
 
     @Test
     void updateById() {
+
     }
 
     @Test
