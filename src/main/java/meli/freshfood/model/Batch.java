@@ -8,6 +8,7 @@ import meli.freshfood.dto.ProductPromotionDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -96,5 +97,12 @@ public class Batch {
     public BatchStockDTO toBatchStockDTO() {
         return new BatchStockDTO(this.batchNumber, product.getProductId(), this.product.getStorageType(),
                 this.getDueDate(), this.getCurrentQuantity(), this.getSection().getSectionId());
+    }
+
+    public ProductPromotionDTO productPromotionDTO() {
+        BigDecimal pricePromotion = new BigDecimal(0);
+        String message = " ";
+        return new ProductPromotionDTO(this.getProduct().getProductId(), this.getProduct().getName(),this.dueDate,
+                this.getProduct().getPrice(), pricePromotion, message);
     }
 }
