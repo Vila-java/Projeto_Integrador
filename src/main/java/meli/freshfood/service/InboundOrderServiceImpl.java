@@ -28,9 +28,6 @@ public class InboundOrderServiceImpl implements InboundOrderService {
     private SectionService sectionService;
 
     @Autowired
-    private ProductService productService;
-
-    @Autowired
     private BatchService batchService;
 
     @Override
