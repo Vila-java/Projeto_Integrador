@@ -63,6 +63,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
     }
 
     @Override
+    public PurchaseOrder findbyId(Long id) {
+        return purchaseOrderRepository.findById(id).get();
+    }
+
+    @Override
     public List<ProductDetailsDTO> findAllProducts(Long purchaseOrderId) {
         PurchaseOrder purchaseOrder = purchaseOrderRepository.findById(purchaseOrderId).get();
         return purchaseOrder.getProductPurchaseOrders()

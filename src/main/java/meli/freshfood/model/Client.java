@@ -27,4 +27,5 @@ public class Client {
     @OneToOne(mappedBy = "client")
     @JsonIgnore()
     private PurchaseOrder purchaseOrder;
+
 }

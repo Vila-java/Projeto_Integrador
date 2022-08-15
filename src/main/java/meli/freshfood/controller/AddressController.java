@@ -20,5 +20,4 @@ public class AddressController {
         return addressService.findByZipCode(zipCode);
 
     }
-
 }

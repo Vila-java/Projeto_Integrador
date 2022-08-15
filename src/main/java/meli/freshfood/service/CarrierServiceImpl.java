@@ -4,6 +4,7 @@ import meli.freshfood.client.ViaCepClient;
 import meli.freshfood.dto.CarrierDTO;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Carrier;
+import meli.freshfood.model.Vehicle;
 import meli.freshfood.repository.CarrierRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,8 @@ public class CarrierServiceImpl implements CarrierService {
     @Autowired
     private CarrierRepository carrierRepository;
 
-
     @Autowired
     private ModelMapper modelMapper;
-
-    @Autowired
-    private ViaCepClient viaCepClient;
 
 
     //método que cadastra um Carrier
@@ -33,6 +30,11 @@ public class CarrierServiceImpl implements CarrierService {
         carrier = carrierRepository.save(carrier);
         carrierDTO.setId(carrier.getId());
         return carrierDTO;
+    }
+
+    @Override
+    public List<Carrier> findByVehicle(Vehicle vehicle) {
+        return carrierRepository.findByVehicle(vehicle);
     }
 
     //método que retorna todos os Carriers já ordenados por ordem alfabética

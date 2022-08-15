@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface PurchaseOrderService {
 
+   PurchaseOrder findbyId(Long id);
     List<ProductDetailsDTO> findAllProducts(Long purchaseOrderId);
     void closePurchaseOrder(Long id);
     void addProductToPurchase(PurchaseOrder purchaseOrder, ProductDTO productDTO);

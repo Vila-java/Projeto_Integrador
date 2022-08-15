@@ -18,9 +18,6 @@ public class CarrierController {
     @Autowired
     private CarrierService carrierService;
 
-    @Autowired
-    private ViaCepClient viaCepClient;
-
     @PostMapping
     @ResponseStatus(code = HttpStatus.CREATED)
     public CarrierDTO save(@RequestBody CarrierDTO carrierDTO) {

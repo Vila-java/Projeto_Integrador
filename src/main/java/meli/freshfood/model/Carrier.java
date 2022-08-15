@@ -46,5 +46,7 @@ public class Carrier {
     private String city;
     private String state;
 
+    @OneToOne
+    private Vehicle vehicle;
 
 }
