@@ -8,10 +8,11 @@ import java.util.List;
 public class ClientUtils {
 
     public static Client newClient(){
+       // PurchaseOrder purchaseOrder = PurchaseOrderUtils.newPurchaseOrderUtils();
         return new Client(1L, "Jennifer", "Richmond", null);
     }
 
-    public static Client newClientWithParams(Long clientId, String firstName, String lastName, PurchaseOrder purchaseOrder){
+    public static Client newClientWithParams(Long clientId, String firstName, String lastName, List<PurchaseOrder> purchaseOrder){
         return new Client(clientId, firstName, lastName, purchaseOrder);
     }
 
