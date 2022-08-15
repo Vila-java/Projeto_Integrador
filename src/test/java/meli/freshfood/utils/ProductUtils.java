@@ -11,14 +11,13 @@ public class ProductUtils {
     public static Product newProduct(){
         Seller seller = SellerUtils.newSellerWithoutProducts();
         return new Product(1L, "Frango", "Descrição",
-                StorageType.FRESH, new BigDecimal("22.4"), 4D, null,
+                StorageType.FRESH, new BigDecimal("22.4"), 4D, null, null,
                 seller, null);
     }
 
-
     public static Product newProductWithParams(Long id, String name, String description, StorageType storageType, BigDecimal price){
         Seller seller = SellerUtils.newSellerWithoutProducts();
-        return new Product(id, name, description, storageType, price, 4D, null, seller, null);
+        return new Product(id, name, description, storageType, price, 4D, null, null, seller, null);
     }
 
     public static List<Product> productList(){

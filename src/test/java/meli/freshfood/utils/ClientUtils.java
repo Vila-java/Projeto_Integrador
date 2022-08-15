@@ -5,6 +5,6 @@ import meli.freshfood.model.*;
 public class ClientUtils {
 
     public static Client newClient(){
-        return new Client(1L, "Jennifer", "Richmond", null);
+        return new Client(1L, "Jennifer", "Richmond", null, null);
     }
 }
