@@ -41,7 +41,7 @@ public class Carrier {
 
     private String zipCode;
     private String address;
-    private String number;
+    private Integer number;
     private String neighborhood;
     private String city;
     private String state;
