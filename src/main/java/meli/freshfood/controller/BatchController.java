@@ -1,9 +1,8 @@
 package meli.freshfood.controller;
 
 import meli.freshfood.dto.BatchDetailsDTO;
-import meli.freshfood.dto.ProductBatchesDTO;
 import meli.freshfood.dto.BatchStockDTO;
-import meli.freshfood.model.Batch;
+import meli.freshfood.dto.ProductBatchesDTO;
 import meli.freshfood.service.BatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

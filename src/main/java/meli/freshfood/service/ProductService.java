@@ -1,6 +1,5 @@
 package meli.freshfood.service;
 
-import meli.freshfood.exception.InternalServerErrorException;
 import meli.freshfood.model.Product;
 import meli.freshfood.model.Section;
 

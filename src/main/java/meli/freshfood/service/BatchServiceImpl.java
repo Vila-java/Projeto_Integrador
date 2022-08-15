@@ -1,21 +1,16 @@
 package meli.freshfood.service;
 
-import meli.freshfood.dto.BatchStockDTO;
-import meli.freshfood.dto.BatchDTO;
-import meli.freshfood.dto.InboundOrderDTO;
-import meli.freshfood.dto.BatchDetailsDTO;
-import meli.freshfood.dto.ProductDTO;
+import meli.freshfood.dto.*;
 import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.*;
-import meli.freshfood.model.Section;
 import meli.freshfood.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.Collator;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
