@@ -2,7 +2,9 @@ package meli.freshfood.service;
 
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Client;
+import meli.freshfood.model.PurchaseOrder;
 import meli.freshfood.repository.ClientRepository;
+import meli.freshfood.repository.PurchaseOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,9 @@ public class ClientServiceImpl implements ClientService {
         return clientRepository.findAll();
     }
 
+    public List<PurchaseOrder> findAllPurchaseOrder(Long id){
+        return clientRepository.findById(id).get().getPurchaseOrder();
+    }
     @Override
     public Client save(Client client) {
         return clientRepository.save(client);
