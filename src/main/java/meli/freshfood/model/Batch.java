@@ -3,6 +3,7 @@ package meli.freshfood.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import meli.freshfood.dto.BatchDTO;
+import meli.freshfood.dto.BatchStockDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -89,5 +90,10 @@ public class Batch {
         return new BatchDTO(this.batchNumber, product.getProductId(), this.currentTemperature,
                 this.minimumTemperature, this.initialQuantity, this.currentQuantity, this.manufacturingDate,
                 this.manufacturingTime, this.dueDate);
+    }
+
+    public BatchStockDTO toBatchStockDTO() {
+        return new BatchStockDTO(this.batchNumber, product.getProductId(), this.product.getStorageType(),
+                this.getDueDate(), this.getCurrentQuantity(), this.getSection().getSectionId());
     }
 }

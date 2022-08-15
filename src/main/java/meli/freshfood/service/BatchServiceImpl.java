@@ -1,23 +1,18 @@
 package meli.freshfood.service;
 
+import meli.freshfood.dto.BatchStockDTO;
 import meli.freshfood.dto.BatchDTO;
 import meli.freshfood.dto.BatchDetailsDTO;
 import meli.freshfood.dto.InboundOrderDTO;
 import meli.freshfood.dto.ProductDTO;
 import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
-import meli.freshfood.model.Batch;
-import meli.freshfood.model.InboundOrder;
-import meli.freshfood.model.Product;
-import meli.freshfood.model.Section;
-import meli.freshfood.model.Warehouse;
+import meli.freshfood.model.*;
 import meli.freshfood.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +30,7 @@ public class BatchServiceImpl implements BatchService {
                 .orElseThrow(() -> new NotFoundException("O lote não foi encontrado!"));
     }
 
-    public List<Batch> findAllByProduct(Product product){
+    public List<Batch> findAllByProduct(Product product) {
         return batchRepository.findAllByProduct(product);
     }
 
@@ -63,7 +58,7 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public boolean checkBatchAvailable(ProductDTO productDTO) {
         Product product = productService.findById(productDTO.getProductId());
-        Integer totalCapacityAvailable = this.totalAvailableBatchesCapacity(product.getBatches());
+        Integer totalCapacityAvailable = totalAvailableBatchesCapacity(product.getBatches());
 
         if (totalCapacityAvailable < productDTO.getQuantity()) {
             throw new BadRequestException("Estoque indisponível para quantidade de produto solicitada!");
@@ -85,8 +80,8 @@ public class BatchServiceImpl implements BatchService {
         List<Batch> batchesDueDateSorted = sortByDueDate(product.getBatches());
 
         batchesDueDateSorted.forEach(batch -> {
-            if(batch.getCurrentQuantity() > 0 && purchaseQuantity[0] > 0) {
-                if(batch.getCurrentQuantity() >= purchaseQuantity[0]) {
+            if (batch.getCurrentQuantity() > 0 && purchaseQuantity[0] > 0) {
+                if (batch.getCurrentQuantity() >= purchaseQuantity[0]) {
                     Integer stockBatch = batch.getCurrentQuantity();
                     batch.setCurrentQuantity(stockBatch - purchaseQuantity[0]);
                     purchaseQuantity[0] -= stockBatch;
@@ -94,17 +89,19 @@ public class BatchServiceImpl implements BatchService {
                     purchaseQuantity[0] -= batch.getCurrentQuantity();
                     batch.setCurrentQuantity(0);
                 }
-                this.save(batch);
+                save(batch);
             }
         });
     }
 
+
+    //Retorna todos os lotes armazenados em um setor de um armazém dentro de um intervalo de datas filtrados pela data de vencimento
     @Override
     public List<BatchDetailsDTO> getBatchesByProduct(Long productId, String batchOrder) {
         Product product = productService.findById(productId);
 
         List<Batch> batches = product.getBatches();
-        if(batchOrder != null) {
+        if (batchOrder != null) {
             batches = sort(batches, batchOrder);
         }
 
@@ -117,17 +114,17 @@ public class BatchServiceImpl implements BatchService {
                             batch.getCurrentQuantity(), batch.getDueDate(),
                             warehouse.getWarehouseId(), section.getSectionId()
                     );
-        }).collect(Collectors.toList());
+                }).collect(Collectors.toList());
 
         return batchesDTO;
     }
 
     public List<Batch> sort(List<Batch> batches, String batchOrder) {
-        if(batchOrder.equalsIgnoreCase("Q")) {
+        if (batchOrder.equalsIgnoreCase("Q")) {
             return sortByCurrentQuantity(batches);
-        } else if(batchOrder.equalsIgnoreCase("V")) {
+        } else if (batchOrder.equalsIgnoreCase("V")) {
             return sortByDueDate(batches);
-        } else if(batchOrder.equalsIgnoreCase("L")) {
+        } else if (batchOrder.equalsIgnoreCase("L")) {
             return sortByBatchNumber(batches);
         } else {
             throw new BadRequestException("Não existe esse tipo de ordenação!");
@@ -157,7 +154,7 @@ public class BatchServiceImpl implements BatchService {
         }).collect(Collectors.toList());
 
         // salva
-        return batches.stream().map((batch)-> {
+        return batches.stream().map((batch) -> {
             save(batch);
             return batch.toDTO();
         }).collect(Collectors.toList());
@@ -175,8 +172,59 @@ public class BatchServiceImpl implements BatchService {
             return batch;
         }).collect(Collectors.toList());
 
-        batches.stream().forEach((batch)-> {
+        batches.stream().forEach((batch) -> {
             save(batch);
         });
+    }
+
+    public List<Batch> filterByCategory(List<Batch> batches, String storageType) {
+        if(storageType != null) {
+            StorageType storageTypeObj = StorageType.parseToStorage(storageType);
+            return batches.stream().filter(b -> b.getProduct()
+                    .getStorageType()
+                    .equals(storageTypeObj))
+                    .collect(Collectors.toList());
+        }
+        return batches;
+    }
+
+    public List<Batch> filterBySection(List<Batch> batches, Long id) {
+
+        if(id != null) {
+            List<Batch> batchesFiltered = batches
+                    .stream().filter((b) -> b.getSection().getSectionId().equals(id))
+                    .collect(Collectors.toList());
+            return batchesFiltered;
+        }
+            return batches;
+    }
+
+    public List<Batch> filterDueDateInterval(List<Batch> batches, Integer intervalDate) {
+        return batches.stream().filter((b) -> {
+            LocalDate dueDate = b.getDueDate();
+            return dueDate.isAfter(LocalDate.now()) &&
+                    dueDate.isBefore(LocalDate.now().plusDays(intervalDate));
+        }).collect(Collectors.toList());
+    }
+
+    public List<Batch> sortByDueDateAscOrDesc(List<Batch> batches, Boolean asc) {
+        if(asc) {
+            return batches.stream().sorted(Comparator.comparing(Batch::getDueDate)).collect(Collectors.toList());
+        }
+        else
+        {
+            return batches.stream().sorted(Comparator.comparing(Batch::getDueDate).reversed()).collect(Collectors.toList());
+        }
+    }
+
+    @Override
+    public List<BatchStockDTO> findBatches (Integer intervalDate, Long sectionId, String storageType, Boolean asc) {
+        List<Batch> batches = batchRepository.findAll();
+            batches =  filterDueDateInterval(batches, intervalDate);
+            batches = filterBySection(batches, sectionId);
+            batches = filterByCategory(batches, storageType);
+            batches = sortByDueDateAscOrDesc(batches, asc);
+
+        return batches.stream().map(Batch::toBatchStockDTO).collect(Collectors.toList());
     }
 }
