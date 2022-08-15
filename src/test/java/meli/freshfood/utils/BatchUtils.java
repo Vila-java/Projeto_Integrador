@@ -26,12 +26,12 @@ public class BatchUtils {
                 product, section, inboundOrder);
     }
 
-    public static Batch newBatchWithProduct(Product product) {
+    public static Batch newBatchWithProduct(Long batchId, Product product) {
         Section section = SectionUtils.newSection();
         Supervisor supervisor = SupervisorUtils.newSupervisor();
         InboundOrder inboundOrder = InboundOrderUtils.newInboundOrder(supervisor, section);
 
-        return new Batch(1L, 30F, 22F,
+        return new Batch(batchId, 30F, 22F,
                 5, 10, LocalDate.of(2022, 01, 1),
                 LocalDateTime.of(2022, Month.FEBRUARY, 1, 1, 1),
                 LocalDate.of(2022, 01, 1),
@@ -53,9 +53,9 @@ public class BatchUtils {
     public static List<Batch> newBatchesList() {
         Product product = ProductUtils.newProduct();
         List<Batch> batches = new ArrayList<>();
-        batches.add(newBatchWithProduct(product));
-        batches.add(newBatchWithProduct(product));
-        batches.add(newBatchWithProduct(product));
+        batches.add(newBatchWithProduct(1L, product));
+        batches.add(newBatchWithProduct(2L, product));
+        batches.add(newBatchWithProduct(3L, product));
         return batches;
     }
 
@@ -70,9 +70,9 @@ public class BatchUtils {
     public static List<Batch> newBatchesListValidDueDate() {
         Product product = ProductUtils.newProduct();
         List<Batch> batches = new ArrayList<>();
-        batches.add(newBatchWithProduct(product));
-        batches.add(newBatchWithProduct(product));
-        batches.add(newBatchWithProduct(product));
+        batches.add(newBatchWithProduct(1L, product));
+        batches.add(newBatchWithProduct(2L, product));
+        batches.add(newBatchWithProduct(3L, product));
         return batches;
     }
 
