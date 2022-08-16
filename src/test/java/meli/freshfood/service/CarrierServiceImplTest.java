@@ -98,9 +98,7 @@ class CarrierServiceImplTest {
         BDDMockito.when(carrierRepository.findById(anyLong())).thenReturn(carrierMocked);
 
         CarrierDTO carrierDTO = CarrierUtils.newCarrierDTO();
-
         Carrier carrier = CarrierUtils.newCarrier();
-       // BDDMockito.when(carrierRepository.save(carrier)).thenReturn(carrier);
 
         BDDMockito.when((carrierRepository.save(ArgumentMatchers.any(Carrier.class))))
                 .thenReturn(carrier);
@@ -142,4 +140,3 @@ class CarrierServiceImplTest {
         assertThat(carrierList.size()).isEqualTo(carriersMocked.size());
     }
 }
-

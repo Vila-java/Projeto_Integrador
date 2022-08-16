@@ -4,10 +4,10 @@ import meli.freshfood.dto.PurchaseDeliveryDTO;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.*;
 import meli.freshfood.repository.PurchaseDeliveryRepository;
-import meli.freshfood.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,7 +17,7 @@ public class PurchaseDeliveryServiceImpl implements PurchaseDeliveryService {
     private PurchaseDeliveryRepository purchaseDeliveryRepository;
 
     @Autowired
-    private VehicleRepository vehicleRepository;
+    private VehicleService vehicleService;
 
     @Autowired
     private PurchaseOrderService purchaseOrderService;
@@ -29,12 +29,8 @@ public class PurchaseDeliveryServiceImpl implements PurchaseDeliveryService {
     @Override
     public PurchaseDelivery save(PurchaseDeliveryDTO purchaseDeliveryDTO) {
         PurchaseOrder purchaseOrder = purchaseOrderService.findbyId(purchaseDeliveryDTO.getPurchaseOrderId());
-        VehiclesType vehiclesType = calculeteCapacity(purchaseDeliveryDTO.getQuantityOfBox());
-        Vehicle vehicle = vehicleRepository.findByName(vehiclesType.getDescription());
-        List<Carrier> validCarriers = carrierService.findByVehicle(vehicle);
-        if (validCarriers == null || validCarriers.isEmpty()) {
-            throw new NotFoundException("Não há motoristas disponíveis para entrega!");
-        }
+        List<Carrier> validCarriers = getCarriersByQuantityOfBox(purchaseDeliveryDTO.getQuantityOfBox());
+
         Carrier carrier = validCarriers.get(0);
         PurchaseDelivery purchaseDelivery = PurchaseDelivery.builder().purchaseOrder(purchaseOrder)
                 .carrier(carrier)
@@ -45,14 +41,30 @@ public class PurchaseDeliveryServiceImpl implements PurchaseDeliveryService {
         return purchaseDelivery;
     }
 
-    public VehiclesType calculeteCapacity(Integer quantityOfbox) {
-        if (quantityOfbox <= 2) {
-            return VehiclesType.MOTOCICLETA;
-        } else if (quantityOfbox <= 10) {
-            return VehiclesType.CARRO;
+    public List<Carrier> getCarriersByQuantityOfBox(Integer quantityOfBox) {
+        Vehicle vehicle = null;
+        List<Carrier> validCarriers = new ArrayList<>();
+
+        if (quantityOfBox <= 2) {
+            vehicle = vehicleService.findByName(VehiclesType.MOTOCICLETA.getDescription());
+            validCarriers = carrierService.findByVehicle(vehicle);
         }
-        return VehiclesType.CAMINHAO;
+
+        if (quantityOfBox <= 10 && validCarriers.isEmpty()) {
+            vehicle = vehicleService.findByName(VehiclesType.CARRO.getDescription());
+            validCarriers = carrierService.findByVehicle(vehicle);
+        }
+
+        if (quantityOfBox <= 30 && validCarriers.isEmpty())  {
+            vehicle = vehicleService.findByName(VehiclesType.CAMINHAO.getDescription());
+            validCarriers = carrierService.findByVehicle(vehicle);
+        }
+
+        if (validCarriers == null || validCarriers.isEmpty()) {
+            throw new NotFoundException("Não há motoristas disponíveis para entrega!");
+        }
+        return validCarriers;
+
     }
+
 }
-
-

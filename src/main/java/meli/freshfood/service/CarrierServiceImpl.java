@@ -1,6 +1,5 @@
 package meli.freshfood.service;
 
-import meli.freshfood.client.ViaCepClient;
 import meli.freshfood.dto.CarrierDTO;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Carrier;
