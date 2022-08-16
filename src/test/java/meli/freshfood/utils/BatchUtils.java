@@ -59,6 +59,17 @@ public class BatchUtils {
         return batches;
     }
 
+    public static List<Batch> newBatchesListWithExpiredDateGreaterThanFourthDays() {
+        Product product = ProductUtils.newProduct();
+        Section section = SectionUtils.newSection();
+        Supervisor supervisor = SupervisorUtils.newSupervisor();
+        InboundOrder inboundOrder = InboundOrderUtils.newInboundOrder(supervisor, section);
+        List<Batch> batches = new ArrayList<>();
+        batches.add(new Batch(1L, 30F, 22F, 40, 20, LocalDate.now().minusDays(10),
+                LocalDateTime.now().minusDays(10), LocalDate.now().plusDays(40), product, section, inboundOrder ));
+        return batches;
+    }
+
     public static List<Batch> newBatchesListWithDueDate(LocalDate dueDate) {
         List<Batch> batches = new ArrayList<>();
         batches.add(newBatchWithDueDate(dueDate));
