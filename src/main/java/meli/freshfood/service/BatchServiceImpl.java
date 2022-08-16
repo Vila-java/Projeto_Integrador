@@ -220,10 +220,12 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public List<BatchStockDTO> findBatches (Integer intervalDate, Long sectionId, String storageType, Boolean asc) {
         List<Batch> batches = batchRepository.findAll();
-            batches =  filterDueDateInterval(batches, intervalDate);
-            batches = filterBySection(batches, sectionId);
-            batches = filterByCategory(batches, storageType);
+        batches =  filterDueDateInterval(batches, intervalDate);
+        batches = filterBySection(batches, sectionId);
+        batches = filterByCategory(batches, storageType);
+        if(asc != null) {
             batches = sortByDueDateAscOrDesc(batches, asc);
+        }
 
         return batches.stream().map(Batch::toBatchStockDTO).collect(Collectors.toList());
     }

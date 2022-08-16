@@ -66,15 +66,12 @@ class SupervisorServiceImplTest {
         Boolean supervisorExists = supervisorServiceImpl.supervisorExistsInWarehouse(supervisor, warehouse);
 
         assertThat(supervisorExists).isEqualTo(true);
-
     }
-
 
     @Test @DisplayName("Retorna exceção NotFoundException caso o supervisor não exista no armazém")
     void returnNotFoundException_whenSupervisorNotExistsInWharehouse() {
           Supervisor supervisor = SupervisorUtils.newSupervisor();
           Warehouse warehouse = WarehouseUtils.newWarehouse();
-
     }
 }
 
