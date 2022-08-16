@@ -26,22 +26,27 @@ curl --location --request GET 'localhost:8080/api/v1/fresh-products/orders/1' \
     ]
 }'
 ```
+<BR>
+
 
 - Lista completa de produtos
 ```
 curl --location --request GET 'localhost:8080/api/v1/fresh-products'
 ```
-
+<BR>
+    
 - Lista completa de produtos filtradas por categoria
 ```
 curl --location --request GET 'localhost:8080/api/v1/fresh-products/list?storageType=FF'
 ```
+<BR>
 
 - Carrinho Aberto/Finalizado
 ```
 curl --location --request PUT 'localhost:8080/api/v1/fresh-products/1' \
 --data-raw ''
 ```
+<BR>
 
 - Registrar pedido / lista de produtos
 ```
