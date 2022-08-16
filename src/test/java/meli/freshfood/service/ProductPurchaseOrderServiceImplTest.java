@@ -32,7 +32,7 @@ class ProductPurchaseOrderServiceImplTest {
     ProductPurchaseOrderRepository productPurchaseOrderRepo;
 
     @Test
-    void createShouldReturnAProductPurchaseOrder() {
+    void create_ShouldReturnAProductPurchaseOrder_IfAProductPurchaseOrderIsCreated() {
         BDDMockito.when(productPurchaseOrderRepo.save(Mockito.any(ProductPurchaseOrder.class)))
                 .thenReturn(ProductPurchaseOrderUtils.newProductPurchaseOrder());
 
@@ -44,7 +44,7 @@ class ProductPurchaseOrderServiceImplTest {
     }
 
     @Test
-    void updateShouldReturnAProductPurchaseOrder() {
+    void update_ShouldReturnAProductPurchaseOrder_IfTheProductPurchaseOrderIsUpdated() {
         BDDMockito.when(productPurchaseOrderRepo.save(Mockito.any(ProductPurchaseOrder.class)))
                 .thenReturn(ProductPurchaseOrderUtils.newProductPurchaseOrder());
 
