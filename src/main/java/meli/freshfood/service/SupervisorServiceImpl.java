@@ -15,6 +15,9 @@ import java.util.List;
 
 import java.util.stream.Collectors;
 
+/**
+ * The type Supervisor service.
+ */
 @Service
 public class SupervisorServiceImpl implements SupervisorService {
 
