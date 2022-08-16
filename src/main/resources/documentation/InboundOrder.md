@@ -28,6 +28,7 @@ curl --location --request PUT 'localhost:8080/api/v1/fresh-products/inboundorder
     ]
 }'
 ```
+<BR>
 
 - Cadastrar um novo lote.
 ```
