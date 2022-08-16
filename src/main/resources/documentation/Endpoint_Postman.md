@@ -93,8 +93,10 @@ localhost:8080/api/v1/fresh-products/orders/1
 curl --location --request GET 'localhost:8080/api/v1/fresh-products/list/batch?productId=1'
 ```
 
-- Filtrar uma lista de produtos por ID e Lotes, Quantidade ou Vencimento.<br>
-(L - lote / Q - Quantidade / V - Vencimento)
+- Filtrar uma lista de produtos por ID e Lotes, Quantidade ou Vencimento.<br><br>
+L - lote <br>
+Q - Quantidade <br>
+V - Vencimento <br>
 ```
 curl --location --request GET 'localhost:8080/api/v1/fresh-products/list/batch?productId=2&batchOrder=Q'
 ```
@@ -103,3 +105,10 @@ curl --location --request GET 'localhost:8080/api/v1/fresh-products/list/batch?p
 ```
 curl --location --request GET 'localhost:8080/api/v1/fresh-products/warehouse?productId=10'
 ```
+
+
+
+
+
+<br><br><br><br>
+<img src="https://img.icons8.com/ios/20/000000/login-rounded.png"/>[ Inicio](https://github.com/Vila-java/Projeto_Integrador)
