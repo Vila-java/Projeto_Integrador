@@ -1,9 +1,6 @@
 package meli.freshfood.controller;
 
-import meli.freshfood.dto.ProductDetailsDTO;
-import meli.freshfood.dto.ProductReviewCreateDTO;
-import meli.freshfood.dto.ProductReviewUpdateDTO;
-import meli.freshfood.dto.PurchaseOrderDTO;
+import meli.freshfood.dto.*;
 import meli.freshfood.model.Product;
 import meli.freshfood.model.ProductReview;
 import meli.freshfood.service.ProductReviewService;
@@ -21,8 +18,11 @@ public class ProductReviewController {
     ProductReviewService productReviewService;
 
     @GetMapping
-    public ResponseEntity<List<ProductReview>> index() {
-        return ResponseEntity.ok(productReviewService.findAll());
+    public ResponseEntity<List<ProductReview>> index(
+            @RequestParam(required = false) Long productId,
+            @RequestParam(required = false) Long clientId
+    ) {
+        return ResponseEntity.ok(productReviewService.findAllWithFilter(productId, clientId));
     }
 
     @GetMapping("/{reviewId}")
@@ -44,5 +44,20 @@ public class ProductReviewController {
     public ResponseEntity<String> delete(@PathVariable Long reviewId)  {
         productReviewService.delete(reviewId);
         return ResponseEntity.ok("Avaliação removida com sucesso");
+    }
+
+    @GetMapping("/product/{productId}")
+    public ResponseEntity<ProductReviewDTO> infoByProduct(@PathVariable Long productId) {
+        return ResponseEntity.ok(productReviewService.productReviewOfProduct(productId));
+    }
+
+    @GetMapping("/client/{clientId}")
+    public ResponseEntity<List<ProductReviewClientDTO>> reviewsByClient(@PathVariable Long clientId) {
+        return ResponseEntity.ok(productReviewService.clientReviews(clientId));
+    }
+
+    @GetMapping("/group-by-product")
+    public ResponseEntity<List<ProductReviewProductDTO>> reviewsByClient() {
+        return ResponseEntity.ok(productReviewService.reviewsByProduct());
     }
 }
