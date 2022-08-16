@@ -1,5 +1,6 @@
 package meli.freshfood.utils;
 
+import meli.freshfood.dto.ProductDTO;
 import meli.freshfood.model.*;
 
 import java.math.BigDecimal;
@@ -13,6 +14,17 @@ public class ProductUtils {
         return new Product(1L, "Frango", "Descrição",
                 StorageType.FRESH, new BigDecimal("22.4"), 4D, null,
                 seller, null);
+    }
+
+    public static Product newProductWithBatches(){
+        Seller seller = SellerUtils.newSellerWithoutProducts();
+        return new Product(1L, "Frango", "Descrição",
+                StorageType.FRESH, new BigDecimal("22.4"), 4D, BatchUtils.newBatchesListWithExpiredDateGreaterThanFourthDays(),
+                seller, null);
+    }
+
+    public static ProductDTO newProductDTO(){
+        return new ProductDTO(1L, 15);
     }
 
 
