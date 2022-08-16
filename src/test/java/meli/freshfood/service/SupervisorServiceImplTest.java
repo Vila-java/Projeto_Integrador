@@ -1,5 +1,6 @@
 package meli.freshfood.service;
 
+import meli.freshfood.dto.SupervisorDetailsDTO;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.*;
 import meli.freshfood.repository.SupervisorRepository;
@@ -13,6 +14,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,9 +31,10 @@ class SupervisorServiceImplTest {
     @Mock
     SupervisorRepository supervisorRepository;
 
+
     @Test
     @DisplayName("Retorna o supervisor quando ele existir")
-    void findById_returnSupervisor_whenBatchIdExists() {
+    void findById_returnSupervisor_whenSupervisorIdExists() {
         Optional<Supervisor> supervisorMocked = Optional.of(SupervisorUtils.newSupervisor());
 
         BDDMockito.when(supervisorRepository.findById(ArgumentMatchers.anyLong()))
@@ -76,5 +80,33 @@ class SupervisorServiceImplTest {
           Warehouse warehouse = WarehouseUtils.newWarehouse();
 
     }
-}
 
+    @Test
+    @DisplayName("Retorna o supervisor salvo")
+    void save_returnSupervisor() {
+        Supervisor supervisorToSave = SupervisorUtils.newSupervisor();
+
+        BDDMockito.when(supervisorRepository.save(ArgumentMatchers.any(Supervisor.class)))
+                .thenReturn(supervisorToSave);
+
+        Supervisor supervisor = supervisorServiceImpl.create(supervisorToSave);
+
+        assertThat(supervisor.getSupersivorId()).isPositive();
+        assertThat(supervisor.getClass()).isEqualTo(Supervisor.class);
+    }
+
+    @Test
+    @DisplayName("Retorna uma lista de Supervisores quando ele existe no Warehouse informado.")
+    void findAllSupervisores_returnWarehouseList_whenWerehouseListExists() {
+
+        List<Supervisor> supervisorListMocked = SupervisorUtils.supervisorList();
+
+        BDDMockito.when(supervisorRepository.findAll())
+                .thenReturn(supervisorListMocked);
+
+        List<SupervisorDetailsDTO> supervisorList = supervisorServiceImpl.findAllByWarehouseSupervisor("warehouseSupervisor");
+        assertThat(supervisorList).isNotNull();
+        assertThat(supervisorList.size()).isEqualTo(supervisorListMocked.size());
+    }
+
+}
