@@ -1,10 +1,11 @@
 # Endpoint Postman
 
 
-[InboundOrder]()
-[PurchaseOrder]()
-[BatchStock]()
-[Product]()
+
+[InboundOrder](https://github.com/Vila-java/Projeto_Integrador/blob/develop/src/main/resources/documentation/InboundOrder.md) <br>
+[PurchaseOrder](https://github.com/Vila-java/Projeto_Integrador/blob/develop/src/main/resources/documentation/PurchaseOrder.md) <br>
+[BatchStock](https://github.com/Vila-java/Projeto_Integrador/blob/develop/src/main/resources/documentation/BatchStock.md) <br>
+[Product](https://github.com/Vila-java/Projeto_Integrador/blob/develop/src/main/resources/documentation/Product.md) <br>
 
 
 <br><br><br><br>
