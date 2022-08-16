@@ -4,7 +4,7 @@
 
 
 ## Sobre
-A melhoria apresentada junto ao Projeto Integrador - FreshFood foi sob o aspecto do Carrier, ou seja, aquele responsável por realizar a entrega dos pedidos. Para tanto foi implementado o CRUD do Carrier. <b>Funcionalidades do Carrier:
+A melhoria apresentada junto ao Projeto Integrador - FreshFood foi sob o aspecto do Carrier, ou seja, aquele responsável por realizar a entrega dos pedidos. Para tanto foi implementado o CRUD do Carrier. <b>Funcionalidades do Carrier:</b>
 
 1. Salvar um Carrier;
 2. Retornar uma lista de Carriers ordenada por ordem alfabética;
