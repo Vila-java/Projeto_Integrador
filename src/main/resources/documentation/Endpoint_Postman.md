@@ -11,8 +11,8 @@
 
 1. Clique na guia **"Importar"** no canto superior esquerdo.
 2. Selecione a opção **"Texto"** e cole seu comando CURL.
-3. Pressione **"Continuar"**, **"import"** e você terá o comando no seu construtor Postman!
-4. Clique em Send para postar o comando.
+3. Pressione **"Continuar"**, **"Import"** e você terá o comando no seu construtor Postman!
+4. Clique em **"Send"** para postar o comando.
 
 
 [InboundOrder](https://github.com/Vila-java/Projeto_Integrador/blob/develop/src/main/resources/documentation/InboundOrder.md) <br>
