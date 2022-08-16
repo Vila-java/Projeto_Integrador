@@ -1,5 +1,6 @@
 package meli.freshfood.service;
 
+import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.InternalServerErrorException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.Product;
@@ -48,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
         if (section.getStorageType().equals(product.getStorageType())) {
             return true;
         } else {
-            throw new InternalServerErrorException("O setor e o produto não têm o mesmo tipo de armazenamento!");
+            throw new BadRequestException("O setor e o produto não têm o mesmo tipo de armazenamento!");
         }
     }
 }

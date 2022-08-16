@@ -8,12 +8,9 @@ import meli.freshfood.dto.ProductDTO;
 import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.*;
-import meli.freshfood.model.Section;
 import meli.freshfood.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.text.Collator;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -61,7 +58,7 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public boolean checkBatchAvailable(ProductDTO productDTO) {
         Product product = productService.findById(productDTO.getProductId());
-        Integer totalCapacityAvailable = this.totalAvailableBatchesCapacity(product.getBatches());
+        Integer totalCapacityAvailable = totalAvailableBatchesCapacity(product.getBatches());
 
         if (totalCapacityAvailable < productDTO.getQuantity()) {
             throw new BadRequestException("Estoque indisponível para quantidade de produto solicitada!");
@@ -92,7 +89,7 @@ public class BatchServiceImpl implements BatchService {
                     purchaseQuantity[0] -= batch.getCurrentQuantity();
                     batch.setCurrentQuantity(0);
                 }
-                this.save(batch);
+                save(batch);
             }
         });
     }
