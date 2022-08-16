@@ -15,4 +15,6 @@ public class SupervisorUtils {
        Warehouse warehouse =  WarehouseUtils.newWarehouse();
         return new Supervisor(1L, "Bianca", "Polegatti", warehouse, null);
     }
+
 }
+

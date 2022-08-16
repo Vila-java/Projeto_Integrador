@@ -23,7 +23,7 @@ public class SupervisorServiceImpl implements SupervisorService {
 
     @Override
     public Boolean supervisorExistsInWarehouse(Supervisor supervisor, Warehouse warehouse) {
-        if (supervisor.getWarehouse().equals(warehouse)) {
+        if (supervisor.getWarehouse().getWarehouseId().equals(warehouse.getWarehouseId())) {
             return true;
         } else {
             throw new BadRequestException("O supervisor não pertence ao armazém");

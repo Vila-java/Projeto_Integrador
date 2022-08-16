@@ -48,11 +48,22 @@ public class InboundOrderServiceImpl implements InboundOrderService {
         return batchService.createBatches(inboundOrderDTO, section, inboundOrder);
     }
 
+    public void batchBelongsToInboundOrder(InboundOrderDTO inboundOrderDTO) {
+        List<InboundOrder> inboundOrder = inboundOrderDTO.getBatchStock().stream().map(b -> inboundOrderRepository
+                .findByBatch(b.getBatchNumber())).collect(Collectors.toList());
+        inboundOrder.forEach(i -> {
+            if(!i.getOrderNumber().equals(inboundOrderDTO.getOrderNumber())) {
+                throw new NotFoundException("Lote não pertence à Ordem de entrada!");
+            }
+        });
+    }
+
     @Override
     public List<BatchDTO> update(InboundOrderDTO inboundOrderDTO) {
         Warehouse warehouse = warehouseService.findById(inboundOrderDTO.getSection().getWarehouseCode());
         Section section = sectionService.validatesSection(inboundOrderDTO, warehouse);
         Supervisor supervisor = supervisorService.validatesSupervisor(inboundOrderDTO, warehouse);
+        batchBelongsToInboundOrder(inboundOrderDTO);
         InboundOrder inboundOrder = findById(inboundOrderDTO.getOrderNumber());
 
         batchService.updateBatches(inboundOrderDTO, section, inboundOrder);
