@@ -34,6 +34,6 @@ Com as funções implementadas nessa branch será possível:
 
 ### Documentação
 
-- Diagrama UML.
-- Arquivo JSON (Postman).
+- [Diagrama UML](/Users/werocha/Documents/BootCamp-Meli/Projeto_Integrador/src/main/resources/documentation/UML.md)
+- [Postman](/Users/werocha/Documents/BootCamp-Meli/Projeto_Integrador/src/main/resources/documentation/Postman.md) 
 - Javadoc.
