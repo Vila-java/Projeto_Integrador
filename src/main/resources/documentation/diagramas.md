@@ -14,11 +14,12 @@ Versão 2.1 - Refatoração entre a ligação entre as tabelas. <br>
 
 
 - #### Versão 2.1 (Final)
-![versao2.1](/Users/werocha/Documents/BootCamp-Meli/Projeto_Integrador/src/main/resources/files/UML.png)
+![image](https://user-images.githubusercontent.com/58067780/185000402-545a9214-4640-48f2-9c1e-93eada44ae6a.png)
+
 
 
 ### Banco de dados
-![Modelo Entidade Relacionamento](/Users/werocha/Documents/BootCamp-Meli/Projeto_Integrador/src/main/resources/files/Entidade de relacionamento.png)
+![image](https://user-images.githubusercontent.com/58067780/185000428-b04a0afe-e3f4-4746-b218-3ec7fb8c1a27.png)
 
 
 
