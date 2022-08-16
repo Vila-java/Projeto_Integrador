@@ -9,7 +9,7 @@ Versão 1.1 - Refatoração entre as tabelas Supervirsor e ImboundOrder. <br><br
 
 - Requesito 2 <br>
 Versão 2.0 - Adicionando a tabela PurchaseOrder. <br>
-Versão 2.1 - Refatoração entre a ligação entre as tabelas.
+Versão 2.1 - Refatoração entre os relacionamentos das tabelas.
 ![image](https://user-images.githubusercontent.com/58067780/185000402-545a9214-4640-48f2-9c1e-93eada44ae6a.png)
 <br><br><br>
 
