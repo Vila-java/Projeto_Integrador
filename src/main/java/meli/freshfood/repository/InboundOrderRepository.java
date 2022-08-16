@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InboundOrderRepository extends JpaRepository<InboundOrder, Long> {
-
+    InboundOrder findByBatch(Long id);
 }
