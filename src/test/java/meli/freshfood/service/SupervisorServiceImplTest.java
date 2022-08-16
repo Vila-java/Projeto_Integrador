@@ -1,10 +1,13 @@
 package meli.freshfood.service;
 
+import meli.freshfood.dto.BatchDTO;
+import meli.freshfood.dto.InboundOrderDTO;
+import meli.freshfood.dto.SectionDTO;
+import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.*;
 import meli.freshfood.repository.SupervisorRepository;
-import meli.freshfood.utils.SupervisorUtils;
-import meli.freshfood.utils.WarehouseUtils;
+import meli.freshfood.utils.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class SupervisorServiceImplTest {
 
     @InjectMocks
-    SupervisorServiceImpl supervisorServiceImpl;
+    SupervisorServiceImpl supervisorService;
 
     @Mock
     SupervisorRepository supervisorRepository;
@@ -36,7 +40,7 @@ class SupervisorServiceImplTest {
         BDDMockito.when(supervisorRepository.findById(ArgumentMatchers.anyLong()))
                 .thenReturn(supervisorMocked);
 
-        Supervisor supervisor = supervisorServiceImpl.findById(ArgumentMatchers.anyLong());
+        Supervisor supervisor = supervisorService.findById(ArgumentMatchers.anyLong());
 
         assertThat(supervisor.getSupersivorId ()).isPositive();
         assertThat(supervisor.getClass()).isEqualTo(Supervisor.class);
@@ -50,7 +54,7 @@ class SupervisorServiceImplTest {
 
         Exception exception = assertThrows(
                 NotFoundException.class,
-                () -> supervisorServiceImpl.findById(ArgumentMatchers.anyLong())
+                () -> supervisorService.findById(ArgumentMatchers.anyLong())
         );
 
         assertThat(exception.getMessage()).isEqualTo("O supervisor não foi encontrado!");
@@ -63,18 +67,41 @@ class SupervisorServiceImplTest {
         Warehouse warehouse = WarehouseUtils.newWarehouseWithSupervisor(supervisor);
         supervisor.setWarehouse(warehouse);
 
-        Boolean supervisorExists = supervisorServiceImpl.supervisorExistsInWarehouse(supervisor, warehouse);
+        Boolean supervisorExists = supervisorService.supervisorExistsInWarehouse(supervisor, warehouse);
 
         assertThat(supervisorExists).isEqualTo(true);
 
     }
 
 
-    @Test @DisplayName("Retorna exceção NotFoundException caso o supervisor não exista no armazém")
-    void returnNotFoundException_whenSupervisorNotExistsInWharehouse() {
-          Supervisor supervisor = SupervisorUtils.newSupervisor();
-          Warehouse warehouse = WarehouseUtils.newWarehouse();
+    @Test
+    @DisplayName("Retorna exceção NotFoundException caso o supervisor não exista no armazém")
+    void returnNotFoundException_whenSupervisorNotExistsInWarehouse() {
+          Supervisor supervisor = SupervisorUtils.newSupervisorWithWarehouse();
+          Warehouse warehouse = WarehouseUtils.newWarehouseWithUnmatchingSupervisorAndWarehouse();
+
+            Exception ex = assertThrows(BadRequestException.class, () -> supervisorService.supervisorExistsInWarehouse(supervisor, warehouse));
+            assertThat(ex.getMessage()).isEqualTo("O supervisor não pertence ao armazém");
+    }
+
+    @Test
+    void validatesSupervisor_ShouldReturnSupervisor() {
+        Supervisor supervisor = SupervisorUtils.newSupervisor();
+        Warehouse warehouse = WarehouseUtils.newWarehouseWithSupervisor(supervisor);
+        Section section = SectionUtils.newSection();
+        SectionDTO sectionDTO = SectionUtils.newSectionDTO(section, warehouse);
+        List<BatchDTO> batches = BatchUtils.newBatchDTOList();
+        InboundOrderDTO inboundOrderDTO = InboundOrderUtils.newInboundOrderDTO(supervisor, sectionDTO, batches);
+
+        Optional<Supervisor> supervisorMocked = Optional.of(SupervisorUtils.newSupervisorWithWarehouse());
+        BDDMockito.when(supervisorRepository.findById(ArgumentMatchers.anyLong()))
+                .thenReturn(supervisorMocked);
+
+        Supervisor validatesSupervisor = supervisorService.validatesSupervisor(inboundOrderDTO, warehouse);
+
+        assertThat(validatesSupervisor.getSupersivorId()).isEqualTo(supervisor.getSupersivorId());
 
     }
+
 }
 

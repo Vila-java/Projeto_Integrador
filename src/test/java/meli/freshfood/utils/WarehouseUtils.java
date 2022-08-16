@@ -17,6 +17,11 @@ public class WarehouseUtils {
         return new Warehouse(1L, "SP", null, supervisor);
     }
 
+    public static Warehouse newWarehouseWithUnmatchingSupervisorAndWarehouse() {
+        Supervisor supervisor = SupervisorUtils.newSupervisorWithWarehouse();
+        return new Warehouse(2L, "PR", null, supervisor);
+    }
+
     public static Warehouse newWarehouseWithoutSupervisor() {
         return new Warehouse(1L, "SP", null, null);
     }
