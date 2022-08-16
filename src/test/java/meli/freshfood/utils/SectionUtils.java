@@ -21,8 +21,4 @@ public class SectionUtils {
     public static SectionDTO newSectionDTO(Section section, Warehouse warehouse){
         return new SectionDTO(section.getSectionId(), warehouse.getWarehouseId());
     }
-
-    public static SectionDTO newSectionDTOWithoutArgs(){
-        return new SectionDTO(1L, 1L);
-    }
 }
