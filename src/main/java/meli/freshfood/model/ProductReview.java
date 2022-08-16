@@ -26,7 +26,7 @@ import java.time.LocalDate;
 public class ProductReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long productReview;
+    private Long productReviewId;
 
     @Column(length = 200)
     private String description;
