@@ -13,6 +13,11 @@ public class SectionUtils {
         return new Section(1L, StorageType.FRESH, 22L, null, warehouse, null);
     }
 
+    public static Section newSection2(){
+        Warehouse warehouse = WarehouseUtils.newWarehouseWithoutSupervisor();
+        return new Section(1L, StorageType.REFRIGERATED, 22L, null, warehouse, null);
+    }
+
     public static SectionDTO newSectionDTO(Section section, Warehouse warehouse){
         return new SectionDTO(section.getSectionId(), warehouse.getWarehouseId());
     }

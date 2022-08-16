@@ -1,29 +1,24 @@
 package meli.freshfood.service;
 
+import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
-import meli.freshfood.model.Batch;
-import meli.freshfood.model.Product;
-import meli.freshfood.model.StorageType;
+import meli.freshfood.model.*;
 import meli.freshfood.repository.ProductRepository;
-import meli.freshfood.utils.BatchUtils;
+
 import meli.freshfood.utils.ProductUtils;
+import meli.freshfood.utils.SectionUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.BDDMockito;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.*;
+import org.mockito.junit.jupiter.*;
 import org.mockito.quality.Strictness;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class ProductServiceImplTest {
@@ -93,11 +88,46 @@ class ProductServiceImplTest {
 
     @Test
     @DisplayName("Retorna o produto por categoria")
-    public void findProductByCategory() {
+     void findProductByCategory() {
         List<Product> productListMocked = ProductUtils.productList();
         BDDMockito.when(productRepo.findByStorageType(StorageType.FRESH))
                 .thenReturn(ProductUtils.productList());
 
         assertThat(productListMocked.get(0).getStorageType()).isEqualTo(StorageType.FRESH);
     }
+
+    @Test
+    @DisplayName("Retorna exceção caso não haja produtos em uma categoria")
+    void returnNotFoundException_whenProductCategoryDoesntExist() {
+        Exception exception = null;
+
+        try {
+            productService.findProductByCategory("FRESH");
+        }catch (Exception ex) {
+            exception = ex;
+        }
+
+        assertThat(exception.getMessage()).isEqualTo("A lista de produtos não foi encontrada!");
+    }
+
+    @Test
+    @DisplayName("Verifica se o tipo de armazenamento do produto é igual ao armazenamento do setor")
+    void returnTrue_ifProductStorage_isequalTo_SectionStorage(){
+
+        Boolean p1 = productService.checkProductStorageIsEqualSectionStorage(ProductUtils.newProduct(), SectionUtils.newSection());
+        assertThat(p1).isEqualTo(true);
+    }
+
+    @Test
+    @DisplayName("Retorna exceção caso o tipo de armazenamento do produto não é igual ao armazenamento do setor")
+    void returnBadRequestException_whenProductStorage_isNotEqualTo_SectionStorage() {
+
+        Exception exception = assertThrows(
+                BadRequestException.class,
+                () -> productService.checkProductStorageIsEqualSectionStorage(ProductUtils.newProduct(), SectionUtils.newSection2())
+        );
+
+        assertThat(exception.getMessage()).isEqualTo("O setor e o produto não têm o mesmo tipo de armazenamento!");
+    }
+
 }
