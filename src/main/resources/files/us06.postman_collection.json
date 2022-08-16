@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "9e3cbeeb-63c7-4c7e-978b-d02cf88c9f03",
+		"name": "Projeto Integrador",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Criar um carrinho de compras",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"date\": \"2022-08-13\",\n    \"buyerId\" : \"7\",\n    \"orderStatus\" : \"ACTIVATED\",\n    \"products\" : [\n        {\n        \"productId\": \"2\",\n        \"quantity\": 1\n        }\n    ]\n\n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/fresh-products/orders",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"fresh-products",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Finaliza um carrinho",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/fresh-products/7",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"fresh-products",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Altera status de um pedido",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/fresh-products/client-order/id=1&status=APPROVED",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"fresh-products",
+						"client-order",
+						"id=1&status=APPROVED"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Busca pedidos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/fresh-products/client-order/7",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"fresh-products",
+						"client-order",
+						"7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
