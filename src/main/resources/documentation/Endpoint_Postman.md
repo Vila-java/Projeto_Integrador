@@ -1,5 +1,11 @@
 # Endpoint Postman
 
+### Workspaces <br>
+[Projeto Integrador](https://winter-equinox-389662.postman.co/workspace/My-Workspace~ed088188-1514-43a4-884b-e533534cc782/folder/21828030-dd5babcb-8eea-4876-829e-f748f1bb5d87?ctx=documentation)
+
+
+
+<br>
 <img src="https://img.icons8.com/material-outlined/24/000000/idea--v1.png"/>  Dica: Como imporat um Curl no Postman
 
 1. Clique na guia **"Importar"** no canto superior esquerdo.
