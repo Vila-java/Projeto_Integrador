@@ -88,7 +88,7 @@ class ProductServiceImplTest {
 
     @Test
     @DisplayName("Retorna o produto por categoria")
-    public void findProductByCategory() {
+     void findProductByCategory() {
         List<Product> productListMocked = ProductUtils.productList();
         BDDMockito.when(productRepo.findByStorageType(StorageType.FRESH))
                 .thenReturn(ProductUtils.productList());
@@ -98,7 +98,7 @@ class ProductServiceImplTest {
 
     @Test
     @DisplayName("Retorna exceção caso não haja produtos em uma categoria")
-    void returnNotFoundException_whenFindAllClientsNotExists() {
+    void returnNotFoundException_whenProductCategoryDoesntExist() {
         Exception exception = null;
 
         try {
@@ -119,8 +119,8 @@ class ProductServiceImplTest {
     }
 
     @Test
-    @DisplayName("Retorna exceção caso não haja produtos em uma categoria")
-    void returnBadRequestException_whenProductStorage_isequalTo_SectionStorage() {
+    @DisplayName("Retorna exceção caso o tipo de armazenamento do produto não é igual ao armazenamento do setor")
+    void returnBadRequestException_whenProductStorage_isNotEqualTo_SectionStorage() {
 
         Exception exception = assertThrows(
                 BadRequestException.class,
