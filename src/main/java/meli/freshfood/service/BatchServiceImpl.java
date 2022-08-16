@@ -1,18 +1,16 @@
 package meli.freshfood.service;
 
-import meli.freshfood.dto.BatchStockDTO;
-import meli.freshfood.dto.BatchDTO;
-import meli.freshfood.dto.BatchDetailsDTO;
-import meli.freshfood.dto.InboundOrderDTO;
-import meli.freshfood.dto.ProductDTO;
+import meli.freshfood.dto.*;
 import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.*;
 import meli.freshfood.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -73,7 +71,6 @@ public class BatchServiceImpl implements BatchService {
         checkBatchAvailable(productDTO);
         Product product = productService.findById(productDTO.getProductId());
 
-        // TODO: Verificar se existe uma solução melhor
         final int[] purchaseQuantity = new int[1];
         purchaseQuantity[0] = productDTO.getQuantity();
 
@@ -127,7 +124,10 @@ public class BatchServiceImpl implements BatchService {
         } else if (batchOrder.equalsIgnoreCase("L")) {
             return sortByBatchNumber(batches);
         } else {
-            throw new BadRequestException("Não existe esse tipo de ordenação!");
+            throw new BadRequestException("Não existe esse tipo de ordenação! Os valores possíveis são: " +
+                    "L = ordenado por lote, " +
+                    "Q = ordenado por quantidade atual, " +
+                    "V = ordenado por data de vencimento");
         }
     }
 
@@ -220,10 +220,12 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public List<BatchStockDTO> findBatches (Integer intervalDate, Long sectionId, String storageType, Boolean asc) {
         List<Batch> batches = batchRepository.findAll();
-            batches =  filterDueDateInterval(batches, intervalDate);
-            batches = filterBySection(batches, sectionId);
-            batches = filterByCategory(batches, storageType);
+        batches = filterDueDateInterval(batches, intervalDate);
+        batches = filterBySection(batches, sectionId);
+        batches = filterByCategory(batches, storageType);
+        if(asc != null) {
             batches = sortByDueDateAscOrDesc(batches, asc);
+        }
 
         return batches.stream().map(Batch::toBatchStockDTO).collect(Collectors.toList());
     }
