@@ -2,12 +2,13 @@ package meli.freshfood.service;
 
 import meli.freshfood.exception.InternalServerErrorException;
 import meli.freshfood.exception.NotFoundException;
-import meli.freshfood.model.*;
+import meli.freshfood.model.Product;
+import meli.freshfood.model.Section;
+import meli.freshfood.model.StorageType;
 import meli.freshfood.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service

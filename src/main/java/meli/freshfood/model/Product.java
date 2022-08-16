@@ -1,10 +1,10 @@
 package meli.freshfood.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import meli.freshfood.dto.ProductPromotionDTO;
-import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
