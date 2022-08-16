@@ -1,10 +1,9 @@
 package meli.freshfood.controller;
 
 import meli.freshfood.dto.BatchDetailsDTO;
-import meli.freshfood.dto.ProductBatchesDTO;
 import meli.freshfood.dto.BatchStockDTO;
+import meli.freshfood.dto.ProductBatchesDTO;
 import meli.freshfood.dto.ProductPromotionDTO;
-import meli.freshfood.model.Batch;
 import meli.freshfood.service.BatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -48,24 +47,6 @@ public class BatchController {
         List<BatchStockDTO> batch = batchService.findBatches(intervalDate,null,  storageType, order);
         return ResponseEntity.ok(batch);
     }
-
-//    @GetMapping("/due-date/interval-days")
-//    public ResponseEntity<List<Batch>> filterNotExpiredProductsByDaysInterval(
-////            List<BatchStockDTO> batches,
-//            @RequestParam(required = false) Integer minIntervalDate,
-//            @RequestParam(required = false) Integer maxIntervalDate) {
-//
-//        List<Batch> batches = batchService.filterNotExpiredProductsByDaysInterval(minIntervalDate, maxIntervalDate);
-//        return ResponseEntity.ok(batches);
-//    }
-
-//    @GetMapping("due-date/products-promotion")
-//    public ResponseEntity<List<ProductPromotionDTO>> findBatchesFilteredByDueDateAndPromotion(
-//            @RequestParam(required = false) Integer maxIntervalDate,
-//            @RequestParam Integer minIntervalDate) {
-//        List<ProductPromotionDTO> productPromotion = batchService.findBatchesFilteredByDueDateAndPromotion(maxIntervalDate, minIntervalDate);
-//        return ResponseEntity.ok(productPromotion);
-//    }
 
     @GetMapping("due-date/products-promotion30")
     public ResponseEntity<List<ProductPromotionDTO>> findBatchesFilteredByPromotion30() {

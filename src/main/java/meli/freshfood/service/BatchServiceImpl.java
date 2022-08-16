@@ -1,26 +1,18 @@
 package meli.freshfood.service;
 
-import meli.freshfood.dto.BatchStockDTO;
-import meli.freshfood.dto.BatchDTO;
-import meli.freshfood.dto.BatchDetailsDTO;
-import meli.freshfood.dto.InboundOrderDTO;
-import meli.freshfood.dto.ProductDTO;
 import meli.freshfood.dto.*;
 import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.*;
 import meli.freshfood.repository.BatchRepository;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Period;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -100,7 +92,6 @@ public class BatchServiceImpl implements BatchService {
             }
         });
     }
-
 
     //Retorna todos os lotes armazenados em um setor de um armazém dentro de um intervalo de datas filtrados pela data de vencimento
     @Override
@@ -232,36 +223,7 @@ public class BatchServiceImpl implements BatchService {
 
         return batches.stream().map(Batch::toBatchStockDTO).collect(Collectors.toList());
     }
-
-//    public List<Batch> filterNotExpiredProductsByDaysInterval(List<Batch> batches, Integer maxIntervalDate, Integer minIntervalDate) {
-//        List<Batch> sortDueDate = sortByDueDate(batches);
-//        return batches.stream()
-//                .filter((b) -> {
-//                    LocalDate dueDate = b.getDueDate();
-//                    if (dueDate.isAfter(LocalDate.now()) &&
-//                            dueDate.isBefore(LocalDate.now().plusDays(minIntervalDate)) &&
-//                            dueDate.isBefore(LocalDate.now().plusDays(maxIntervalDate))) {
-//                        return true;
-//                    } else {
-//                        return false;
-//                    }
-//                }).collect(Collectors.toList());
-//    }
-
-//        public List<Batch> filterNotExpiredProductsByDaysInterval(List<Batch> batches, Integer maxIntervalDate, Integer minIntervalDate) {
-//        List<Batch> sortDueDate = sortByDueDate(batches);
-//        return sortDueDate.stream()
-//                .filter((b) -> {
-//                    LocalDate dueDate = b.getDueDate();
-//                    if (dueDate.isBefore(LocalDate.now().plusDays(minIntervalDate)) &&
-//                            dueDate.isBefore(LocalDate.now().plusDays(maxIntervalDate))) {
-//                        return true;
-//                    } else {
-//                        return false;
-//                    }
-//                }).collect(Collectors.toList());
-//    }
-
+    //filtra produtos por data de vencimento com intervalo de 21 a 15 dias do vencimento
     public List<Batch> filterDueDateInterval21(List<Batch> batches) {
         Integer intervalDateMax = 22;
         Integer intervalDateMin = 14;
@@ -271,7 +233,7 @@ public class BatchServiceImpl implements BatchService {
 
                 .collect(Collectors.toList());
     }
-
+    //filtra produtos por data de vencimento com intervalo de 14 a 7 dias do vencimento
     public List<Batch> filterDueDateInterval15(List<Batch> batches) {
         Integer intervalDateMax = 15;
         Integer intervalDateMin = 06;
@@ -281,111 +243,16 @@ public class BatchServiceImpl implements BatchService {
         .collect(Collectors.toList());
     }
 
+    //filtra produtos por data de vencimento com intervalo de 6 dias do vencimento
     public List<Batch> filterDueDateInterval7(List<Batch> batches) {
         Integer intervalDateMax = 7;
-//        Integer intervalDateMin = 1;
         return batches.stream().filter((b) ->
                 b.getDueDate().isAfter(LocalDate.now()) &&
                         b.getDueDate().isBefore(LocalDate.now().plusDays(intervalDateMax)))
         .collect(Collectors.toList());
     }
 
-//    @Override
-//    public List<ProductPromotionDTO> findBatchesFilteredByDueDateAndPromotion(Integer maxIntervalDate, Integer minIntervalDate) {
-//        List<Batch> batches = batchRepository.findAll();
-//        List<Batch> batchesFiltered = filterNotExpiredProductsByDaysInterval(batches, maxIntervalDate, minIntervalDate);
-//        List<ProductPromotionDTO> productPromotion = new ArrayList<>();
-//
-//        BigDecimal desc30 = new BigDecimal(0.30);
-//        BigDecimal desc60 = new BigDecimal(0.60);
-//
-//        if (maxIntervalDate >= 21 && minIntervalDate <= 15) {
-//            batchesFiltered.stream().forEach(b -> productPromotion.stream()
-//                    .forEach(pP -> pP.setPricePromotion(b.getProduct().getPrice()
-//                            .subtract(b.getProduct().getPrice().multiply(desc30)))));
-//        } else if (maxIntervalDate >= 15 && minIntervalDate <= 07) {
-//            batchesFiltered.stream().forEach(b -> productPromotion.stream()
-//                    .forEach(pP -> pP.setPricePromotion(b.getProduct().getPrice()
-//                            .subtract(b.getProduct().getPrice().multiply(desc60)))));
-//        } else if (maxIntervalDate > 7 && minIntervalDate < 0) {
-//            return null;
-////        } else {
-////            throw new NotFoundException("Produto está com menos de 7 dias para o vencimento, precisa ser descartado!");
-//        }
-
-//    @Override
-//    public List<ProductPromotionDTO> findBatchesFilteredByDueDateAndPromotion(Integer maxIntervalDate, Integer minIntervalDate) {
-//        List<Batch> batches = batchRepository.findAll();
-//        List<Batch> batchesFiltered = filterNotExpiredProductsByDaysInterval(batches, maxIntervalDate, minIntervalDate);
-//        List<ProductPromotionDTO> productPromotionList = new ArrayList<>();
-//
-//        productPromotionList = batchesFiltered.stream().map(b -> b.toProductPromotionDTO(b.getProduct().getProductId(), b.getProduct().getName(),
-//                b.getDueDate(), b.getProduct().getPrice(), new BigDecimal(0), " ")).collect(Collectors.toList());
-//
-//        BigDecimal desc30 = new BigDecimal(0.30);
-//        BigDecimal desc60 = new BigDecimal(0.60);
-//
-//        for (ProductPromotionDTO productPromotion : productPromotionList) {
-//            LocalDate dueDate = productPromotion.getDueDate();
-//            Period periodo = Period.between(dueDate,LocalDate.now());
-//            int dias = periodo.getDays();
-//            int meses = periodo.getMonths();
-//                dias + meses * 30;
-//            Long differenceDays = productPromotion.getDueDate().until(LocalDate.now(), ChronoUnit.DAYS);
-//
-//            if (differenceDays >= 15 && differenceDays <= 21) {
-//                productPromotion.setPricePromotion(productPromotion.getPrice().subtract(productPromotion.getPrice().multiply(desc30)));
-//                productPromotion.setMessage("O produto está em promoção com 30% de desconto.");
-//            } else if (differenceDays >= 07 && differenceDays <= 14) {
-//                productPromotion.setPricePromotion(productPromotion.getPrice().subtract(productPromotion.getPrice().multiply(desc60)));
-//                productPromotion.setMessage("O produto está em promoção com 60% de desconto.");
-//            } else if (differenceDays <= 6) {
-//                productPromotion.setMessage(
-//                        ("O produto está com menos de 7 dias da data de vencimento, descarte."));
-//            }
-//        }
-//            return productPromotionList;
-//    }
-
-
-
-//    @Override
-//    public List<ProductPromotionDTO> findBatchesFilteredByDueDateAndPromotion(Integer maxIntervalDate, Integer minIntervalDate) {
-//        List<Batch> batches = batchRepository.findAll();
-//        List<Batch> batchesFiltered = filterDueDateInterval21(batches);
-//        List<ProductPromotionDTO> productPromotionList = new ArrayList<>();
-//
-//        productPromotionList = batchesFiltered.stream().map(b -> b.toProductPromotionDTO(b.getProduct().getProductId(), b.getProduct().getName(),
-//                b.getDueDate(), b.getProduct().getPrice(), new BigDecimal(0), " ")).collect(Collectors.toList());
-//
-//        BigDecimal desc30 = new BigDecimal(0.30);
-//        BigDecimal desc60 = new BigDecimal(0.60);
-//
-//        for (ProductPromotionDTO productPromotion : productPromotionList) {
-//            LocalDate dueDate = productPromotion.getDueDate();
-//            Period periodo = Period.between(dueDate, LocalDate.now());
-//            int dias = periodo.getDays();
-//            int meses = periodo.getMonths();
-//            Long differenceDays = dias + meses * 30L;
-//
-//            if (differenceDays >= 15 && differenceDays <= 21) {
-//                productPromotionList.stream().forEach(p -> p.setPricePromotion(p.getPrice()
-//                        .subtract(p.getPrice().multiply(desc30))));
-//                productPromotionList.stream().forEach(p -> p.setMessage("O produto está em promoção com 30% de desconto."));
-//            } else if (differenceDays >= 07 && differenceDays <= 15) {
-//                productPromotionList.stream().forEach(p -> p.setPricePromotion(p.getPrice()
-//                        .subtract(p.getPrice().multiply(desc60))));
-//                productPromotionList.stream().forEach(p -> p.setMessage("O produto está em promoção com 60% de desconto."));
-//            } else if (differenceDays < 7) {
-//                productPromotionList.stream().forEach(p -> p.setMessage
-//                        ("O produto está com menos de 7 dias da data de vencimento, descarte."));
-//            }
-//        }
-//            return productPromotionList;
-//
-//    }
-
-
+    //retorna produtos filtrado por data de vencimento com intervalo de 21 a 15 dias do vencimento aplicando 30% de desconto do valor do produto
     @Override
     public List<ProductPromotionDTO> findBatchesFilteredByPromotion30() {
         List<Batch> batches = batchRepository.findAll();
@@ -402,9 +269,9 @@ public class BatchServiceImpl implements BatchService {
         productPromotion.stream().forEach(p -> p.setMessage("O produto está em promoção com 30% de desconto."));
 
         return productPromotion;
-
     }
 
+    //retorna produtos filtrado por data de vencimento com intervalo de 21 a 15 dias do vencimento aplicando de 60% de desconto do valor do produto
     @Override
     public List<ProductPromotionDTO> findBatchesFilteredByPromotion60() {
         List<Batch> batches = batchRepository.findAll();
@@ -421,9 +288,9 @@ public class BatchServiceImpl implements BatchService {
         productPromotion.stream().forEach(p -> p.setMessage("O produto está em promoção com 60% de desconto."));
 
         return productPromotion;
-
     }
 
+    //retorna produtos filtrado por data de vencimento com intervalo de 6 dias do vencimento e com instruçao de descarta-los
     @Override
     public List<ProductPromotionDTO> findBatchesFilteredByProductsTrash() {
         List<Batch> batches = batchRepository.findAll();
@@ -436,36 +303,5 @@ public class BatchServiceImpl implements BatchService {
         productPromotion.stream().forEach(p -> p.setMessage("O produto está com menos de 7 dias da data de vencimento, descarte."));
 
         return productPromotion;
-
     }
-    
-    //testado
-//    @Override
-//    public List<ProductPromotionDTO> findBatchesFilteredByDueDateAndPromotion(Integer maxIntervalDate, Integer minIntervalDate) {
-//        List<Batch> batches = batchRepository.findAll();
-//        List<Batch> batchesFiltered = filterNotExpiredProductsByDaysInterval(batches, maxIntervalDate, minIntervalDate);
-//        List<ProductPromotionDTO> productPromotion = batchesFiltered.stream().map(b -> b.toProductPromotionDTO(b.getProduct().getProductId(), b.getProduct().getName(),
-//                b.getDueDate(), b.getProduct().getPrice(), new BigDecimal(0).setScale(2, RoundingMode.HALF_EVEN), " ")).collect(Collectors.toList());
-//
-//        BigDecimal desc30 = new BigDecimal(0.30);
-//        BigDecimal desc60 = new BigDecimal(0.60);
-//
-//        if (minIntervalDate >= 15 && maxIntervalDate <= 21) {
-//            productPromotion.stream().forEach(p -> p.setPricePromotion(p.getPrice()
-//                    .subtract(p.getPrice().multiply(desc30))));
-//            productPromotion.stream().forEach(p -> p.setMessage("O produto está em promoção com 30% de desconto."));
-//        } else if (minIntervalDate >= 07 && maxIntervalDate <= 15) {
-//            productPromotion.stream().forEach(p -> p.setPricePromotion(p.getPrice()
-//                    .subtract(p.getPrice().multiply(desc60))));
-//            productPromotion.stream().forEach(p -> p.setMessage("O produto está em promoção com 60% de desconto."));
-//        } else if (maxIntervalDate > 0 && maxIntervalDate < 7) {
-//            productPromotion.stream().forEach(p -> p.setMessage
-//                    ("O produto está com menos de 7 dias da data de vencimento, descarte."));
-//        }
-//        return productPromotion;
-//    }
-
 }
-
-
-
