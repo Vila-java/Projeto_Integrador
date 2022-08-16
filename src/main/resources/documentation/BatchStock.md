@@ -21,4 +21,4 @@ curl --location --request GET 'localhost:8080/api/v1/fresh-products/due-date/lis
 
 
 <br><br><br><br>
-<img src="https://img.icons8.com/ios/20/000000/login-rounded.png"/>[ Inicio](https://github.com/Vila-java/Projeto_Integrador)
+<img src="https://img.icons8.com/ios/20/000000/login-rounded.png"/>[ Inicio](https://github.com/Vila-java/Projeto_Integrador/blob/develop/src/main/resources/documentation/Endpoint_Postman.md)
