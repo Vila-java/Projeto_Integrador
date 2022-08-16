@@ -62,9 +62,9 @@ curl --location --request GET 'localhost:8080/api/v1/fresh-products/supervisor/w
 
 <img src="https://img.icons8.com/material-outlined/24/000000/idea--v1.png"/>  Dica: Como imporat um Curl no Postman
 
-1. Clique na guia "Importar" no canto superior esquerdo.
-2. Selecione a opção Texto e cole seu comando CURL.
-3. Pressione continuar, import e você terá o comando no seu construtor Postman!
+1. Clique na guia **"Importar"** no canto superior esquerdo.
+2. Selecione a opção **"Texto"** e cole seu comando CURL.
+3. Pressione **"Continuar"**, **"import"** e você terá o comando no seu construtor Postman!
 4. Clique em Send para postar o comando.
 
 
