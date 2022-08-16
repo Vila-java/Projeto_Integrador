@@ -1,6 +1,5 @@
 package meli.freshfood.utils;
 
-import meli.freshfood.dto.SupervisorDetailsDTO;
 import meli.freshfood.model.*;
 
 import java.util.ArrayList;
@@ -17,17 +16,10 @@ public class SupervisorUtils {
         return new Supervisor(1L, "Bianca", "Polegatti", "bianca.polegatti@email.com","1199999999","41677701014", "São Paulo" , "BRSP01", warehouse, null);
     }
 
-    private static SupervisorDetailsDTO newSupervisorListWithWarehouse(Long supersivorId, String firstName, String lastName, String warehouseSupervisor) {
-        Supervisor supervisor = SupervisorUtils.newSupervisorWithWarehouse();
-        return new SupervisorDetailsDTO(supersivorId, firstName, lastName, warehouseSupervisor);
-    }
 
     public static List<Supervisor> supervisorList(){
         List<Supervisor> supervisorList = new ArrayList<>();
-        supervisorList.add(new Supervisor(1L, "Bianca", "Polegatti", "bianca.polegatti@email.com","1199999999","41677701014", "São Paulo" , "BRSP01", null, null));
-
-
-        //supervisorList.add(newSupervisorListWithWarehouse(6L, "Weslley", "Rocha", "BRSP01"));
+        supervisorList.add(new Supervisor(1L, "Weslley", "Rocha", "weslley.rocha@email.com","1199999999","41677701014", "São Paulo" , "BRSP01", null, null));
         return supervisorList;
     }
 }

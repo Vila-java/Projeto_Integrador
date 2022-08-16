@@ -97,16 +97,15 @@ class SupervisorServiceImplTest {
 
     @Test
     @DisplayName("Retorna uma lista de Supervisores quando ele existe no Warehouse informado.")
-    void findAllSupervisores_returnWarehouseList_whenWerehouseListExists() {
+    void findAllSupervisore_returnWarehouseList_whenWerehouseListExists() {
 
         List<Supervisor> supervisorListMocked = SupervisorUtils.supervisorList();
 
         BDDMockito.when(supervisorRepository.findAll())
                 .thenReturn(supervisorListMocked);
 
-        List<SupervisorDetailsDTO> supervisorList = supervisorServiceImpl.findAllByWarehouseSupervisor("warehouseSupervisor");
+        List<SupervisorDetailsDTO> supervisorList = supervisorServiceImpl.findAllByWarehouseSupervisor("BRSP01");
         assertThat(supervisorList).isNotNull();
         assertThat(supervisorList.size()).isEqualTo(supervisorListMocked.size());
     }
-
 }
