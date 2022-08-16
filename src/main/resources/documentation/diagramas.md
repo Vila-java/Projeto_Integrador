@@ -5,7 +5,7 @@ Diagramas e representações do projeto.
 
 - Requesito 1 <br>
 Versão 1.0 - Modelagem do projeto <br>
-Versão 1.1 - Refatoração entre as tabelas, Supervirsor e ImboundOrder. <br><br>
+Versão 1.1 - Refatoração entre as tabelas Supervirsor e ImboundOrder. <br><br>
 
 - Requesito 2 <br>
 Versão 2.0 - Adicionando a tabela PurchaseOrder. <br>
