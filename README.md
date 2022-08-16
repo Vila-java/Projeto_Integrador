@@ -4,7 +4,7 @@
 
 
 ## Sobre
-A melhoria apresentada junto ao Projeto Integrador - FreshFood foi sob o aspecto do Carrier, ou seja, aquele responsável por realizar a entrega dos pedidos. Para tanto foi implementado o CRUD do Carrier. <b>Funcionalidades do Carrier</b>: 
+A melhoria apresentada junto ao Projeto Integrador - FreshFood foi sob o aspecto do Carrier, ou seja, aquele responsável por realizar a entrega dos pedidos. Para tanto foi implementado o CRUD do Carrier. <b>Funcionalidades do Carrier:
 
 1. Salvar um Carrier;
 2. Retornar uma lista de Carriers ordenada por ordem alfabética;
@@ -12,7 +12,7 @@ A melhoria apresentada junto ao Projeto Integrador - FreshFood foi sob o aspecto
 4. Editar um Carrier existente por ID;
 5. Deletar um Carrier existente por ID.
 
-Implementou-se ainda o equivalente ao pedido de entrega, PurchaseDelivery, o qual permite a criação do pedido de entrega avaliando se o veículo de propriedade do Carrier é compatível com o número de produtos a serem entregues. Funcionalidades do PurchaseDelivery: 
+Implementou-se ainda o equivalente ao pedido de entrega, PurchaseDelivery, o qual permite a criação do pedido de entrega avaliando se o veículo de propriedade do Carrier é compatível com o número de produtos a serem entregues. <b>Funcionalidades do PurchaseDelivery:</b>
 
 1. Salvar um PurchaseDelivery. 
 
