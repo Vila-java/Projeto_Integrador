@@ -4,6 +4,7 @@
 ```
 curl --location --request GET 'localhost:8080/api/v1/fresh-products/due-date?intervalDate=100&sectionId=1'
 ```
+<BR>
 
 - Lista de todos os lotes
 L = ordenado por lote
@@ -12,6 +13,7 @@ V = ordenado por data de vencimento
 ```
 curl --location --request GET 'localhost:8080/api/v1/fresh-products/list/batch?productId=1&batchOrder=L'
 ```
+<BR>
 
 - Lista de todos os lotes ordenados por data de vencimento  e por categoria
 ```
