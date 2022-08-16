@@ -2,7 +2,7 @@
 
 ### Workspaces <br>
 [Projeto Integrador](https://winter-equinox-389662.postman.co/workspace/My-Workspace~ed088188-1514-43a4-884b-e533534cc782/folder/21828030-dd5babcb-8eea-4876-829e-f748f1bb5d87?ctx=documentation)
-
+[Postman collection - Downloads](https://drive.google.com/file/d/1BA4H9EGatIizCSrVvcmDkLbKTTwIG7bx/view?usp=sharing)
 
 
 <br>
