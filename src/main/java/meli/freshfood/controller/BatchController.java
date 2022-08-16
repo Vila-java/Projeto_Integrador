@@ -59,11 +59,29 @@ public class BatchController {
 //        return ResponseEntity.ok(batches);
 //    }
 
-    @GetMapping("due-date/products-promotion")
-    public ResponseEntity<List<ProductPromotionDTO>> findBatchesFilteredByDueDateAndPromotion(
-            @RequestParam(required = false) Integer maxIntervalDate,
-            @RequestParam(required = false) Integer minIntervalDate) {
-        List<ProductPromotionDTO> productPromotion = batchService.findBatchesFilteredByDueDateAndPromotion(maxIntervalDate, minIntervalDate);
+//    @GetMapping("due-date/products-promotion")
+//    public ResponseEntity<List<ProductPromotionDTO>> findBatchesFilteredByDueDateAndPromotion(
+//            @RequestParam(required = false) Integer maxIntervalDate,
+//            @RequestParam Integer minIntervalDate) {
+//        List<ProductPromotionDTO> productPromotion = batchService.findBatchesFilteredByDueDateAndPromotion(maxIntervalDate, minIntervalDate);
+//        return ResponseEntity.ok(productPromotion);
+//    }
+
+    @GetMapping("due-date/products-promotion30")
+    public ResponseEntity<List<ProductPromotionDTO>> findBatchesFilteredByPromotion30() {
+        List<ProductPromotionDTO> productPromotion = batchService.findBatchesFilteredByPromotion30();
+        return ResponseEntity.ok(productPromotion);
+    }
+
+    @GetMapping("due-date/products-promotion60")
+    public ResponseEntity<List<ProductPromotionDTO>> findBatchesFilteredByPromotion60() {
+        List<ProductPromotionDTO> productPromotion = batchService.findBatchesFilteredByPromotion60();
+        return ResponseEntity.ok(productPromotion);
+    }
+
+    @GetMapping("due-date/products-trash")
+    public ResponseEntity<List<ProductPromotionDTO>> findBatchesFilteredByProductsTrash() {
+        List<ProductPromotionDTO> productPromotion = batchService.findBatchesFilteredByProductsTrash();
         return ResponseEntity.ok(productPromotion);
     }
 }

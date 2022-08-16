@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -17,6 +18,8 @@ public class ProductPromotionDTO {
     private String productName;
     private LocalDate dueDate;
     private BigDecimal price;
+
+    @Column(precision = 11, scale = 2)
     private BigDecimal pricePromotion;
     private String message;
 }

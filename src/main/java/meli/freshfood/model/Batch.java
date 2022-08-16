@@ -99,9 +99,9 @@ public class Batch {
                 this.getDueDate(), this.getCurrentQuantity(), this.getSection().getSectionId());
     }
 
-    public ProductPromotionDTO productPromotionDTO() {
-        BigDecimal pricePromotion = new BigDecimal(0);
-        String message = " ";
+    public ProductPromotionDTO toProductPromotionDTO(Long id, String productName, LocalDate dueDate, BigDecimal price, BigDecimal pricePromotion, String message) {
+        pricePromotion = new BigDecimal("0.0");
+        message = " ";
         return new ProductPromotionDTO(this.getProduct().getProductId(), this.getProduct().getName(),this.dueDate,
                 this.getProduct().getPrice(), pricePromotion, message);
     }
