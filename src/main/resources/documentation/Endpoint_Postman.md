@@ -6,6 +6,7 @@
 
 
 <br>
+
 <img src="https://img.icons8.com/material-outlined/24/000000/idea--v1.png"/>  Dica: Como imporat um Curl no Postman
 
 1. Clique na guia **"Importar"** no canto superior esquerdo.
