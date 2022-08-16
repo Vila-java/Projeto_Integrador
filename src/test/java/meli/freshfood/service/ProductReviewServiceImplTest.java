@@ -3,6 +3,8 @@ package meli.freshfood.service;
 import meli.freshfood.dto.ProductReviewCreateDTO;
 import meli.freshfood.dto.ProductReviewUpdateDTO;
 import meli.freshfood.exception.NotFoundException;
+import meli.freshfood.model.Client;
+import meli.freshfood.model.Product;
 import meli.freshfood.model.ProductPurchaseOrder;
 import meli.freshfood.model.ProductReview;
 import meli.freshfood.repository.ProductPurchaseOrderRepository;
@@ -26,8 +28,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
 
@@ -210,5 +211,109 @@ public class ProductReviewServiceImplTest {
 
         assertThat(exception.getMessage()).isEqualTo("Avaliação não encontrada!");
     }
+
+    @Test
+    void filterByProductId_returnReviewsOfProduct_whenReviewsWithProductExists() {
+        Client client = ClientUtils.newClient();
+        Product product1 = ProductUtils.newProduct();
+        Product product2 = ProductUtils.newProduct();
+
+        List<ProductReview> productReviewsMock = new ArrayList<>();
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product1, client));
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product1, client));
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product2, client));
+
+        BDDMockito.when(productService.findById(anyLong())).thenReturn(product1);
+
+        List<ProductReview> productReviews = productReviewService.filterByProductId(productReviewsMock, product1.getProductId());
+
+        assertThat(productReviews.getClass()).isEqualTo(ArrayList.class);
+        Integer numberOfReviewsProduct1 = 2;
+        assertThat(productReviews.size()).isEqualTo(numberOfReviewsProduct1);
+    }
+
+    @Test
+    void filterByClientId_returnReviewsOfClient_whenReviewsWithClientExists() {
+        Client client1 = ClientUtils.newClient();
+        Client client2 = ClientUtils.newClient();
+        Product product = ProductUtils.newProduct();
+
+        List<ProductReview> productReviewsMock = new ArrayList<>();
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product, client1));
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product, client1));
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product, client2));
+
+        BDDMockito.when(clientService.findById(anyLong())).thenReturn(client1);
+
+        List<ProductReview> productReviews = productReviewService.filterByClientId(productReviewsMock, client1.getClientId());
+
+        assertThat(productReviews.getClass()).isEqualTo(ArrayList.class);
+        Integer numberOfReviewsClient1 = 2;
+        assertThat(productReviews.size()).isEqualTo(numberOfReviewsClient1);
+    }
+
+    @Test
+    void findAllWithFilter_returnAllReviews_whenNoArgs() {
+        Client client1 = ClientUtils.newClient();
+        Client client2 = ClientUtils.newClient();
+        Product product = ProductUtils.newProduct();
+
+        List<ProductReview> productReviewsMock = new ArrayList<>();
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product, client1));
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product, client1));
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product, client2));
+
+        BDDMockito.when(productReviewRepository.findAll()).thenReturn(productReviewsMock);
+
+        List<ProductReview> productReviews = productReviewService.findAllWithFilter(null, null);
+
+        assertThat(productReviews.getClass()).isEqualTo(ArrayList.class);
+        assertThat(productReviews.size()).isEqualTo(productReviewsMock.size());
+    }
+
+    @Test
+    void findAllWithFilter_returnReviewsWithProductId_whenSendProductId() {
+        Client client1 = ClientUtils.newClient();
+        Client client2 = ClientUtils.newClient();
+        Product product1 = ProductUtils.newProduct();
+        Product product2 = ProductUtils.newProduct();
+
+        List<ProductReview> productReviewsMock = new ArrayList<>();
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product1, client1));
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product2, client1));
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product1, client2));
+
+        BDDMockito.when(productReviewRepository.findAll()).thenReturn(productReviewsMock);
+        BDDMockito.when(productService.findById(anyLong())).thenReturn(product1);
+
+        List<ProductReview> productReviews = productReviewService.findAllWithFilter(product1.getProductId(), null);
+
+        assertThat(productReviews.getClass()).isEqualTo(ArrayList.class);
+        Integer numberOfReviewsProduct1 = 2;
+        assertThat(productReviews.size()).isEqualTo(numberOfReviewsProduct1);
+    }
+
+    @Test
+    void findAllWithFilter_returnReviewsWithClientId_whenSendClientId() {
+        Client client1 = ClientUtils.newClient();
+        Client client2 = ClientUtils.newClient();
+        Product product1 = ProductUtils.newProduct();
+        Product product2 = ProductUtils.newProduct();
+
+        List<ProductReview> productReviewsMock = new ArrayList<>();
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product1, client1));
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product2, client1));
+        productReviewsMock.add(ProductReviewUtils.newProductReviewWithProductAndClient(product1, client2));
+
+        BDDMockito.when(productReviewRepository.findAll()).thenReturn(productReviewsMock);
+        BDDMockito.when(clientService.findById(anyLong())).thenReturn(client2);
+
+        List<ProductReview> productReviews = productReviewService.findAllWithFilter(null, client2.getClientId());
+
+        assertThat(productReviews.getClass()).isEqualTo(ArrayList.class);
+        Integer numberOfReviewsClient2 = 1;
+        assertThat(productReviews.size()).isEqualTo(numberOfReviewsClient2);
+    }
+
 
 }

@@ -77,21 +77,25 @@ public class ProductReviewServiceImpl implements ProductReviewService {
     @Override
     public List<ProductReviewProductDTO> reviewsByProduct() {
         List<ProductReview> productReviews = findAll();
-        Map<Product, Double> collect = productReviews.stream()
-                .collect(Collectors.groupingBy(
-                        p -> p.getProduct(),
-                        Collectors.averagingInt(p -> p.getGrade())
-                ));
+        if (productReviews.isEmpty()) {
+            throw new NotFoundException("O produto ainda não possui avaliações!");
+        } else {
+            Map<Product, Double> collect = productReviews.stream()
+                    .collect(Collectors.groupingBy(
+                            p -> p.getProduct(),
+                            Collectors.averagingInt(p -> p.getGrade())
+                    ));
 
-        List<ProductReviewProductDTO> productReviewProductDTOS = new ArrayList<>();
-        collect.forEach((k, v) ->
-                productReviewProductDTOS.add(
-                        new ProductReviewProductDTO(k.getProductId(),
-                                v, k.getProductReviews().size()
-                        )
-                )
-        );
-        return productReviewProductDTOS;
+            List<ProductReviewProductDTO> productReviewProductDTOS = new ArrayList<>();
+            collect.forEach((k, v) ->
+                    productReviewProductDTOS.add(
+                            new ProductReviewProductDTO(k.getProductId(),
+                                    v, k.getProductReviews().size()
+                            )
+                    )
+            );
+            return productReviewProductDTOS;
+        }
     }
 
     @Override

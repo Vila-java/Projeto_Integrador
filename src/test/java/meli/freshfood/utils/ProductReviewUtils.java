@@ -16,6 +16,11 @@ public class ProductReviewUtils {
                 LocalDate.now(), LocalDate.now(), client, product);
     }
 
+    public static ProductReview newProductReviewWithProductAndClient(Product product, Client client) {
+        return new ProductReview(1L, "descrição", 5,
+                LocalDate.now(), LocalDate.now(), client, product);
+    }
+
     public static ProductReviewCreateDTO newProductReviewCreateDTO() {
         Client client = ClientUtils.newClient();
         Product product = ProductUtils.newProduct();
