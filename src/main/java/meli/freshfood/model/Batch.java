@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -100,7 +101,7 @@ public class Batch {
     }
 
     public ProductPromotionDTO toProductPromotionDTO(Long id, String productName, LocalDate dueDate, BigDecimal price, BigDecimal pricePromotion, String message) {
-        pricePromotion = new BigDecimal("0.0");
+        pricePromotion = new BigDecimal("0");
         message = " ";
         return new ProductPromotionDTO(this.getProduct().getProductId(), this.getProduct().getName(),this.dueDate,
                 this.getProduct().getPrice(), pricePromotion, message);

@@ -18,8 +18,6 @@ public class ProductPromotionDTO {
     private String productName;
     private LocalDate dueDate;
     private BigDecimal price;
-
-    @Column(precision = 11, scale = 2)
     private BigDecimal pricePromotion;
     private String message;
 }

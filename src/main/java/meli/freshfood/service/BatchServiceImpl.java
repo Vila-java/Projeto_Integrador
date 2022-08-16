@@ -10,13 +10,16 @@ import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.*;
 import meli.freshfood.repository.BatchRepository;
+import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -260,33 +263,31 @@ public class BatchServiceImpl implements BatchService {
 //    }
 
     public List<Batch> filterDueDateInterval21(List<Batch> batches) {
-        Integer intervalDateMax = 21;
-//        Integer intervalDateMin = 15;
-        return batches.stream().filter((b) -> {
-            LocalDate dueDate = b.getDueDate();
-            return dueDate.isAfter(LocalDate.now()) &&
-                    dueDate.isBefore(LocalDate.now().plusDays(intervalDateMax));
-//                    &&
-//                    dueDate.isBefore(LocalDate.now().plusDays(intervalDateMin));
-        }).collect(Collectors.toList());
+        Integer intervalDateMax = 22;
+        Integer intervalDateMin = 14;
+        return batches.stream().filter((b) ->
+                        b.getDueDate().isBefore(LocalDate.now().plusDays(intervalDateMax)) &&
+                        b.getDueDate().isAfter(LocalDate.now().plusDays(intervalDateMin)))
+
+                .collect(Collectors.toList());
     }
 
     public List<Batch> filterDueDateInterval15(List<Batch> batches) {
-        Integer intervalDate = 15;
-        return batches.stream().filter((b) -> {
-            LocalDate dueDate = b.getDueDate();
-            return dueDate.isAfter(LocalDate.now()) &&
-                    dueDate.isBefore(LocalDate.now().plusDays(intervalDate));
-        }).collect(Collectors.toList());
+        Integer intervalDateMax = 15;
+        Integer intervalDateMin = 06;
+        return batches.stream().filter((b) ->
+            b.getDueDate().isBefore(LocalDate.now().plusDays(intervalDateMax)) &&
+                    b.getDueDate().isAfter(LocalDate.now().plusDays(intervalDateMin)))
+        .collect(Collectors.toList());
     }
 
     public List<Batch> filterDueDateInterval7(List<Batch> batches) {
-        Integer intervalDate = 7;
-        return batches.stream().filter((b) -> {
-            LocalDate dueDate = b.getDueDate();
-            return dueDate.isAfter(LocalDate.now()) &&
-                    dueDate.isBefore(LocalDate.now().plusDays(intervalDate));
-        }).collect(Collectors.toList());
+        Integer intervalDateMax = 7;
+//        Integer intervalDateMin = 1;
+        return batches.stream().filter((b) ->
+                b.getDueDate().isAfter(LocalDate.now()) &&
+                        b.getDueDate().isBefore(LocalDate.now().plusDays(intervalDateMax)))
+        .collect(Collectors.toList());
     }
 
 //    @Override
@@ -329,6 +330,7 @@ public class BatchServiceImpl implements BatchService {
 //            Period periodo = Period.between(dueDate,LocalDate.now());
 //            int dias = periodo.getDays();
 //            int meses = periodo.getMonths();
+//                dias + meses * 30;
 //            Long differenceDays = productPromotion.getDueDate().until(LocalDate.now(), ChronoUnit.DAYS);
 //
 //            if (differenceDays >= 15 && differenceDays <= 21) {
@@ -396,7 +398,7 @@ public class BatchServiceImpl implements BatchService {
         BigDecimal desc30 = new BigDecimal("0.3");
 
         productPromotion.stream().forEach(p -> p.setPricePromotion(p.getPrice()
-                .subtract(p.getPrice().multiply(desc30))));
+                .subtract(p.getPrice().multiply(desc30).setScale(2, RoundingMode.HALF_EVEN))));
         productPromotion.stream().forEach(p -> p.setMessage("O produto está em promoção com 30% de desconto."));
 
         return productPromotion;
@@ -411,15 +413,11 @@ public class BatchServiceImpl implements BatchService {
                 .map(b -> b.toProductPromotionDTO(b.getProduct().getProductId(), b.getProduct().getName(),
                         b.getDueDate(), b.getProduct().getPrice(), new BigDecimal("0"), " "))
                 .collect(Collectors.toList());
-//        NumberFormat format = NumberFormat.getPercentInstance();
-//
-//        format.setMaximumFractionDigits(2);
-//        format.setMinimumFractionDigits(2);
 
-        BigDecimal desc60 = new BigDecimal("0.6");
+        BigDecimal desc60 = new BigDecimal("0.60");
 
         productPromotion.stream().forEach(p -> p.setPricePromotion(p.getPrice()
-                .subtract(p.getPrice().multiply(desc60))));
+                .subtract(p.getPrice().multiply(desc60).setScale(2, RoundingMode.HALF_EVEN))));
         productPromotion.stream().forEach(p -> p.setMessage("O produto está em promoção com 60% de desconto."));
 
         return productPromotion;
