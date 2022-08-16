@@ -7,8 +7,22 @@
 
 
 
-### Branches
 
+#### Branches
+Contribuições em grupo
+- feature/inboundOrder-US01
+- feature/add-products-to-cart-US02
+- feature/product-location-in-warehouse-US03
+- feature/check-product-stock-in-warehouses-US04
+- feature/testes-unitarios-US05
+
+Contribuições individuais<br>
+-[Bianca Polegatti](https://github.com/Vila-java/Projeto_Integrador/tree/feature/bianca-polegatti-US06)<br>
+-[Bianca Klein](https://github.com/Vila-java/Projeto_Integrador/tree/feature/bianca-schmitt-US06)<br>
+-[Evelin C. Rodrigues](https://github.com/Vila-java/Projeto_Integrador/tree/feature/evelin-cristina-US06)<br>
+-[feature/requisito06-samantha](https://github.com/Vila-java/Projeto_Integrador/tree/feature/requisito06-samantha)<br>
+-[feature/matheus-alves-US06](https://github.com/Vila-java/Projeto_Integrador/tree/feature/create-purchase-review-US06)<br>
+-[feature/weslley-rocha-US06](https://github.com/Vila-java/Projeto_Integrador/tree/feature/weslley-rocha-US06)<br>
 
 
 ### Documentação
