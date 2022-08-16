@@ -75,7 +75,6 @@ class InboundOrderServiceImplTest {
 
         List<BatchDTO> batches = inboundOrderService.create(inboundOrderDTOMocked);
 
-        //TODO: Adicionar mais casos de teste
         assertThat(batches).isNotEmpty()
                             .isInstanceOf(List.class);
 
