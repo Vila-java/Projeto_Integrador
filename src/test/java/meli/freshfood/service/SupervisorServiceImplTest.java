@@ -76,7 +76,7 @@ class SupervisorServiceImplTest {
 
     @Test
     @DisplayName("Retorna exceção NotFoundException caso o supervisor não exista no armazém")
-    void returnNotFoundException_whenSupervisorNotExistsInWarehouse() {
+    void supervisorExistsInWarehouse_ShouldReturnNotFoundException_whenSupervisorDoesntExistsInWarehouse() {
           Supervisor supervisor = SupervisorUtils.newSupervisorWithWarehouse();
           Warehouse warehouse = WarehouseUtils.newWarehouseWithUnmatchingSupervisorAndWarehouse();
 
