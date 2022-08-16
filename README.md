@@ -4,7 +4,7 @@
 
 
 ## Sobre
-A melhoria apresentada junto ao Projeto Integrador - FreshFood foi sob o aspecto do Carrier, ou seja, aquele responsável por realizar a entrega dos pedidos. Para tanto foi implementado o CRUD do Carrier. <b> Funcionalidades do Carrier </b>: 
+A melhoria apresentada junto ao Projeto Integrador - FreshFood foi sob o aspecto do Carrier, ou seja, aquele responsável por realizar a entrega dos pedidos. Para tanto foi implementado o CRUD do Carrier. <b>Funcionalidades do Carrier</b>: 
 
 1. Salvar um Carrier;
 2. Retornar uma lista de Carriers ordenada por ordem alfabética;
@@ -30,7 +30,7 @@ Implementou-se ainda o equivalente ao pedido de entrega, PurchaseDelivery, o qua
 
 ### Integrante
 
-[Bianca Polegatti](https://github.com/biancapolegatti)<br> 
+[Bianca de Carvalho Polegatti](https://github.com/biancapolegatti)<br> 
 
 ### Acesso a coleção do Postman 
 [Postman](https://www.postman.com/winter-equinox-389662/workspace/bianca-polegatti-us06/folder/21747886-63738648-3556-4a99-b253-eb59e7693ac2)
