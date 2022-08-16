@@ -12,8 +12,8 @@
 
 
 ### Documentação
-[Diagramas]()<br>
-[Postman]()<br>
+[Diagramas](https://github.com/Vila-java/Projeto_Integrador/blob/develop/src/main/resources/documentation/diagramas.md)<br>
+[Postman](https://github.com/Vila-java/Projeto_Integrador/blob/develop/src/main/resources/documentation/Endpoint_Postman.md)<br>
 [JavaDoc]()<br>
 
 ### Tecnologias desenvolvimento de código
