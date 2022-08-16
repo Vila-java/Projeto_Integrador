@@ -17,7 +17,7 @@ adequada.
 - Esté é um dos 6 requisitos proposto pelo **Bootcamp Meli** em parceria com a [Digital House](https://www.digitalhouse.com/br), que tem o objetivo de colocar em prática todo o conteúdo visto em aula durante as 8 semanas do Bootcamp.<br>
 
 ### Requisito Individual
-- Nesta branch contém o requisito 6 que foi feito individualmente dos demais participantes, para saber mais sobre os requisitos anteriores e os participantes [clique aqui].
+- Nesta branch contém o requisito 6 que foi feito individualmente dos demais participantes, para saber mais sobre os requisitos anteriores e os participantes [clique aqui](https://github.com/Vila-java/Projeto_Integrador).
 
 
 ### Funcionalidades da API
