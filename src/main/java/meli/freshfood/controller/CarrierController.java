@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/fresh-products/carriers")
-@Validated
 public class CarrierController {
 
     @Autowired

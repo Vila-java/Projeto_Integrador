@@ -41,17 +41,17 @@ public class Carrier {
     @Column(nullable = false, length = 8)
     private String zipCode;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 15)
     private String address;
 
     @Column(nullable = false)
     @Min(value = 1)
     private Integer number;
 
-    @Column(nullable = false,length = 10)
+    @Column(nullable = false,length = 15)
     private String neighborhood;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, length = 15)
     private String city;
 
     @Column(nullable = false, length = 10)
