@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+/**
+ * The type Client service.
+ */
 @Service
 public class ClientServiceImpl implements ClientService {
 

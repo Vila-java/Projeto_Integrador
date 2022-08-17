@@ -13,6 +13,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Batch service.
+ */
 @Service
 public class BatchServiceImpl implements BatchService {
 
@@ -116,6 +119,13 @@ public class BatchServiceImpl implements BatchService {
         return batchesDTO;
     }
 
+    /**
+     * Sort list.
+     *
+     * @param batches    the batches
+     * @param batchOrder the batch order
+     * @return the list
+     */
     public List<Batch> sort(List<Batch> batches, String batchOrder) {
         if (batchOrder.equalsIgnoreCase("Q")) {
             return sortByCurrentQuantity(batches);
@@ -131,6 +141,12 @@ public class BatchServiceImpl implements BatchService {
         }
     }
 
+    /**
+     * Sort by current quantity list.
+     *
+     * @param batches the batches
+     * @return the list
+     */
     public List<Batch> sortByCurrentQuantity(List<Batch> batches) {
         return batches.stream().sorted(Comparator.comparing(Batch::getCurrentQuantity)).collect(Collectors.toList());
     }
@@ -139,6 +155,12 @@ public class BatchServiceImpl implements BatchService {
         return batches.stream().sorted(Comparator.comparing(Batch::getDueDate)).collect(Collectors.toList());
     }
 
+    /**
+     * Sort by batch number list.
+     *
+     * @param batches the batches
+     * @return the list
+     */
     public List<Batch> sortByBatchNumber(List<Batch> batches) {
         return batches.stream().sorted(Comparator.comparing(Batch::getBatchNumber)).collect(Collectors.toList());
     }
@@ -177,6 +199,13 @@ public class BatchServiceImpl implements BatchService {
         });
     }
 
+    /**
+     * Filter by category list.
+     *
+     * @param batches     the batches
+     * @param storageType the storage type
+     * @return the list
+     */
     public List<Batch> filterByCategory(List<Batch> batches, String storageType) {
         if(storageType != null) {
             StorageType storageTypeObj = StorageType.parseToStorage(storageType);
@@ -188,6 +217,13 @@ public class BatchServiceImpl implements BatchService {
         return batches;
     }
 
+    /**
+     * Filter by section list.
+     *
+     * @param batches the batches
+     * @param id      the id
+     * @return the list
+     */
     public List<Batch> filterBySection(List<Batch> batches, Long id) {
 
         if(id != null) {
@@ -199,6 +235,13 @@ public class BatchServiceImpl implements BatchService {
             return batches;
     }
 
+    /**
+     * Filter due date interval list.
+     *
+     * @param batches      the batches
+     * @param intervalDate the interval date
+     * @return the list
+     */
     public List<Batch> filterDueDateInterval(List<Batch> batches, Integer intervalDate) {
         return batches.stream().filter((b) -> {
             LocalDate dueDate = b.getDueDate();
@@ -207,6 +250,13 @@ public class BatchServiceImpl implements BatchService {
         }).collect(Collectors.toList());
     }
 
+    /**
+     * Sort by due date asc or desc list.
+     *
+     * @param batches the batches
+     * @param asc     the asc
+     * @return the list
+     */
     public List<Batch> sortByDueDateAscOrDesc(List<Batch> batches, Boolean asc) {
         if(asc) {
             return batches.stream().sorted(Comparator.comparing(Batch::getDueDate)).collect(Collectors.toList());

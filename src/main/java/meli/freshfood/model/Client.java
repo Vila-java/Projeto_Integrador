@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * The type Client.
+ */
 @Getter
 @Setter
 @Entity

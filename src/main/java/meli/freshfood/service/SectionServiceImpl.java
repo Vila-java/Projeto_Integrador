@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * The type Section service.
+ */
 @Service
 public class SectionServiceImpl implements SectionService {
 

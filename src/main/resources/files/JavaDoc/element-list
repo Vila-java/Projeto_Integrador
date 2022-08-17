@@ -1,0 +1,8 @@
+meli.freshfood
+meli.freshfood.controller
+meli.freshfood.dto
+meli.freshfood.exception
+meli.freshfood.exception.handler
+meli.freshfood.model
+meli.freshfood.repository
+meli.freshfood.service

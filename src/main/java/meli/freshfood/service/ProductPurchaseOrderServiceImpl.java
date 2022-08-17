@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * The type Product purchase order service.
+ */
 @Service
 public class ProductPurchaseOrderServiceImpl implements ProductPurchaseOrderService {
     @Autowired

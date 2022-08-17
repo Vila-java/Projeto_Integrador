@@ -8,6 +8,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+/**
+ * The type Product purchase order.
+ */
 @Getter
 @Setter
 @Entity
@@ -31,6 +34,13 @@ public class ProductPurchaseOrder {
 
     private Integer productQuantity;
 
+    /**
+     * Instantiates a new Product purchase order.
+     *
+     * @param product         the product
+     * @param purchaseOrder   the purchase order
+     * @param productQuantity the product quantity
+     */
     public ProductPurchaseOrder(Product product, PurchaseOrder purchaseOrder, Integer productQuantity) {
         this.product = product;
         this.purchaseOrder = purchaseOrder;

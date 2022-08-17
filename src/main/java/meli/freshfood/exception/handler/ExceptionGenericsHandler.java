@@ -9,9 +9,18 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.LocalDateTime;
 
+/**
+ * The type Exception generics handler.
+ */
 @ControllerAdvice
 public class ExceptionGenericsHandler {
-	@ExceptionHandler(NotFoundException.class)
+    /**
+     * Handler not found exception response entity.
+     *
+     * @param ex the ex
+     * @return the response entity
+     */
+    @ExceptionHandler(NotFoundException.class)
 	public ResponseEntity<ExceptionDetails> handlerNotFoundException(Exception ex) {
 		return new ResponseEntity<>(
 				ExceptionDetails.builder()
@@ -23,7 +32,14 @@ public class ExceptionGenericsHandler {
 				HttpStatus.NOT_FOUND
 		);
 	}
-	@ExceptionHandler(BadRequestException.class)
+
+    /**
+     * Handler bad request exception response entity.
+     *
+     * @param ex the ex
+     * @return the response entity
+     */
+    @ExceptionHandler(BadRequestException.class)
 	public ResponseEntity<ExceptionDetails> handlerBadRequestException(Exception ex) {
 		return new ResponseEntity<>(
 				ExceptionDetails.builder()
@@ -36,7 +52,13 @@ public class ExceptionGenericsHandler {
 		);
 	}
 
-	@ExceptionHandler(IdCannotBeNullException.class)
+    /**
+     * Handler id cannot be null response entity.
+     *
+     * @param ex the ex
+     * @return the response entity
+     */
+    @ExceptionHandler(IdCannotBeNullException.class)
 	public ResponseEntity<ExceptionDetails> handlerIdCannotBeNull(Exception ex) {
 		return new ResponseEntity<>(
 				ExceptionDetails.builder()
@@ -49,7 +71,13 @@ public class ExceptionGenericsHandler {
 		);
 	}
 
-	@ExceptionHandler(IdAlreadyExistsException.class)
+    /**
+     * Handler id already exists response entity.
+     *
+     * @param ex the ex
+     * @return the response entity
+     */
+    @ExceptionHandler(IdAlreadyExistsException.class)
 	public ResponseEntity<ExceptionDetails> handlerIdAlreadyExists(Exception ex) {
 		return new ResponseEntity<>(
 				ExceptionDetails.builder()

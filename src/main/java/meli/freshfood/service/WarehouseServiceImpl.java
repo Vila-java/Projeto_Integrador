@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The type Warehouse service.
+ */
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
 

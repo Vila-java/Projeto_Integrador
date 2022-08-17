@@ -8,8 +8,25 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * The interface Product purchase order repository.
+ */
 @Repository
 public interface ProductPurchaseOrderRepository extends JpaRepository<ProductPurchaseOrder, Long> {
+    /**
+     * Find all by purchase order list.
+     *
+     * @param purchaseOrder the purchase order
+     * @return the list
+     */
     List<ProductPurchaseOrder> findAllByPurchaseOrder(PurchaseOrder purchaseOrder);
+
+    /**
+     * Find by purchase order and product product purchase order.
+     *
+     * @param purchaseOrder the purchase order
+     * @param product       the product
+     * @return the product purchase order
+     */
     ProductPurchaseOrder findByPurchaseOrderAndProduct(PurchaseOrder purchaseOrder, Product product);
 }

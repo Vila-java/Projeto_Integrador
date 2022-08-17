@@ -1,10 +1,22 @@
 package meli.freshfood.model;
 
 
+/**
+ * The enum Storage type.
+ */
 public enum StorageType {
 
+    /**
+     * Frozen storage type.
+     */
     FROZEN("FROZEN"),
+    /**
+     * Refrigerated storage type.
+     */
     REFRIGERATED("REFRIGERATED"),
+    /**
+     * Fresh storage type.
+     */
     FRESH("FRESH");
 
     private final String description;
@@ -13,6 +25,12 @@ public enum StorageType {
         this.description = description;
     }
 
+    /**
+     * Parse to storage storage type.
+     *
+     * @param initials the initials
+     * @return the storage type
+     */
     public static StorageType parseToStorage(String initials) {
         if(initials.equalsIgnoreCase("FR")) {
             return StorageType.FRESH;

@@ -7,6 +7,9 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * The type Inbound order dto.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

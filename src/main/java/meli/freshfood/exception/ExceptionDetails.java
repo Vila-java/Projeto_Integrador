@@ -5,6 +5,9 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+/**
+ * The type Exception details.
+ */
 @Getter
 @Builder
 public class ExceptionDetails {

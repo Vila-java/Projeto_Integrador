@@ -9,6 +9,9 @@ import meli.freshfood.repository.SupervisorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * The type Supervisor service.
+ */
 @Service
 public class SupervisorServiceImpl implements SupervisorService {
 
