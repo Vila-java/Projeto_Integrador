@@ -1,0 +1,18 @@
+1. Listar produtos com data de validade entre 21 e 15 dias antes do vencimento dando desconto de 30% do valor;
+
+curl --location --request GET 'localhost:8080/api/v1/fresh-products/due-date/products-promotion30'
+
+
+
+
+2. Listar produtos com data de validade entre 14 e 07 dias antes do vencimento dando desconto de 60% do valor;
+
+curl --location --request GET 'localhost:8080/api/v1/fresh-products/due-date/products-promotion60'
+
+
+
+
+3. Listar produtos com data de validade menor que 7 dias.
+
+curl --location --request GET 'localhost:8080/api/v1/fresh-products/due-date/products-trash'
+

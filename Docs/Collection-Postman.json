@@ -1,0 +1,88 @@
+{
+	"info": {
+		"_postman_id": "f27bbd3b-73c9-4c01-a21e-73721ae33533",
+		"name": "Requisito-06-Samantha",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21828317"
+	},
+	"item": [
+		{
+			"name": "Lista de produtos em promoçao 30%",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/fresh-products/due-date/products-promotion30",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"fresh-products",
+						"due-date",
+						"products-promotion30"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lista de produtos em promoçao 60%",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/fresh-products/due-date/products-promotion60",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"fresh-products",
+						"due-date",
+						"products-promotion60"
+					],
+					"query": [
+						{
+							"key": "maxIntervalDate",
+							"value": "15",
+							"disabled": true
+						},
+						{
+							"key": "minIntervalDate",
+							"value": "7",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Lista de produtos que não podem ser vendidos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/fresh-products/due-date/products-trash",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"fresh-products",
+						"due-date",
+						"products-trash"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
