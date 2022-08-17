@@ -6,6 +6,9 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 
+/**
+ * The type Batch details dto.
+ */
 @Getter
 @AllArgsConstructor
 public class BatchDetailsDTO {

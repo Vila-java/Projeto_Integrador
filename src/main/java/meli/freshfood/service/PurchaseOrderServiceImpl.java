@@ -13,21 +13,39 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Purchase order service.
+ */
 @Service
 public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 
+    /**
+     * The Purchase order repository.
+     */
     @Autowired
     PurchaseOrderRepository purchaseOrderRepository;
 
+    /**
+     * The Product service.
+     */
     @Autowired
     ProductService productService;
 
+    /**
+     * The Product purchase order service.
+     */
     @Autowired
     ProductPurchaseOrderService productPurchaseOrderService;
 
+    /**
+     * The Batch service.
+     */
     @Autowired
     BatchService batchService;
 
+    /**
+     * The Client service.
+     */
     @Autowired
     ClientService clientService;
 

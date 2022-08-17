@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * The type Warehouse dto.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

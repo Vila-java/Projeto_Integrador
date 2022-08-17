@@ -5,6 +5,9 @@ import lombok.Getter;
 
 import java.util.List;
 
+/**
+ * The type Product batches dto.
+ */
 @Getter
 @AllArgsConstructor
 public class ProductBatchesDTO {

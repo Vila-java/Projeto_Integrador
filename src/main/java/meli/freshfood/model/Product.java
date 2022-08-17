@@ -11,6 +11,9 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * The type Product.
+ */
 @Entity
 @Getter
 @Setter
@@ -47,6 +50,9 @@ public class Product {
     @JsonIgnore()
     private Seller seller;
 
+    /**
+     * The Product purchase orders.
+     */
     @OneToMany(mappedBy = "product")
     @JsonIgnore()
     Set<ProductPurchaseOrder> productPurchaseOrders;

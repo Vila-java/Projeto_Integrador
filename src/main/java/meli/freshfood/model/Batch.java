@@ -10,6 +10,9 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * The type Batch.
+ */
 @Getter
 @Setter
 @Entity
@@ -61,6 +64,14 @@ public class Batch {
     @JsonIgnore()
     private InboundOrder inboundOrder;
 
+    /**
+     * Instantiates a new Batch.
+     *
+     * @param batchDTO     the batch dto
+     * @param product      the product
+     * @param section      the section
+     * @param inboundOrder the inbound order
+     */
     public Batch(BatchDTO batchDTO, Product product, Section section, InboundOrder inboundOrder) {
         currentTemperature = batchDTO.getCurrentTemperature();
         minimumTemperature = batchDTO.getMinimumTemperature();
@@ -75,6 +86,11 @@ public class Batch {
         this.inboundOrder = inboundOrder;
     }
 
+    /**
+     * Update by dto.
+     *
+     * @param batchDTO the batch dto
+     */
     public void updateByDTO(BatchDTO batchDTO) {
         currentTemperature = batchDTO.getCurrentTemperature();
         minimumTemperature = batchDTO.getMinimumTemperature();
@@ -85,12 +101,22 @@ public class Batch {
         dueDate = batchDTO.getDueDate();
     }
 
+    /**
+     * To dto batch dto.
+     *
+     * @return the batch dto
+     */
     public BatchDTO toDTO() {
         return new BatchDTO(this.batchNumber, product.getProductId(), this.currentTemperature,
                 this.minimumTemperature, this.initialQuantity, this.currentQuantity, this.manufacturingDate,
                 this.manufacturingTime, this.dueDate);
     }
 
+    /**
+     * To batch stock dto batch stock dto.
+     *
+     * @return the batch stock dto
+     */
     public BatchStockDTO toBatchStockDTO() {
         return new BatchStockDTO(this.batchNumber, product.getProductId(), this.product.getStorageType(),
                 this.getDueDate(), this.getCurrentQuantity(), this.getSection().getSectionId());

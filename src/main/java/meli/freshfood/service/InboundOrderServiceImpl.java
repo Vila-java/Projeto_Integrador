@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Inbound order service.
+ */
 @Service
 public class InboundOrderServiceImpl implements InboundOrderService {
 
@@ -49,6 +52,11 @@ public class InboundOrderServiceImpl implements InboundOrderService {
         return batchService.createBatches(inboundOrderDTO, section, inboundOrder);
     }
 
+    /**
+     * Batch belongs to inbound order.
+     *
+     * @param inboundOrderDTO the inbound order dto
+     */
     public void batchBelongsToInboundOrder(InboundOrderDTO inboundOrderDTO) {
         List<InboundOrder> inboundOrder = inboundOrderDTO.getBatchStock().stream().map(b -> inboundOrderRepository
                 .findByBatch(b.getBatchNumber())).collect(Collectors.toList());
