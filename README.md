@@ -20,9 +20,7 @@ Nesta branch em específico, desenvolvi uma API para o cliente, que não fazia p
     * Diagrama UML do projeto;
     * Arquivo JSON com os dados do postman;
     * Um arquivo com as URL's das requisições do postman;
-    * Arquivo em PDF usando o formato USEr Story;
-    * Documentação por meio do Swagger;
-* Javadoc
+    * Arquivo em PDF usando o formato USEr Story.
 
 ### Tecnologias desenvolvimento de código
 <img src="https://img.icons8.com/color/48/000000/git.png" title= "Git"/>
