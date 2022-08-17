@@ -27,10 +27,7 @@ Aviso sobre os produtos com 6 dias da data de vencimento para que possa haver o 
     * Query para popular o banco de dados.
 
 ### Tecnologias desenvolvimento de código
-<img src="https://img.icons8.com/color/48/000000/git.png" title= "Git"/>
-<img src="https://img.icons8.com/ios-glyphs/48/000000/github.png" title= "GitHub"/>
-<img src="https://img.icons8.com/color/48/000000/java-coffee-cup-logo--v1.png" title= "Java"/>
-<img src="https://img.icons8.com/color/48/000000/spring-logo.png" title= "Spring"/>
+<img src="https://img.icons8.com/color/48/000000/git.png" title= "Git"/> <img src="https://img.icons8.com/ios-glyphs/48/000000/github.png" title= "GitHub"/> <img src="https://img.icons8.com/color/48/000000/java-coffee-cup-logo--v1.png" title= "Java"/> <img src="https://img.icons8.com/color/48/000000/spring-logo.png" title= "Spring"/>
 
 ### Tecnologias comunicação
 <img src="https://img.icons8.com/color/48/000000/slack-new.png" title= "Slack"/> <img src="https://img.icons8.com/color/48/000000/trello.png" title= "Trello"/> <img src="https://img.icons8.com/color/48/000000/google-meet.png" title= "Google Meet"/>
