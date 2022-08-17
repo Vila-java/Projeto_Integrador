@@ -3,11 +3,9 @@ package meli.freshfood.service;
 import meli.freshfood.dto.ProductWarehouseDTO;
 import meli.freshfood.dto.WarehouseDTO;
 import meli.freshfood.exception.NotFoundException;
+import meli.freshfood.model.Batch;
 import meli.freshfood.model.Product;
 import meli.freshfood.model.Warehouse;
-import meli.freshfood.model.Batch;
-import meli.freshfood.repository.BatchRepository;
-import meli.freshfood.repository.ProductRepository;
 import meli.freshfood.repository.WarehouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +15,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * The type Warehouse service.
+ */
 @Service
 public class WarehouseServiceImpl implements WarehouseService {
 

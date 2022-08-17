@@ -1,20 +1,21 @@
 package meli.freshfood.service;
 
-import meli.freshfood.dto.BatchStockDTO;
-import meli.freshfood.dto.BatchDTO;
-import meli.freshfood.dto.BatchDetailsDTO;
-import meli.freshfood.dto.InboundOrderDTO;
-import meli.freshfood.dto.ProductDTO;
+import meli.freshfood.dto.*;
 import meli.freshfood.exception.BadRequestException;
 import meli.freshfood.exception.NotFoundException;
 import meli.freshfood.model.*;
 import meli.freshfood.repository.BatchRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Batch service.
+ */
 @Service
 public class BatchServiceImpl implements BatchService {
 
@@ -73,7 +74,6 @@ public class BatchServiceImpl implements BatchService {
         checkBatchAvailable(productDTO);
         Product product = productService.findById(productDTO.getProductId());
 
-        // TODO: Verificar se existe uma solução melhor
         final int[] purchaseQuantity = new int[1];
         purchaseQuantity[0] = productDTO.getQuantity();
 
@@ -119,6 +119,13 @@ public class BatchServiceImpl implements BatchService {
         return batchesDTO;
     }
 
+    /**
+     * Sort list.
+     *
+     * @param batches    the batches
+     * @param batchOrder the batch order
+     * @return the list
+     */
     public List<Batch> sort(List<Batch> batches, String batchOrder) {
         if (batchOrder.equalsIgnoreCase("Q")) {
             return sortByCurrentQuantity(batches);
@@ -127,10 +134,19 @@ public class BatchServiceImpl implements BatchService {
         } else if (batchOrder.equalsIgnoreCase("L")) {
             return sortByBatchNumber(batches);
         } else {
-            throw new BadRequestException("Não existe esse tipo de ordenação!");
+            throw new BadRequestException("Não existe esse tipo de ordenação! Os valores possíveis são: " +
+                    "L = ordenado por lote, " +
+                    "Q = ordenado por quantidade atual, " +
+                    "V = ordenado por data de vencimento");
         }
     }
 
+    /**
+     * Sort by current quantity list.
+     *
+     * @param batches the batches
+     * @return the list
+     */
     public List<Batch> sortByCurrentQuantity(List<Batch> batches) {
         return batches.stream().sorted(Comparator.comparing(Batch::getCurrentQuantity)).collect(Collectors.toList());
     }
@@ -139,6 +155,12 @@ public class BatchServiceImpl implements BatchService {
         return batches.stream().sorted(Comparator.comparing(Batch::getDueDate)).collect(Collectors.toList());
     }
 
+    /**
+     * Sort by batch number list.
+     *
+     * @param batches the batches
+     * @return the list
+     */
     public List<Batch> sortByBatchNumber(List<Batch> batches) {
         return batches.stream().sorted(Comparator.comparing(Batch::getBatchNumber)).collect(Collectors.toList());
     }
@@ -177,6 +199,13 @@ public class BatchServiceImpl implements BatchService {
         });
     }
 
+    /**
+     * Filter by category list.
+     *
+     * @param batches     the batches
+     * @param storageType the storage type
+     * @return the list
+     */
     public List<Batch> filterByCategory(List<Batch> batches, String storageType) {
         if(storageType != null) {
             StorageType storageTypeObj = StorageType.parseToStorage(storageType);
@@ -188,6 +217,13 @@ public class BatchServiceImpl implements BatchService {
         return batches;
     }
 
+    /**
+     * Filter by section list.
+     *
+     * @param batches the batches
+     * @param id      the id
+     * @return the list
+     */
     public List<Batch> filterBySection(List<Batch> batches, Long id) {
 
         if(id != null) {
@@ -199,6 +235,13 @@ public class BatchServiceImpl implements BatchService {
             return batches;
     }
 
+    /**
+     * Filter due date interval list.
+     *
+     * @param batches      the batches
+     * @param intervalDate the interval date
+     * @return the list
+     */
     public List<Batch> filterDueDateInterval(List<Batch> batches, Integer intervalDate) {
         return batches.stream().filter((b) -> {
             LocalDate dueDate = b.getDueDate();
@@ -207,6 +250,13 @@ public class BatchServiceImpl implements BatchService {
         }).collect(Collectors.toList());
     }
 
+    /**
+     * Sort by due date asc or desc list.
+     *
+     * @param batches the batches
+     * @param asc     the asc
+     * @return the list
+     */
     public List<Batch> sortByDueDateAscOrDesc(List<Batch> batches, Boolean asc) {
         if(asc) {
             return batches.stream().sorted(Comparator.comparing(Batch::getDueDate)).collect(Collectors.toList());
@@ -220,10 +270,12 @@ public class BatchServiceImpl implements BatchService {
     @Override
     public List<BatchStockDTO> findBatches (Integer intervalDate, Long sectionId, String storageType, Boolean asc) {
         List<Batch> batches = batchRepository.findAll();
-            batches =  filterDueDateInterval(batches, intervalDate);
-            batches = filterBySection(batches, sectionId);
-            batches = filterByCategory(batches, storageType);
+        batches = filterDueDateInterval(batches, intervalDate);
+        batches = filterBySection(batches, sectionId);
+        batches = filterByCategory(batches, storageType);
+        if(asc != null) {
             batches = sortByDueDateAscOrDesc(batches, asc);
+        }
 
         return batches.stream().map(Batch::toBatchStockDTO).collect(Collectors.toList());
     }

@@ -15,13 +15,12 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doNothing;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -75,7 +74,6 @@ class InboundOrderServiceImplTest {
 
         List<BatchDTO> batches = inboundOrderService.create(inboundOrderDTOMocked);
 
-        //TODO: Adicionar mais casos de teste
         assertThat(batches).isNotEmpty()
                             .isInstanceOf(List.class);
 
@@ -335,6 +333,45 @@ class InboundOrderServiceImplTest {
             );
 
             assertThat(exception.getMessage()).isEqualTo("A Ordem de entrada não foi encontrado!");
+    }
+
+    @Test
+    void updateInBoundOrder_ShouldReturnListOfBatches() {
+        Section section = SectionUtils.newSection();
+        Supervisor supervisor = SupervisorUtils.newSupervisor();
+        SectionDTO sectionDTO = SectionUtils.newSectionDTO(section, section.getWarehouse());
+        List<BatchDTO> batchesList = BatchUtils.newBatchDTOList();
+        Warehouse  warehouse = WarehouseUtils.newWarehouse();
+        InboundOrderDTO inboundOrderDTO = InboundOrderUtils.newInboundOrderDTO(supervisor, sectionDTO, batchesList);
+        Optional<InboundOrder> inboundOrderMocked = Optional.of(InboundOrderUtils.newInboundOrder(supervisor, section));
+
+        BDDMockito.when(warehouseService.findById(Mockito.anyLong()))
+                .thenReturn(warehouse);
+
+        BDDMockito.when(sectionService.validatesSection(
+                Mockito.any(InboundOrderDTO.class),
+                Mockito.any(Warehouse.class))
+        ).thenReturn(section);
+
+        BDDMockito.when(supervisorService.validatesSupervisor(
+                Mockito.any(InboundOrderDTO.class),
+                Mockito.any(Warehouse.class))
+        ).thenReturn(SupervisorUtils.newSupervisorWithWarehouse());
+
+        BDDMockito.when(inboundOrderRepository.findById(ArgumentMatchers.anyLong()))
+                .thenReturn(inboundOrderMocked);
+
+        BDDMockito.when(inboundOrderRepository.save(Mockito.any(InboundOrder.class)))
+                .thenReturn(InboundOrderUtils.newInboundOrder(supervisor, section));
+
+        BDDMockito.when(inboundOrderRepository.findByBatch(ArgumentMatchers.anyLong()))
+                .thenReturn(InboundOrderUtils.newInboundOrder(supervisor, section));
+
+        doNothing().when(batchService).updateBatches(Mockito.any(InboundOrderDTO.class), Mockito.any(Section.class), Mockito.any(InboundOrder.class));
+
+        List<BatchDTO> batchesDTO = inboundOrderService.update(inboundOrderDTO);
+
+        assertThat(batchesDTO).isEqualTo(batchesList);
     }
 
 }

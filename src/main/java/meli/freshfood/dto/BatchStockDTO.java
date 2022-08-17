@@ -11,6 +11,9 @@ import javax.persistence.Enumerated;
 import java.time.LocalDate;
 
 
+/**
+ * The type Batch stock dto.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

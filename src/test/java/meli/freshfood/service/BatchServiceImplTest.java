@@ -8,15 +8,11 @@ import meli.freshfood.utils.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
-import org.mockito.BDDMockito;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -32,6 +28,9 @@ class BatchServiceImplTest {
 
     @Mock
     BatchRepository batchRepo;
+
+    @Mock
+    ProductService productService;
 
     @Test
     @DisplayName("Retorna o estoque quando existir")
@@ -49,7 +48,7 @@ class BatchServiceImplTest {
 
     @Test
     @DisplayName("Retorna exceção caso o Id não exista")
-    void returnNotFoundException_whenBatchIdNotExists() {
+    void findById_ShouldReturnNotFoundException_whenBatchIdNotExists() {
         BDDMockito.when(batchRepo.findById(ArgumentMatchers.anyLong()))
                 .thenThrow(new NotFoundException("O lote não foi encontrado!"));
 
@@ -61,6 +60,35 @@ class BatchServiceImplTest {
         assertThat(exception.getMessage()).isEqualTo("O lote não foi encontrado!");
     }
 
+    @Test
+    void findAllByProduct() {
+        BDDMockito.when(batchRepo.findAllByProduct(Mockito.any(Product.class)))
+                .thenReturn(BatchUtils.newBatchesList());
+
+        List<Batch> batches = batchService.findAllByProduct(ProductUtils.newProduct());
+
+        List<Batch> expected = BatchUtils.newBatchesList();
+
+        assertThat(batches.get(0).getBatchNumber()).isEqualTo(expected.get(0).getBatchNumber());
+    }
+
+    @Test
+    void totalAvailableBatchesCapacity_ShouldReturnTotalCapacity()
+    {
+        Integer capacity = batchService.totalAvailableBatchesCapacity(BatchUtils.newBatchesList());
+        Integer expected = 0;
+        assertThat(capacity).isEqualTo(expected);
+    }
+
+    @Test
+    void checkBatchAvailable_ShouldReturnTrue_IfExistsTheAmountOfProductsRequested()
+    {
+        BDDMockito.when(productService.findById(ArgumentMatchers.anyLong()))
+                .thenReturn(ProductUtils.newProductWithBatches());
+        Boolean batchAvailable = batchService.checkBatchAvailable(ProductUtils.newProductDTO());
+
+        assertThat(batchAvailable).isEqualTo(true);
+    }
     @Test
     public void findBatchesFilteredByDueDateIntervalAndSection_ShouldReturnBatchesFiltered() {
 
@@ -92,6 +120,7 @@ class BatchServiceImplTest {
     }
 
     @DisplayName("Retorna todos os lotes do produto passado")
+    @Test
     void findAllByProduct_returnBatches_whenProductPassed() {
         List<Batch> batchesMocked = BatchUtils.newBatchesList();
 

@@ -6,6 +6,9 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+/**
+ * The type Product details dto.
+ */
 @Getter
 @Setter
 @AllArgsConstructor

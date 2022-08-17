@@ -1,10 +1,10 @@
 package meli.freshfood.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.*;
 import meli.freshfood.dto.PurchaseOrderDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -13,6 +13,9 @@ import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * The type Purchase order.
+ */
 @Getter
 @Setter
 @Entity
@@ -31,6 +34,9 @@ public class PurchaseOrder {
     @Enumerated(EnumType.STRING)
     private StatusPurchaseOrder orderStatus;
 
+    /**
+     * The Product purchase orders.
+     */
     @OneToMany(mappedBy = "purchaseOrder")
     @JsonIgnore()
     Set<ProductPurchaseOrder> productPurchaseOrders;
@@ -40,6 +46,12 @@ public class PurchaseOrder {
     @JsonIgnore()
     private Client client;
 
+    /**
+     * Instantiates a new Purchase order.
+     *
+     * @param purchaseOrderDTO the purchase order dto
+     * @param client           the client
+     */
     public PurchaseOrder(PurchaseOrderDTO purchaseOrderDTO, Client client) {
         orderStatus = StatusPurchaseOrder.valueOf(purchaseOrderDTO.getOrderStatus());
         purchaseDate = purchaseOrderDTO.getDate();

@@ -6,6 +6,9 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * The type Purchase order dto.
+ */
 @Getter
 @Setter
 public class PurchaseOrderDTO {
