@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"meli.freshfood"},{"l":"meli.freshfood.controller"},{"l":"meli.freshfood.dto"},{"l":"meli.freshfood.exception"},{"l":"meli.freshfood.exception.handler"},{"l":"meli.freshfood.model"},{"l":"meli.freshfood.repository"},{"l":"meli.freshfood.service"}];updateSearchResults();
