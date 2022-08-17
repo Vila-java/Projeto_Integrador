@@ -1,11 +1,21 @@
 package meli.freshfood.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+/**
+ * The type Client.
+ */
+@Getter
+@Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Client {
 
     @Id
@@ -17,4 +27,8 @@ public class Client {
 
     @Column(nullable = false, length = 60)
     private String lastName;
+
+    @OneToOne(mappedBy = "client")
+    @JsonIgnore()
+    private PurchaseOrder purchaseOrder;
 }

@@ -1,13 +1,24 @@
 package meli.freshfood.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Set;
 
+/**
+ * The type Product.
+ */
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 
     @Id
@@ -20,18 +31,29 @@ public class Product {
     @Column(nullable = false, length = 500)
     private String description;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private StorageType storageType;
+
     @Column(precision = 11, scale = 2)
     private BigDecimal price;
 
     @Column(nullable = false, precision = 11, scale = 2)
     private Double weight;
 
-    @OneToOne
-    @JoinColumn(name = "batch_id")
-    private Batch batch;
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore()
+    private List<Batch> batches;
 
     @ManyToOne
     @JoinColumn(name = "seller_id")
-    @JsonIgnoreProperties("products")
+    @JsonIgnore()
     private Seller seller;
+
+    /**
+     * The Product purchase orders.
+     */
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore()
+    Set<ProductPurchaseOrder> productPurchaseOrders;
 }

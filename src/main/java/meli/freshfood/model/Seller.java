@@ -1,13 +1,21 @@
 package meli.freshfood.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
-
-@Data
+/**
+ * The type Seller.
+ */
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Seller {
 
@@ -22,7 +30,7 @@ public class Seller {
     private String lastName;
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("seller")
+    @JsonIgnore()
     private List<Product> products;
 }
 

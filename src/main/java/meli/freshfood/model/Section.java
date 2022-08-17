@@ -1,15 +1,21 @@
 package meli.freshfood.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.boot.autoconfigure.session.StoreType;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * The type Section.
+ */
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class Section {
 
@@ -19,21 +25,21 @@ public class Section {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private StoreType storageType;
+    private StorageType storageType;
 
     @Column(nullable = false, length = 6)
     private Long productCapacity;
 
     @OneToMany(mappedBy = "section")
-    @JsonIgnoreProperties("section")
+    @JsonIgnore()
     private List<Batch> batches;
 
     @ManyToOne
     @JoinColumn(name = "warehouse_id")
-    @JsonIgnoreProperties("sections")
+    @JsonIgnore()
     private Warehouse warehouse;
 
     @OneToMany(mappedBy = "section")
-    @JsonIgnoreProperties("section")
+    @JsonIgnore()
     private List<InboundOrder> inboundOrders;
 }

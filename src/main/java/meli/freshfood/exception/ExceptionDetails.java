@@ -1,11 +1,14 @@
 package meli.freshfood.exception;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@Data
+/**
+ * The type Exception details.
+ */
+@Getter
 @Builder
 public class ExceptionDetails {
 

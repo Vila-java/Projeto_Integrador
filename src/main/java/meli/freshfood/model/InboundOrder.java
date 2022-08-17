@@ -1,16 +1,24 @@
 package meli.freshfood.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import meli.freshfood.dto.InboundOrderDTO;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@Data
+/**
+ * The type Inbound order.
+ */
+@Getter
+@Setter
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor
 public class InboundOrder {
 
@@ -23,17 +31,29 @@ public class InboundOrder {
     private LocalDate orderDate;
 
     @OneToMany(mappedBy = "inboundOrder")
-    @JsonIgnoreProperties("inboundOrder")
+    @JsonIgnore()
     private List<Batch> batch;
 
     @ManyToOne
     @JoinColumn(name="supervisor_id")
-    @JsonIgnoreProperties("inboundOrders")
+    @JsonIgnore()
     private Supervisor supervisor;
 
     @ManyToOne
     @JoinColumn(name = "section_id")
-    @JsonIgnoreProperties("inboundOrders")
+    @JsonIgnore()
     private Section section;
 
+    /**
+     * Instantiates a new Inbound order.
+     *
+     * @param inboundOrderDTO the inbound order dto
+     * @param supervisor      the supervisor
+     * @param section         the section
+     */
+    public InboundOrder(InboundOrderDTO inboundOrderDTO, Supervisor supervisor, Section section) {
+        orderDate = inboundOrderDTO.getOrderDate();
+        this.supervisor = supervisor;
+        this.section = section;
+    }
 }
