@@ -5,7 +5,16 @@
 
 ### Sobre
 
-
+#### A seguinte aplicação visa atender uma nova demanda do Mercado Livre, que atualmente busca soluções para a comercialização de alimentos frescos, refrigerados e congelados, ou seja, produtos que possuem pequeno prazo de validade.
+ 
+##### A seguir, encontram-se os requisitos solicitados e que foram implementados.
+ 
+* Possibilitar ao representante do armazém de distribuição a inserção de um lote de
+produtos no armazém de distribuição e registrar sua existência em estoque;
+* Permitir ao cliente a adição de produtos ao carrinho de compras do para comprá-los, se desejar;
+* Propiciar ao representante a consulta de um produto em estoque no armazém e verificar em qual setor os diferentes lotes se encontram;
+* Proporcionar ao representante a consulta de um produto em todos os armazéns para verificar o estoque  do referido produto em cada armazém;
+* Viabilizar ao representante a consulta dos produtos em estoque que estão próximos à data de validade.
 
 
 ### Branches
