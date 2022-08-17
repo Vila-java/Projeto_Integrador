@@ -1,7 +1,10 @@
+<p align="center">
+
 # Vila Java - Projeto Integrador
 
-![img.png](src/main/resources/files/vila_java.png)
+  <img src="https://user-images.githubusercontent.com/58067780/185008871-3275f6ec-2ea6-4799-9bd7-4a0d634fe45e.jpg">
 
+</p>
 
 ### Sobre
 
@@ -37,7 +40,7 @@ Contribuições individuais<br>
 ### Documentação
 [Diagramas](https://github.com/Vila-java/Projeto_Integrador/blob/develop/src/main/resources/documentation/diagramas.md)<br>
 [Postman](https://github.com/Vila-java/Projeto_Integrador/blob/develop/src/main/resources/documentation/Endpoint_Postman.md)<br>
-[JavaDoc]()<br>
+[JavaDoc](https://github.com/Vila-java/Projeto_Integrador/blob/feature/java-doc/src/main/resources/files/JavaDoc/readme.md)<br>
 
 ### Tecnologias desenvolvimento de código
 <img src="https://img.icons8.com/color/48/000000/git.png" title= "Git"/>  <img src="https://img.icons8.com/ios-glyphs/48/000000/github.png" title= "Git"/>  <img src="https://img.icons8.com/color/48/000000/java-coffee-cup-logo--v1.png" title= "Java"/>  <img src="https://img.icons8.com/color/48/000000/spring-logo.png" title= "Spring"/>  <img src="https://img.icons8.com/external-tal-revivo-color-tal-revivo/48/000000/external-postman-is-the-only-complete-api-development-environment-logo-color-tal-revivo.png" title= "Postman"/>
